@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="YouMaps.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YouMaps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel>
+            
+            <TextBlock Height="36" FontSize="25"  HorizontalAlignment="Center">
+        		<Run Text="Welcome to YouMaps, the custom map making software of your dreams!!"/>
+                
+            </TextBlock>
+            <TextBlock x:Name="Messages" Height="auto" Width="auto" FontSize="25"  HorizontalAlignment="Center"></TextBlock>
+            <Grid Margin="0,0,692,0">
+            <Button Click="ImportImage" Content="Import an image in this folder!" />
+            <ComboBox x:Name="DropDownOfFolders"                
+        		ItemsSource="{Binding Folders}"
+        		SelectedItem="{Binding SelectedFolder}" Margin="241,3,0,3" HorizontalAlignment="Left" Width="217"            
+            />
+            </Grid>
+            <Grid Margin="0,0,1034,0">
+            <Button Click="CreateFolder" Content="Create Folder" />
+            <TextBox x:Name="NewFolderNameTextBox" Text="New folder name here." Margin="125,0,10,0" HorizontalAlignment="Left" Width="217" />
+                 
+            </Grid>
+            <Button Click="GetCurrentLocation" HorizontalAlignment="Left" FontSize="25">Get current location</Button>
+            <Grid>
+                
+            <Button Click="GetImputedLocation" HorizontalAlignment="Left" FontSize="25">Find Location By Imput</Button>
+                <TextBox x:Name="Logitude" Text="Logitude" FontSize="25" Width="150" Height="auto" Margin="294,0,922,0"></TextBox>
+                <TextBox x:Name="Latitude" Text="Latitude" FontSize="25" Width="150" Height="auto" Margin="449,0,767,3" ></TextBox>
+                
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Page>
