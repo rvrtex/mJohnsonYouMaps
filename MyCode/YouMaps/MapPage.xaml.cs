@@ -121,7 +121,7 @@ namespace YouMaps
             Geopoint point = pos.Coordinate.Point;
             myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
             myMap.ZoomLevel = 12;
-           
+            
             
             
             //int longitude = pos.Coordinate.Longitude;
