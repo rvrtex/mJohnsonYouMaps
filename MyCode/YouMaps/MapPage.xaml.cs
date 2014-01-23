@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Bing.Maps;
 using Windows.Devices.Geolocation;
+using Bing.Maps;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -28,7 +29,7 @@ namespace YouMaps
 
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
-
+        
         /// <summary>
         /// This can be changed to a strongly typed view model.
         /// </summary>
@@ -110,7 +111,9 @@ namespace YouMaps
         }
 
         #endregion
-
+        Map Map = new Map();
+        string apiKey = "AnglDgpN7Ckz6x82rUAuewNPmykjr5Th4-XqL6jDsvrnfXaMaNzukCY84-xPUQop";
+        string imagerySet = MapType.Aerial.ToString();
         private async void GetCurrentGPSLocation()
         {
             if(geo == null)
@@ -119,9 +122,19 @@ namespace YouMaps
             }
             Geoposition pos = await geo.GetGeopositionAsync();
             Geopoint point = pos.Coordinate.Point;
+
             myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
             myMap.ZoomLevel = 12;
-            
+
+            string url = String.Format("http://dev.virtualearth.net/REST/v1/Imagery/Map/{0}/{1},{2}/{3}" +
+                                   "?mapSize={4},{5}&key={6}",
+                                imagerySet,
+                                this.Map.Center.Latitude,
+                                this.Map.Center.Longitude,
+                                Math.Floor(this.Map.ZoomLevel),
+                                this.Map.Width,
+                                this.Map.Height,
+                                apiKey);
             
             
             //int longitude = pos.Coordinate.Longitude;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace YouMaps.Tiles
 {
-    class TileLayer : DrawingVisual
+    class TileLayer 
     {
     }
 }
