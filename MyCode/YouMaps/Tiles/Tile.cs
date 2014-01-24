@@ -13,7 +13,7 @@ namespace YouMaps.Tiles
         public readonly int zoomLevel;
         public readonly int xAxis;
         public readonly int yAxis;
-        public readonly Image image = new Image();
+  //      public readonly Image image = new Image();
         public bool HasImageSource { get; private set; }
 
 
@@ -25,14 +25,14 @@ namespace YouMaps.Tiles
             
         }
 
-        public ImageSource getImageSource()
-        {
-            return image.Source;
-        }
+        //public ImageSource getImageSource()
+        //{
+        //    return image.Source;
+        //}
 
         public void setImageSource(ImageSource image)
         {
-            this.image.Source = image;
+  //          this.image.Source = image;
             HasImageSource = true;
         }
 

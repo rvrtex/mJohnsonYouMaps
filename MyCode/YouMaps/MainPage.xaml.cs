@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using YouMaps.Image;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -119,9 +120,10 @@ namespace YouMaps
           
         }
 
-        private void GetImputedLocation(object sender, RoutedEventArgs e)
+        private async void GetImputedLocation(object sender, RoutedEventArgs e)
         {
-            
+            ImageDownloader id = new ImageDownloader();
+            await id.RequestImage();
         }
     }
 }
