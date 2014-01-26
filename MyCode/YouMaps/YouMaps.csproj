@@ -121,6 +121,7 @@
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileDownloader.cs" />
     <Compile Include="Tiles\TileLayer.cs" />
+    <Compile Include="YMMatrix.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
