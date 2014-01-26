@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using WinRTXamlToolkit;
 
 
-namespace YouMaps.Image
+namespace YouMaps.MyImages
 {
     class ImageDownloader
     {

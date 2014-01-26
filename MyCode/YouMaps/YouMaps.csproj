@@ -109,7 +109,7 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="Image\ImageDownloader.cs" />
+    <Compile Include="MyImages\ImageDownloader.cs" />
     <Compile Include="LoadProperties.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -121,6 +121,7 @@
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileDownloader.cs" />
     <Compile Include="Tiles\TileLayer.cs" />
+    <Compile Include="TRectangle.cs" />
     <Compile Include="YMMatrix.cs" />
   </ItemGroup>
   <ItemGroup>

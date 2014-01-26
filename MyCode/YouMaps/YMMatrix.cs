@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media;
 
 namespace YouMaps
 {
-    class YMMatrix
+    public static class YMMatrix
     {
         public static Matrix Translate(this Matrix matrix, double offsetX, double offsetY)
         {
@@ -18,7 +18,7 @@ namespace YouMaps
 
         public static Matrix Scale(this Matrix matrix, double scaleX, double scaleY)
         {
-            return Multiply(matrix, new Matrix(scaleX, 0d, 0d, scaleY, od, od));
+            return Multiply(matrix, new Matrix(scaleX, 0d, 0d, scaleY, 0d, 0d));
         }
 
         public static Matrix Rotate(this Matrix matrix, double angle)

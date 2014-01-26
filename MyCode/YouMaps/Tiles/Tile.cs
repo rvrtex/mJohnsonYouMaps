@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
+
+
 
 namespace YouMaps.Tiles
 {
@@ -13,7 +18,8 @@ namespace YouMaps.Tiles
         public readonly int zoomLevel;
         public readonly int xAxis;
         public readonly int yAxis;
-  //      public readonly Image image = new Image();
+        
+        public readonly Image image = new Image { Opacity = 0d };
         public bool HasImageSource { get; private set; }
 
 
@@ -25,14 +31,14 @@ namespace YouMaps.Tiles
             
         }
 
-        //public ImageSource getImageSource()
-        //{
-        //    return image.Source;
-        //}
+        public ImageSource getImageSource()
+        {
+            return image.Source;
+        }
 
         public void setImageSource(ImageSource image)
         {
-  //          this.image.Source = image;
+            this.image.Source = image;
             HasImageSource = true;
         }
 
