@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Bing.Maps;
 using Windows.Devices.Geolocation;
 using Bing.Maps;
+using MapControl;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -117,12 +118,30 @@ namespace YouMaps
             if(geo == null)
             {
                 geo = new Geolocator();
+                
             }
-            Geoposition pos = await geo.GetGeopositionAsync();
-            Geopoint point = pos.Coordinate.Point;
 
-            myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
-            myMap.ZoomLevel = 12;
+            double logitude = 50.5;
+            double latitude = 90.4;
+            MapControl.Location loc = new MapControl.Location(latitude, logitude);
+
+            MapControl.Map m = new MapControl.Map();
+
+            m.Center = loc;
+            BitmapCache bmc = new BitmapCache();
+            ImageTileSource its = new ImageTileSource();
+            Uri myURi = its.GetUri(56,54,12);
+
+
+
+            
+
+            
+            //Geoposition pos = await geo.GetGeopositionAsync();
+            //Geopoint point = pos.Coordinate.Point;
+
+            //myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
+            //myMap.ZoomLevel = 12;
 
            
             

@@ -109,7 +109,6 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="LongLatTransform.cs" />
     <Compile Include="MyImages\ImageDownloader.cs" />
     <Compile Include="LoadProperties.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -119,12 +118,6 @@
       <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tiles\Tile.cs" />
-    <Compile Include="Tiles\TileDownloader.cs" />
-    <Compile Include="Tiles\TileLayer.cs" />
-    <Compile Include="Tiles\TileSource.cs" />
-    <Compile Include="TRectangle.cs" />
-    <Compile Include="YMMatrix.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -155,6 +148,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MapControl.WinRT">
+      <HintPath>packages\XAML.MapControl.1.11.2\lib\netcore\MapControl.WinRT.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>packages\SharpDX.2.4.2\lib\win8\SharpDX.dll</HintPath>
     </Reference>

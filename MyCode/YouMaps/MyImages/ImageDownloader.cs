@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.Foundation;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -20,7 +21,7 @@ namespace YouMaps.MyImages
         string apiKey = "AnglDgpN7Ckz6x82rUAuewNPmykjr5Th4-XqL6jDsvrnfXaMaNzukCY84-xPUQop";
         string imagerySet = MapType.Aerial.ToString();
 
-        public async Task<WriteableBitmap> RequestImage()
+        public async Task<WriteableBitmap> RequestImage(Geopoint point)
         {
             
             if (geo == null)
@@ -28,10 +29,10 @@ namespace YouMaps.MyImages
                 geo = new Geolocator();
             }
             Geoposition pos = await geo.GetGeopositionAsync();
-            Geopoint point = pos.Coordinate.Point;
+            //Geopoint point = pos.Coordinate.Point;
 
             myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
-            myMap.ZoomLevel = 12;
+            myMap.ZoomLevel = 2;
             myMap.Width = 100;
             this.myMap.Height = 100;
             string url = String.Format("http://dev.virtualearth.net/REST/v1/Imagery/Map/{0}/{1},{2}/{3}" +

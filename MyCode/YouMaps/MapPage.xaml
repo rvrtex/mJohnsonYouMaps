@@ -55,6 +55,6 @@
             </Grid>
 
         </Grid>
-        <bm:Map Credentials="AnglDgpN7Ckz6x82rUAuewNPmykjr5Th4-XqL6jDsvrnfXaMaNzukCY84-xPUQop" x:Name="myMap" Margin="0,221,0,0"></bm:Map>
+        <bm:Map x:Name="myMap" Margin="0,221,0,0"></bm:Map>
     </Grid>
 </Page>

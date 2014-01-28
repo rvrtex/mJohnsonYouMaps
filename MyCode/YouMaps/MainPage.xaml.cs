@@ -1,10 +1,13 @@
-﻿using System;
+﻿
+using Bing.Maps;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -123,7 +126,15 @@ namespace YouMaps
         private async void GetImputedLocation(object sender, RoutedEventArgs e)
         {
             ImageDownloader id = new ImageDownloader();
-            await id.RequestImage();
+         
+
+            this.Frame.Navigate(typeof(MapPage));
+            
+
+
+
+            
+            //await id.RequestImage();
         }
     }
 }
