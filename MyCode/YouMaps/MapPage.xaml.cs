@@ -17,6 +17,7 @@ using Bing.Maps;
 using Windows.Devices.Geolocation;
 using Bing.Maps;
 using MapControl;
+using System.ComponentModel;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -123,14 +124,21 @@ namespace YouMaps
 
             double logitude = 50.5;
             double latitude = 90.4;
-            MapControl.Location loc = new MapControl.Location(latitude, logitude);
+            //MapControl.Location loc = new MapControl.Location(latitude, logitude);
 
             MapControl.Map m = new MapControl.Map();
 
-            m.Center = loc;
+
+            MapCenter = new MapControl.Location(40.7, 111.8);
+            
+            //m.Center = loc;
             BitmapCache bmc = new BitmapCache();
             ImageTileSource its = new ImageTileSource();
-            Uri myURi = its.GetUri(56,54,12);
+            var tileLayers = (TileLayerCollection)Resources["TileLayers"];
+            var tileLayer = tileLayers["Seamarks"];
+            myMap.TileLayers.Add(tileLayer);
+            var image = its.LoadImage(40, 111, 12);
+
 
 
 
@@ -141,12 +149,29 @@ namespace YouMaps
             //Geopoint point = pos.Coordinate.Point;
 
             //myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
-            //myMap.ZoomLevel = 12;
-
-           
-            
+            //myMap.ZoomLevel = 12;           
             
             //int longitude = pos.Coordinate.Longitude;
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private MapControl.Location mapCenter;
+        public MapControl.Location MapCenter
+        {
+            get { return mapCenter; }
+            set
+            {
+                mapCenter = value;
+                OnPropertyChanged("MapCenter");
+            }
         }
     }
 }
