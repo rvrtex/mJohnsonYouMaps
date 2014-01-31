@@ -125,7 +125,7 @@ namespace YouMaps
 
         private async void GetImputedLocation(object sender, RoutedEventArgs e)
         {
-            ImageDownloader id = new ImageDownloader();
+            //ImageDownloader id = new ImageDownloader();
          
 
             this.Frame.Navigate(typeof(MapPage));

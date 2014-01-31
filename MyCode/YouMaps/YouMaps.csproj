@@ -109,6 +109,7 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="LoadMap.cs" />
     <Compile Include="MyImages\ImageDownloader.cs" />
     <Compile Include="LoadProperties.cs" />
     <Compile Include="MainPage.xaml.cs">

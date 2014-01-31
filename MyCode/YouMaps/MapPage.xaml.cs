@@ -126,18 +126,19 @@ namespace YouMaps
             double latitude = 90.4;
             //MapControl.Location loc = new MapControl.Location(latitude, logitude);
 
-            MapControl.Map m = new MapControl.Map();
+           // MapControl.Map m = new MapControl.Map();
 
-
-            MapCenter = new MapControl.Location(40.7, 111.8);
             
+          //  mapCenter = new MapControl.Location(logitude,logitude);
+         
             //m.Center = loc;
-            BitmapCache bmc = new BitmapCache();
-            ImageTileSource its = new ImageTileSource();
-            var tileLayers = (TileLayerCollection)Resources["TileLayers"];
-            var tileLayer = tileLayers["Seamarks"];
-            myMap.TileLayers.Add(tileLayer);
-            var image = its.LoadImage(40, 111, 12);
+            //BitmapCache bmc = new BitmapCache();
+            //ImageTileSource its = new ImageTileSource();
+           // var tileLayers = (TileLayerCollection)Resources["TileLayers"];
+           // var tileLayer = tileLayers["Seamarks"];
+           // myMap.TileLayers.Add(tileLayer);
+            
+            
 
 
 
@@ -163,15 +164,15 @@ namespace YouMaps
             }
         }
 
-        private MapControl.Location mapCenter;
-        public MapControl.Location MapCenter
-        {
-            get { return mapCenter; }
-            set
-            {
-                mapCenter = value;
-                OnPropertyChanged("MapCenter");
-            }
-        }
+        //private MapControl.Location mapCenter;
+        //public MapControl.Location MapCenter
+        //{
+        //    get { return mapCenter; }
+        //    set
+        //    {
+        //        mapCenter = value;
+        //        OnPropertyChanged("MapCenter");
+        //    }
+        //}
     }
 }
