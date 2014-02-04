@@ -50,6 +50,13 @@
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+            <StackPanel Margin="5">
+                <TextBlock Text="Zoom Level" HorizontalAlignment="Center" Foreground="Gray" FontSize="14"/>
+                <Slider Margin="10,-10,10,-10" Width="200" SmallChange="0.1"
+                            Minimum="{Binding MinZoomLevel, ElementName=myMap}"
+                            Maximum="{Binding MaxZoomLevel, ElementName=myMap}"
+                            Value="{Binding TargetZoomLevel, ElementName=myMap, Mode=TwoWay}"/>
+            </StackPanel>
 
 
             <!-- Back button and page title -->
@@ -79,8 +86,10 @@
         <Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>
+        
 
 
     </Grid>
+    
     
 </Page>
