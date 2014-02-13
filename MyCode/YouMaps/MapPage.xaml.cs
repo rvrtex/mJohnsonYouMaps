@@ -57,6 +57,7 @@ namespace YouMaps
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
+            myMap.Holding += new HoldingEventHandler(MyMap_Holding);
         }
 
         private void InitializeMap()
@@ -121,7 +122,8 @@ namespace YouMaps
                 geo = new Geolocator();
                 
             }
-
+            
+            
             double logitude = 50.5;
             double latitude = 90.4;
             //MapControl.Location loc = new MapControl.Location(latitude, logitude);
@@ -162,6 +164,27 @@ namespace YouMaps
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+        
+       
+
+        void MyMap_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            if (!AddPointPopup.IsOpen) { AddPointPopup.IsOpen = true; }
+            var location = myMap.ViewportPointToLocation(e.GetPosition(myMap));
+
+                      
+            
+        }
+        private void AddPointer(object sender, RoutedEventArgs e)
+        {
+            AddPointPopup.IsOpen = false;
+        }
+
+        private void AddNote(object sender, RoutedEventArgs e)
+        {
+            AddPointPopup.IsOpen = false;
+
         }
 
         //private MapControl.Location mapCenter;

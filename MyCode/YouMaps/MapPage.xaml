@@ -31,6 +31,73 @@
             </map:TileLayerCollection>
             <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">My Application</x:String>
+        <Style x:Key="PointItemStyle" TargetType="map:MapItem" x:Name="PointStyle">
+            <Setter Property="local:BindingHelper.LocationPath" Value="Location"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="map:MapItem">
+                        <Canvas>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Disabled"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="labelBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="selectedPath" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedUnfocus">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="selectedPath" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedDisable">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="selectedPath" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedPointer">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="selectedPath" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedPressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="selectedPath" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Path x:Name="selectedPath" Fill="White" Opacity="0">
+                                <Path.Data>
+                                    <EllipseGeometry RadiusX="15" RadiusY="15"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="Transparent" Stroke="Gray" StrokeThickness="2">
+                                <Path.Data>
+                                    <EllipseGeometry RadiusX="8" RadiusY="8"/>
+                                </Path.Data>
+                            </Path>
+                            <Grid Canvas.Left="15" Canvas.Top="-8">
+                                <Rectangle x:Name="labelBackground" Fill="White" Opacity="0.7"/>
+                                <TextBlock Margin="2,0,2,0" Text="{Binding Name}"/>
+                            </Grid>
+                        </Canvas>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            </Style>
     </Page.Resources>
     
 
@@ -39,7 +106,9 @@
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    <Grid>
+    
+    <Grid x:Name="mapGrid">
+        
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -79,14 +148,25 @@
             </Grid>
 
         </Grid>
+        <Grid x:Name="MapGrid">
+            <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
+                <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
+                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="AddAPointer" Click="AddPointer">Add Pointer</Button>
+                    <Button x:Name="AddANote" Click="AddNote">Add Note</Button>
+                </StackPanel>
+                </Border>
+            </Popup>
         <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="11" Foreground="Black" Margin="0,151,0,70"></map:Map>
         <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
                            Opacity="0.5"/>
+            <map:MapItemsControl ItemsSource="{Binding Points}"                                 
+                                 SelectionMode="Extended"/>
         <map:MapGraticule Opacity="0.6"/>
         <Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>
-        
+        </Grid>
 
 
     </Grid>
