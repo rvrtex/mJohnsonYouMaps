@@ -31,7 +31,7 @@
             <Grid>
                 
             <Button Click="GetImputedLocation" HorizontalAlignment="Left" FontSize="25">Find Location By Imput</Button>
-                <TextBox x:Name="Logitude" Text="Logitude" FontSize="25" Width="150" Height="auto" Margin="294,0,922,0"></TextBox>
+                <TextBox x:Name="Longitude" Text="Longitude" FontSize="25" Width="150" Height="auto" Margin="294,0,922,0"></TextBox>
                 <TextBox x:Name="Latitude" Text="Latitude" FontSize="25" Width="150" Height="auto" Margin="449,0,767,3" ></TextBox>
                 
             </Grid>

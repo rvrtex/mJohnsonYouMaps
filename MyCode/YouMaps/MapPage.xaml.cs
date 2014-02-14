@@ -31,6 +31,7 @@ namespace YouMaps
 
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        private MapControl.Location currentLocation;
         
         /// <summary>
         /// This can be changed to a strongly typed view model.
@@ -50,6 +51,13 @@ namespace YouMaps
         }
 
         Geolocator geo = null;
+        protected void Navigate(NavigationEventArgs e)
+        {
+            currentLocation = e.Parameter as MapControl.Location;
+            LoadMap loadMap = new LoadMap();
+            loadMap.MapCenter = currentLocation;
+            mapGrid.DataContext = loadMap;
+        }
 
         public MapPage()
         {
@@ -57,6 +65,7 @@ namespace YouMaps
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
+            currentLocation = new MapControl.Location();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
         }
 
@@ -126,35 +135,9 @@ namespace YouMaps
             
             double logitude = 50.5;
             double latitude = 90.4;
-            //MapControl.Location loc = new MapControl.Location(latitude, logitude);
-
-           // MapControl.Map m = new MapControl.Map();
-
             
-          //  mapCenter = new MapControl.Location(logitude,logitude);
          
-            //m.Center = loc;
-            //BitmapCache bmc = new BitmapCache();
-            //ImageTileSource its = new ImageTileSource();
-           // var tileLayers = (TileLayerCollection)Resources["TileLayers"];
-           // var tileLayer = tileLayers["Seamarks"];
-           // myMap.TileLayers.Add(tileLayer);
-            
-            
-
-
-
-
-            
-
-            
-            //Geoposition pos = await geo.GetGeopositionAsync();
-            //Geopoint point = pos.Coordinate.Point;
-
-            //myMap.Center = new Location(point.Position.Latitude, point.Position.Longitude);
-            //myMap.ZoomLevel = 12;           
-            
-            //int longitude = pos.Coordinate.Longitude;
+           
         }
         public event PropertyChangedEventHandler PropertyChanged;
 

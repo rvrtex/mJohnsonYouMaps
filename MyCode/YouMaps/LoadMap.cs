@@ -25,13 +25,13 @@ namespace YouMaps
         public LoadMap()
         {
             
-            MapCenter = new Location(53.5, 8.2);
-            PointManager pm = new PointManager();
-            Location loc = new Location();
-            loc.Latitude = 53.4;
-            loc.Longitude = 8.3;
-            pm.CreatePoint("My Point", loc);
-            Points = pm.Points;
+            
+            //PointManager pm = new PointManager();
+            //Location loc = new Location();
+            //loc.Latitude = 53.4;
+            //loc.Longitude = 8.3;
+            //pm.CreatePoint("My Point", loc);
+            //Points = pm.Points;
         }
 
         

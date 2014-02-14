@@ -1,5 +1,6 @@
 ﻿
-using Bing.Maps;
+
+using MapControl;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -119,6 +120,7 @@ namespace YouMaps
 
         private void GetCurrentLocation(object sender, RoutedEventArgs e)
         {
+            
             this.Frame.Navigate(typeof(MapPage));
           
         }
@@ -126,9 +128,11 @@ namespace YouMaps
         private async void GetImputedLocation(object sender, RoutedEventArgs e)
         {
             //ImageDownloader id = new ImageDownloader();
-         
 
-            this.Frame.Navigate(typeof(MapPage));
+            Location customLocation = new Location();
+            customLocation.Latitude = Double.Parse(Latitude.Text);
+            customLocation.Longitude = Double.Parse(Longitude.Text);
+            this.Frame.Navigate(typeof(MapPage),customLocation);
             
 
 
