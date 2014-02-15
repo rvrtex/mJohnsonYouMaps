@@ -51,11 +51,11 @@ namespace YouMaps
         }
 
         Geolocator geo = null;
-        protected void Navigate(NavigationEventArgs e)
+        public async void Navigate()
         {
-            currentLocation = e.Parameter as MapControl.Location;
-            LoadMap loadMap = new LoadMap();
-            loadMap.MapCenter = currentLocation;
+            currentLocation = (App.Current as App).CurrentLocation;
+            LoadMap loadMap = new LoadMap(currentLocation);
+           // loadMap.MapCenter = currentLocation;
             mapGrid.DataContext = loadMap;
         }
 
@@ -65,7 +65,7 @@ namespace YouMaps
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
-            currentLocation = new MapControl.Location();
+            //currentLocation = new MapControl.Location();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
         }
 
@@ -86,7 +86,8 @@ namespace YouMaps
         /// session. The state will be null the first time a page is visited.</param>
         private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            GetCurrentGPSLocation();
+            Navigate();
+            //GetCurrentGPSLocation();
         }
 
         /// <summary>

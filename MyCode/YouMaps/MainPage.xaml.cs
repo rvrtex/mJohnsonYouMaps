@@ -38,7 +38,7 @@ namespace YouMaps
             lp = new LoadProperties();
             this.InitializeComponent();
             loadComboBox();
-
+            
             
 
         }
@@ -117,22 +117,45 @@ namespace YouMaps
             StorageFolder myfolder = await rootFolder.GetFolderAsync("YouMapsImages");
             return myfolder;
         }
-
-        private void GetCurrentLocation(object sender, RoutedEventArgs e)
+       
+        private async void GetCurrentLocation(object sender, RoutedEventArgs e)
         {
+
+            await GetCurrentGPSLocation();
             
             this.Frame.Navigate(typeof(MapPage));
           
         }
+        private async Task GetCurrentGPSLocation()
+        {
+            Geolocator geo = null;
+            if (geo == null)
+            {
+                geo = new Geolocator();
 
-        private async void GetImputedLocation(object sender, RoutedEventArgs e)
+            }
+            
+            //geo.DesiredAccuracy
+            Geoposition currentLocation = await geo.GetGeopositionAsync();
+            customLocation.Longitude = currentLocation.Coordinate.Longitude;
+            customLocation.Latitude = currentLocation.Coordinate.Latitude;
+            (App.Current as App).CurrentLocation = customLocation;
+          
+
+
+        }
+        Location customLocation = new Location();
+        private void GetImputedLocation(object sender, RoutedEventArgs e)
         {
             //ImageDownloader id = new ImageDownloader();
 
-            Location customLocation = new Location();
+            
             customLocation.Latitude = Double.Parse(Latitude.Text);
             customLocation.Longitude = Double.Parse(Longitude.Text);
-            this.Frame.Navigate(typeof(MapPage),customLocation);
+            (App.Current as App).CurrentLocation = customLocation;
+            
+
+            this.Frame.Navigate(typeof(MapPage));
             
 
 

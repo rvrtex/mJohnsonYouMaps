@@ -163,9 +163,9 @@
             <map:MapItemsControl ItemsSource="{Binding Points}"                                 
                                  SelectionMode="Extended"/>
         <map:MapGraticule Opacity="0.6"/>
-        <Grid.DataContext>
+        <!--<Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
-        </Grid.DataContext>
+        </Grid.DataContext>-->
         </Grid>
 
 

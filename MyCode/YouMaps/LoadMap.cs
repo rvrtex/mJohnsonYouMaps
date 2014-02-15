@@ -22,10 +22,10 @@ namespace YouMaps
             }
         }
 
-        public LoadMap()
+        public LoadMap(Location location)
         {
-            
-            
+
+            MapCenter = location;
             //PointManager pm = new PointManager();
             //Location loc = new Location();
             //loc.Latitude = 53.4;
