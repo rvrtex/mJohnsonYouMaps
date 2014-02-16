@@ -8,12 +8,10 @@
     xmlns:common="using:YouMaps.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:bm="using:Bing.Maps"
     xmlns:map ="using:MapControl"
     xmlns:lm ="using:YouMaps"
-
     mc:Ignorable="d">
-
+    <!--xmlns:bm="using:Bing.Maps"-->
     <Page.Resources>
            <map:TileLayerCollection x:Key="TileLayers">
                 <map:TileLayer SourceName="OpenStreetMap" Description="© {y} OpenStreetMap Contributors, CC-BY-SA"
@@ -30,8 +28,8 @@
                            TileSourceUriFormat="http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png" MinZoomLevel="10" MaxZoomLevel="18"/>
             </map:TileLayerCollection>
             <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
-        <Style x:Key="PointItemStyle" TargetType="map:MapItem" x:Name="PointStyle">
+        <x:String x:Key="AppName">You Maps</x:String>
+        <Style x:Key="PointItemStyle" TargetType="map:MapItem">
             <Setter Property="local:BindingHelper.LocationPath" Value="Location"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -40,7 +38,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="map:MapItem">
                         <Canvas>
-                            <VisualStateManager.VisualStateGroups>
+                            <!--<VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal"/>
                                     <VisualState x:Name="Disabled"/>
@@ -78,7 +76,7 @@
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                            </VisualStateManager.VisualStateGroups>-->
                             <Path x:Name="selectedPath" Fill="White" Opacity="0">
                                 <Path.Data>
                                     <EllipseGeometry RadiusX="15" RadiusY="15"/>
@@ -107,7 +105,7 @@
         * Row 1 contains the rest of the page layout
     -->
     
-    <Grid x:Name="mapGrid">
+    <Grid x:Name="WholeMapWindow">
         
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ChildrenTransitions>
@@ -149,6 +147,17 @@
 
         </Grid>
         <Grid x:Name="MapGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"></RowDefinition>                
+            </Grid.RowDefinitions>
+            <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
+            <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
+                           Opacity="0.5"/>
+            <map:MapItemsControl ItemsSource="{Binding Points}"    
+                                 ItemContainerStyle="{StaticResource PointItemStyle}"
+                                 SelectionMode="Extended"/>
+            <map:MapGraticule Opacity="0.6"/>
             <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
                 <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -157,15 +166,11 @@
                 </StackPanel>
                 </Border>
             </Popup>
-        <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="11" Foreground="Black" Margin="0,151,0,70"></map:Map>
-        <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
-                           Opacity="0.5"/>
-            <map:MapItemsControl ItemsSource="{Binding Points}"                                 
-                                 SelectionMode="Extended"/>
-        <map:MapGraticule Opacity="0.6"/>
+        
         <!--<Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>-->
+            </map:Map>
         </Grid>
 
 

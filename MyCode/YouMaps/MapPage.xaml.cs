@@ -56,7 +56,7 @@ namespace YouMaps
             currentLocation = (App.Current as App).CurrentLocation;
             LoadMap loadMap = new LoadMap(currentLocation);
            // loadMap.MapCenter = currentLocation;
-            mapGrid.DataContext = loadMap;
+            MapGrid.DataContext = loadMap;
         }
 
         public MapPage()

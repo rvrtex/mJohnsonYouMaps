@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace YouMaps.Points
 {
-    class Point : BasePoint
+    public class YouMapPoint : BasePoint
     {
         private string name;
 

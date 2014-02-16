@@ -9,18 +9,18 @@ using YouMaps.Points;
 
 namespace YouMaps
 {
-    class PointManager 
+    public class PointManager 
     {
-        public ObservableCollection<BasePoint> Points { get; set; }
+        public ObservableCollection<YouMapPoint> Points { get; set; }
 
         public PointManager()
         {
-            Points = new ObservableCollection<BasePoint>();
+            Points = new ObservableCollection<YouMapPoint>();
         }
         public void CreatePoint(string name, Location location)
         {
             
-            Point point = new Point();
+            YouMapPoint point = new YouMapPoint();
             point.Location = location;
             point.Name = name;
             Points.Add(point);
