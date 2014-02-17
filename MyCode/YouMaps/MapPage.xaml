@@ -163,17 +163,19 @@
                 <RowDefinition/>
                 <RowDefinition Height="auto"></RowDefinition>                
             </Grid.RowDefinitions>
-            <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
-            <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
-                           Opacity="0.5"/>
-            <map:MapGraticule Opacity="0.6"/>
-            <map:MapItemsControl ItemsSource="{Binding Points}"    
-                                 ItemContainerStyle="{StaticResource PointItemStyle}"
-                                 SelectionMode="Extended"/>
+                <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
+                <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
+                               Opacity="0.5"/>
+                <map:MapGraticule Opacity="0.6"/>
+                
                 <map:MapItemsControl ItemsSource="{Binding Polylines}"
-                                 ItemTemplate="{StaticResource PolylineItemTemplate}"/>
+                                    ItemTemplate="{StaticResource PolylineItemTemplate}"/>
                 <map:MapItemsControl ItemsSource="{Binding Polylines}"
-                                 ItemContainerStyle="{StaticResource PolylineItemStyle}"/>
+                                ItemContainerStyle="{StaticResource PolylineItemStyle}"/>
+                    
+                <map:MapItemsControl ItemsSource="{Binding Points}"    
+                                     ItemContainerStyle="{StaticResource PointItemStyle}"
+                                     SelectionMode="Extended"/>
 
                 <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
                 <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">

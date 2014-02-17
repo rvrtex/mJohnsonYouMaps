@@ -69,7 +69,7 @@ namespace YouMaps
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             //currentLocation = new MapControl.Location();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
-            myMap.PointerPressed += drawingPointerIsPressed;
+            //myMap.PointerPressed += drawingPointerIsPressed;
             //myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
             //myMap.PointerEntered += drawingPointerStartingObject;
@@ -92,45 +92,46 @@ namespace YouMaps
             
             if (drawingPointerOnOff)
             {
-                myMap.CancelDirectManipulations();
+               // myMap.CancelDirectManipulations();
                 
                 AddPointPopup.IsOpen = false;
                 PointerPoint pp = e.GetCurrentPoint(myMap);
                 MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-                locationCollection.Add(location);
-                loadMap.PolyLines.Add(new Points.YouMapPolyline { Locations = locationCollection });
-            }
+                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+                loadMap.Polylines.ElementAt(0).Locations.Add(location);
+                
+             }
         }
 
         private void drawingPointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (drawingPointerOnOff)
-            {
-                myMap.CancelDirectManipulations();
+            //if (drawingPointerOnOff)
+            //{
+            //    myMap.CancelDirectManipulations();
 
-                AddPointPopup.IsOpen = false;
-                PointerPoint pp = e.GetCurrentPoint(myMap);
-                var location = myMap.ViewportPointToLocation(pp.Position);
-                MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-                locationCollection.Add(location);
-                loadMap.PolyLines.Add(new Points.YouMapPolyline { Locations = locationCollection });
-            }
+            //    AddPointPopup.IsOpen = false;
+            //    PointerPoint pp = e.GetCurrentPoint(myMap);
+            //    var location = myMap.ViewportPointToLocation(pp.Position);
+            //    MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
+            //    locationCollection.Add(location);
+            //    loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+            //}
         }
 
         private void drawingPointerIsPressed(object sender, PointerRoutedEventArgs e)
         {
-            if(drawingPointerOnOff)
-            {
-                myMap.CancelDirectManipulations();
+            //if(drawingPointerOnOff)
+            //{
+            //    myMap.CancelDirectManipulations();
                 
-                AddPointPopup.IsOpen = false;
-                PointerPoint pp = e.GetCurrentPoint(myMap);
-                var location = myMap.ViewportPointToLocation(pp.Position);
-                MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-                locationCollection.Add(location);
-                loadMap.PolyLines.Add(new Points.YouMapPolyline { Locations = locationCollection});
-            }
+            //    AddPointPopup.IsOpen = false;
+            //    PointerPoint pp = e.GetCurrentPoint(myMap);
+            //    var location = myMap.ViewportPointToLocation(pp.Position);
+            //    MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
+            //    locationCollection.Add(location);
+            //    loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection});
+            //}
         }
 
         private void InitializeMap()
@@ -225,7 +226,7 @@ namespace YouMaps
         }
         private void AddPointer(object sender, RoutedEventArgs e)
         {
-            loadMap.Points.Add(new Points.YouMapPoint { Name = "", Location = pressedLocation });
+            loadMap.Points.Add(new Points.YouMapPoint { Name = pressedLocation.Longitude+" "+pressedLocation.Latitude, Location = pressedLocation });
             AddPointPopup.IsOpen = false;
 
 
@@ -240,7 +241,17 @@ namespace YouMaps
         private void DrawOnMap(object sender, RoutedEventArgs e)
         {
             drawingPointerOnOff = true;
-            myMap.CancelDirectManipulations();
+            //loadMap.Polylines.Add(
+            //new Points.YouMapPolyline
+            // {
+            //        Locations = MapControl.LocationCollection.Parse("53.5150,8.1451 53.5123,8.1506 53.5156,8.1623 53.5276,8.1757 ")
+            //    });
+            //            loadMap.Polylines.Add(
+            //                new Points.YouMapPolyline
+            //                {
+            //                    Locations = MapControl.LocationCollection.Parse("53.5978,8.1212 53.6018,8.1494 53.5859,8.1554 53.5852,8.1531 53.5841,8.1539 53.5802,8.1392 53.5826,8.1309 53.5867,8.1317 53.5978,8.1212")
+            //                });
+                        
         }
 
         //private MapControl.Location mapCenter;
