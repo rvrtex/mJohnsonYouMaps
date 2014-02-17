@@ -29,6 +29,18 @@
             </map:TileLayerCollection>
             <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">You Maps</x:String>
+        <DataTemplate x:Key="PolylineItemTemplate">
+            <map:MapPolyline Locations="{Binding Locations}" Stroke="Red" StrokeThickness="3"/>
+        </DataTemplate>
+        <Style x:Key="PolylineItemStyle" TargetType="map:MapItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="map:MapItem">
+                        <map:MapPolyline Locations="{Binding Locations}" Stroke="Red" StrokeThickness="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="PointItemStyle" TargetType="map:MapItem">
             <Setter Property="local:BindingHelper.LocationPath" Value="Location"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -154,15 +166,21 @@
             <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
             <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
                            Opacity="0.5"/>
+            <map:MapGraticule Opacity="0.6"/>
             <map:MapItemsControl ItemsSource="{Binding Points}"    
                                  ItemContainerStyle="{StaticResource PointItemStyle}"
                                  SelectionMode="Extended"/>
-            <map:MapGraticule Opacity="0.6"/>
-            <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
+                <map:MapItemsControl ItemsSource="{Binding Polylines}"
+                                 ItemTemplate="{StaticResource PolylineItemTemplate}"/>
+                <map:MapItemsControl ItemsSource="{Binding Polylines}"
+                                 ItemContainerStyle="{StaticResource PolylineItemStyle}"/>
+
+                <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
                 <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="AddAPointer" Click="AddPointer">Add Pointer</Button>
                     <Button x:Name="AddANote" Click="AddNote">Add Note</Button>
+                    <Button x:Name="Draw" Click="DrawOnMap">Draw On Map</Button>
                 </StackPanel>
                 </Border>
             </Popup>

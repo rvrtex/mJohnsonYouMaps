@@ -14,6 +14,7 @@ namespace YouMaps
     {
         private Location mapCenter;
         public ObservableCollection<YouMaps.Points.YouMapPoint> Points { get; set; }
+        public ObservableCollection<YouMaps.Points.YouMapPolyline> PolyLines { get; set; }
         public Location MapCenter
         {
             get { return mapCenter; }
@@ -30,18 +31,19 @@ namespace YouMaps
 
             MapCenter = location;
             Points = new ObservableCollection<YouMapPoint>();
-            //PointManager pm = new PointManager();
+            PolyLines = new ObservableCollection<YouMapPolyline>();
+           // PointManager pm = new PointManager();
             //Location loc = new Location();
             //loc.Latitude = 53.4;
             //loc.Longitude = 8.3;
-            Points.Add(new YouMapPoint
-            {
-                Name = "This is a point",
-                Location = new Location(location.Latitude,location.Longitude)
+            //Points.Add(new YouMapPoint
+            //{
+            //    Name = "This is a point",
+            //    Location = new Location(location.Latitude,location.Longitude)
 
-            });
+            //});
             //pm.CreatePoint("My Point", location);
-           // Points = pm.Points;
+            //Points = pm.Points;
         }
 
         

@@ -121,8 +121,9 @@
     </Compile>
     <Compile Include="NoteManager.cs" />
     <Compile Include="Points\BasePoint.cs" />
+    <Compile Include="Points\YouMapPolyline.cs" />
     <Compile Include="Points\YouMapPoint.cs" />
-    <Compile Include="Points\PointManager.cs" />
+    <Compile Include="Points\DrawingManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
