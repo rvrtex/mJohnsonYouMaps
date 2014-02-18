@@ -120,6 +120,7 @@
       <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="NoteManager.cs" />
+    <Compile Include="PointerPressedEvent.cs" />
     <Compile Include="Points\BasePoint.cs" />
     <Compile Include="Points\YouMapPolyline.cs" />
     <Compile Include="Points\YouMapPoint.cs" />

@@ -69,14 +69,17 @@ namespace YouMaps
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             //currentLocation = new MapControl.Location();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
-            //myMap.PointerPressed += drawingPointerIsPressed;
-            //myMap.PointerReleased += drawingPointerReleased;
+            myMap.
+            myMap.PointerPressed += drawingPointerIsPressed;
+            myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
             //myMap.PointerEntered += drawingPointerStartingObject;
             //myMap.PointerExited += drawingPointerExitedObject;
         }
 
-        private bool drawingPointerOnOff = false;
+        private bool drawingPointerIsOn = false;
+        private bool drawingPressedIsOn = false;
+        private int locationInLocationsArray = 0;
         private void drawingPointerExitedObject(object sender, PointerRoutedEventArgs e)
         {
             throw new NotImplementedException();
@@ -89,49 +92,54 @@ namespace YouMaps
 
         private void drawingPointerHasMoved(object sender, PointerRoutedEventArgs e)
         {
-            
-            if (drawingPointerOnOff)
+
+            if (drawingPointerIsOn && drawingPressedIsOn)
             {
-               // myMap.CancelDirectManipulations();
-                
+                //myMap.CancelDirectManipulations();
+
+
                 AddPointPopup.IsOpen = false;
                 PointerPoint pp = e.GetCurrentPoint(myMap);
                 MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
                 loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
-                loadMap.Polylines.ElementAt(0).Locations.Add(location);
-                
-             }
+                loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
+
+            }
         }
 
         private void drawingPointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            //if (drawingPointerOnOff)
-            //{
-            //    myMap.CancelDirectManipulations();
+            if (drawingPointerIsOn && drawingPressedIsOn)
+            {
+               // MapGrid.CancelDirectManipulations();
+               
+                drawingPressedIsOn = false;
+                locationInLocationsArray++;
 
-            //    AddPointPopup.IsOpen = false;
-            //    PointerPoint pp = e.GetCurrentPoint(myMap);
-            //    var location = myMap.ViewportPointToLocation(pp.Position);
-            //    MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-            //    locationCollection.Add(location);
-            //    loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
-            //}
+                //AddPointPopup.IsOpen = false;
+                //PointerPoint pp = e.GetCurrentPoint(myMap);
+                //var location = myMap.ViewportPointToLocation(pp.Position);
+                //MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
+                //locationCollection.Add(location);
+                //loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+            }
         }
 
         private void drawingPointerIsPressed(object sender, PointerRoutedEventArgs e)
         {
-            //if(drawingPointerOnOff)
-            //{
-            //    myMap.CancelDirectManipulations();
+            if (drawingPointerIsOn && !drawingPressedIsOn)
+            {
+                //MapGrid.CancelDirectManipulations();
+                drawingPressedIsOn = true;
                 
-            //    AddPointPopup.IsOpen = false;
-            //    PointerPoint pp = e.GetCurrentPoint(myMap);
-            //    var location = myMap.ViewportPointToLocation(pp.Position);
-            //    MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-            //    locationCollection.Add(location);
-            //    loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection});
-            //}
+
+                //PointerPoint pp = e.GetCurrentPoint(myMap);
+                //var location = myMap.ViewportPointToLocation(pp.Position);
+                //MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
+                //locationCollection.Add(location);
+                //loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+            }
         }
 
         private void InitializeMap()
@@ -218,8 +226,12 @@ namespace YouMaps
         MapControl.Location pressedLocation = new MapControl.Location();
         void MyMap_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            if (!AddPointPopup.IsOpen && !drawingPointerOnOff) { AddPointPopup.IsOpen = true; 
+            if (!AddPointPopup.IsOpen && !drawingPointerIsOn) { AddPointPopup.IsOpen = true; 
             pressedLocation = myMap.ViewportPointToLocation(e.GetPosition(myMap));
+            }
+            else
+            {
+                MapGrid.CancelDirectManipulations();
             }
                       
             
@@ -240,7 +252,8 @@ namespace YouMaps
 
         private void DrawOnMap(object sender, RoutedEventArgs e)
         {
-            drawingPointerOnOff = true;
+            drawingPointerIsOn = true;
+            //MapGrid.CancelDirectManipulations();
             //loadMap.Polylines.Add(
             //new Points.YouMapPolyline
             // {
