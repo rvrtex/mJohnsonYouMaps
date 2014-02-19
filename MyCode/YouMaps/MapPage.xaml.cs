@@ -69,7 +69,7 @@ namespace YouMaps
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             //currentLocation = new MapControl.Location();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
-            myMap.
+            //myMap.
             myMap.PointerPressed += drawingPointerIsPressed;
             myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
@@ -97,10 +97,10 @@ namespace YouMaps
             {
                 //myMap.CancelDirectManipulations();
 
-
+                MapBase myBase = myMap;
                 AddPointPopup.IsOpen = false;
                 PointerPoint pp = e.GetCurrentPoint(myMap);
-                MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
+                MapControl.Location location = myBase.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
                 loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
                 loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);

@@ -163,5 +163,10 @@ namespace YouMaps
             
             //await id.RequestImage();
         }
+
+        private void TakePicture(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(CameraCapture));
+        }
     }
 }

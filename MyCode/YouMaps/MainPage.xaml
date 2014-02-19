@@ -35,7 +35,7 @@
                 <TextBox x:Name="Latitude" Text="Latitude" FontSize="25" Width="150" Height="auto" Margin="449,0,767,3" ></TextBox>
                 
             </Grid>
-
+            <Button x:Name="Camera" FontSize="25" HorizontalAlignment="Left" Click="TakePicture">Take Picture</Button>
         </StackPanel>
     </Grid>
 </Page>
