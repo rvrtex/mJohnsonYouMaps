@@ -97,10 +97,10 @@ namespace YouMaps
             {
                 //myMap.CancelDirectManipulations();
 
-                MapBase myBase = myMap;
+               // MapBase myBase = myMap;
                 AddPointPopup.IsOpen = false;
                 PointerPoint pp = e.GetCurrentPoint(myMap);
-                MapControl.Location location = myBase.ViewportPointToLocation(pp.Position);
+                MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
                 loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
                 loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);

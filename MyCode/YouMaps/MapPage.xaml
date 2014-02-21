@@ -163,7 +163,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="auto"></RowDefinition>                
             </Grid.RowDefinitions>
-                <map:Map x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
+                <map:MapBase x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
                 <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
                                Opacity="0.5"/>
                 <map:MapGraticule Opacity="0.6"/>
@@ -190,7 +190,7 @@
         <!--<Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>-->
-            </map:Map>
+            </map:MapBase>
         </Grid>
 
 
