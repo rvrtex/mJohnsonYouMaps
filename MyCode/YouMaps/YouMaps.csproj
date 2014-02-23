@@ -125,7 +125,6 @@
     <Compile Include="MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NoteManager.cs" />
     <Compile Include="Points\BasePoint.cs" />
     <Compile Include="Points\YouMapPolyline.cs" />
     <Compile Include="Points\YouMapPoint.cs" />

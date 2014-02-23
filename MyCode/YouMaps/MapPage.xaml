@@ -11,23 +11,23 @@
     xmlns:map ="using:MapControl"
     xmlns:lm ="using:YouMaps"
     mc:Ignorable="d">
-    <!--xmlns:bm="using:Bing.Maps"-->
+    
     <Page.Resources>
-           <map:TileLayerCollection x:Key="TileLayers">
-                <map:TileLayer SourceName="OpenStreetMap" Description="© {y} OpenStreetMap Contributors, CC-BY-SA"
+        <map:TileLayerCollection x:Key="TileLayers">
+            <map:TileLayer SourceName="OpenStreetMap" Description="© {y} OpenStreetMap Contributors, CC-BY-SA"
                            TileSourceUriFormat="http://{c}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                <map:TileLayer SourceName="OpenCycleMap" Description="OpenCycleMap - © {y} Andy Allen &amp; OpenStreetMap Contributors, CC-BY-SA"
+            <map:TileLayer SourceName="OpenCycleMap" Description="OpenCycleMap - © {y} Andy Allen &amp; OpenStreetMap Contributors, CC-BY-SA"
                            TileSourceUriFormat="http://{c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png"/>
-                <map:TileLayer SourceName="OCM Transport" Description="OpenCycleMap Transport - © {y} Andy Allen &amp; OpenStreetMap Contributors, CC-BY-SA"
+            <map:TileLayer SourceName="OCM Transport" Description="OpenCycleMap Transport - © {y} Andy Allen &amp; OpenStreetMap Contributors, CC-BY-SA"
                            TileSourceUriFormat="http://{c}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png"/>
-                <map:TileLayer SourceName="OCM Landscape" Description="OpenCycleMap Landscape - © {y} Andy Allen &amp; OpenStreetMap Contributors, CC-BY-SA"
+            <map:TileLayer SourceName="OCM Landscape" Description="OpenCycleMap Landscape - © {y} Andy Allen &amp; OpenStreetMap Contributors, CC-BY-SA"
                            TileSourceUriFormat="http://{c}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png"/>
-                <map:TileLayer SourceName="MapQuest OSM" Description="MapQuest OSM - © {y} MapQuest &amp; OpenStreetMap Contributors"
+            <map:TileLayer SourceName="MapQuest OSM" Description="MapQuest OSM - © {y} MapQuest &amp; OpenStreetMap Contributors"
                            TileSourceUriFormat="http://otile{n}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png"/>
-                <map:TileLayer SourceName="Seamarks" Description="© {y} OpenSeaMap Contributors, CC-BY-SA"
+            <map:TileLayer SourceName="Seamarks" Description="© {y} OpenSeaMap Contributors, CC-BY-SA"
                            TileSourceUriFormat="http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png" MinZoomLevel="10" MaxZoomLevel="18"/>
-            </map:TileLayerCollection>
-            <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        </map:TileLayerCollection>
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">You Maps</x:String>
         <DataTemplate x:Key="PolylineItemTemplate">
             <map:MapPolyline Locations="{Binding Locations}" Stroke="Red" StrokeThickness="3"/>
@@ -107,52 +107,53 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            </Style>
+        </Style>
     </Page.Resources>
-    
+
 
     <!--
         This grid acts as a root panel for the page that defines two rows:
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    
+
     <Grid x:Name="WholeMapWindow">
-        
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-            <StackPanel Margin="5">
-                <TextBlock Text="Zoom Level" HorizontalAlignment="Center" Foreground="Gray" FontSize="14"/>
-                <Slider Margin="10,-10,10,-10" Width="200" SmallChange="0.1"
+
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="5">
+                <TextBlock Text="Zoom Level" HorizontalAlignment="Center" Foreground="Gray" FontSize="14" Margin="642,0,642,107"/>
+                <Button FontSize="25" Width="auto" Height="auto" Click="Symbols" Content="Symbols" Margin="422,7,0,71"/>
+                <Slider Margin="584,11,572,53" Width="200" SmallChange="0.1"
                             Minimum="{Binding MinZoomLevel, ElementName=myMap}"
                             Maximum="{Binding MaxZoomLevel, ElementName=myMap}"
                             Value="{Binding TargetZoomLevel, ElementName=myMap, Mode=TwoWay}"/>
-            </StackPanel>
+            </Grid>
 
 
             <!-- Back button and page title -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="*"/>
-                
-            </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
+            <Grid Margin="0,5,0,623" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+                <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"
                         VerticalAlignment="Top"
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
                         AutomationProperties.ItemType="Navigation Button"/>
-            
-            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+
+                <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
 
             </Grid>
@@ -161,33 +162,50 @@
         <Grid x:Name="MapGrid">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="auto"></RowDefinition>                
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-                <map:MapBase x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
+            <map:MapBase x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
                 <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
                                Opacity="0.5"/>
                 <map:MapGraticule Opacity="0.6"/>
-                
+
                 <map:MapItemsControl ItemsSource="{Binding Polylines}"
                                     ItemTemplate="{StaticResource PolylineItemTemplate}"/>
                 <map:MapItemsControl ItemsSource="{Binding Polylines}"
                                 ItemContainerStyle="{StaticResource PolylineItemStyle}"/>
-                    
+
                 <map:MapItemsControl ItemsSource="{Binding Points}"    
                                      ItemContainerStyle="{StaticResource PointItemStyle}"
                                      SelectionMode="Extended"/>
 
                 <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
-                <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
-                   <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="AddAPointer" Click="AddPointer">Add Pointer</Button>
-                    <Button x:Name="AddANote" Click="AddNote">Add Note</Button>
-                    <Button x:Name="Draw" Click="DrawOnMap">Draw On Map</Button>
+                    <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button x:Name="AddAPointer" Click="AddPointer">Add Pointer</Button>
+                            <Button x:Name="AddANote" Click="AddNote">Add Note</Button>
+                            <Button x:Name="Draw" Click="DrawOnMap">Draw On Map</Button>
+                            <Button x:Name="ManageCustomSymbols" Click="ManageYouMapsSymbols">Manage Symbols</Button>
+                            
+
+                        </StackPanel>
+                    </Border>
+                </Popup>
+                <Popup x:Name="ManageYouMapsSymbolsPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
+                    <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
+                        <StackPanel>
+                        <Button x:Name="AddYouMapSymbol" Click="AddSymbol">Add Symbol</Button>
+                        <Button x:Name="EditYouMapSymbol" Click="EditSymbol">Edit symbol</Button>
+                        <Button x:Name="DeleteYouMapSymbol" Click="DeleteSymbol">Delete Symbol</Button>
+                        <Button x:Name="AddYouMapSymbolEasyAccess" Click="AddSymbolEasyAccess">Add Sybmols to Easy Access Panel</Button>
+                    </StackPanel>
+                    </Border>
+                </Popup>
+                <StackPanel Height= "auto" Width="30" Margin="0,33,1336,-33" x:Name="SymbolsStackPanel"  >
+                    <TextBlock>Here I am</TextBlock>
+                    <!--DataContext="{Binding Symbols}"-->
+
                 </StackPanel>
-                </Border>
-            </Popup>
-        
-        <!--<Grid.DataContext>
+                <!--<Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>-->
             </map:MapBase>
@@ -195,6 +213,6 @@
 
 
     </Grid>
-    
-    
+
+
 </Page>

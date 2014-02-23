@@ -198,21 +198,7 @@ namespace YouMaps
 
         #endregion
         
-        private async void GetCurrentGPSLocation()
-        {
-            if(geo == null)
-            {
-                geo = new Geolocator();
-                
-            }
-            
-            
-            double logitude = 50.5;
-            double latitude = 90.4;
-            
-         
-           
-        }
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -266,6 +252,53 @@ namespace YouMaps
             //                });
                         
         }
+
+        bool symbolsVisable = false;
+        private void Symbols(object sender, RoutedEventArgs e)
+        {
+            symbolsVisable = !symbolsVisable;
+
+            Visibility visabiltiy = new Visibility();
+           visabiltiy =  (symbolsVisable) ? Visibility.Visible : Visibility.Collapsed;
+           SymbolsStackPanel.Visibility = visabiltiy;
+           
+            
+            
+        }
+
+        private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)
+        {
+            AddPointPopup.IsOpen = false;
+            ManageYouMapsSymbolsPopup.IsOpen = true;
+
+        }
+
+        private void AddSymbol(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditSymbol(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteSymbol(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+       
+     
+
+       
+
+      
 
         //private MapControl.Location mapCenter;
         //public MapControl.Location MapCenter
