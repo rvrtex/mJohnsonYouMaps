@@ -96,9 +96,10 @@ namespace YouMaps
 
             if(photo != null)
             {
+                BitmapImage bitmapCamera = new BitmapImage();
+
                 using (var streamCamera = await photo.OpenAsync(FileAccessMode.Read))
                 {
-                    BitmapImage bitmapCamera = new BitmapImage();
                     bitmapCamera.SetSource(streamCamera);
 
 
@@ -106,10 +107,10 @@ namespace YouMaps
                     int height = bitmapCamera.PixelHeight;
 
                     WriteableBitmap wBitmap = new WriteableBitmap(width, height);
-
+                    await photo.CopyAsync(folder, photo.DisplayName, NameCollisionOption.ReplaceExisting);
                     using (var stream = await photo.OpenAsync(FileAccessMode.Read))
                     {
-                        wBitmap.SetSource(stream);
+                         wBitmap.SetSource(stream);
                     }
                 }
             }

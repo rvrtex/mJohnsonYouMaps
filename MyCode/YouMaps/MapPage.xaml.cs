@@ -13,9 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Bing.Maps;
+
 using Windows.Devices.Geolocation;
-using Bing.Maps;
+
 using MapControl;
 using System.ComponentModel;
 using Windows.UI.Input;

@@ -1,4 +1,4 @@
-﻿using Bing.Maps;
+﻿using MapControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace YouMaps.MyImages
         Map myMap = new Map();
         Geolocator geo = null;
         string apiKey = "AnglDgpN7Ckz6x82rUAuewNPmykjr5Th4-XqL6jDsvrnfXaMaNzukCY84-xPUQop";
-        string imagerySet = MapType.Aerial.ToString();
+        //string imagerySet = MapType.Aerial.ToString();
 
         public async Task<WriteableBitmap> RequestImage(Geopoint point)
         {
@@ -37,7 +37,7 @@ namespace YouMaps.MyImages
             this.myMap.Height = 100;
             string url = String.Format("http://dev.virtualearth.net/REST/v1/Imagery/Map/{0}/{1},{2}/{3}" +
                                   "?mapSize={4},{5}&key={6}",
-                               imagerySet,
+                               //imagerySet,
                                this.myMap.Center.Latitude,
                                this.myMap.Center.Longitude,
                                Math.Floor(this.myMap.ZoomLevel),
