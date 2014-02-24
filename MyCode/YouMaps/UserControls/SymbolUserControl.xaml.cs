@@ -22,38 +22,34 @@ namespace YouMaps.UserControls
 {
     public sealed partial class SymbolUserControl : UserControl
     {
-        YouMapsSymbol youmapsSymbol;
-        Panel panelObject;
-        public CheckBox checkbox;
-        Page page;
-        Canvas drawingCanvas;
-        public SymbolUserControl(YouMapsSymbol youmapsSymbol, Panel panelObject, Page page, Canvas drawingCanvas)
+        public YouMapsSymbol YouMapsSymbol { get; set; } 
+        
+       
+        
+        public CheckBox CheckBoxEverything { get; set; }
+        public TextBlock SymbolNameText { get; set; }
+        public RadioButton EditRadioButton { get; set; }
+        
+        public SymbolUserControl(YouMapsSymbol youmapsSymbol)
         {
-            this.InitializeComponent();
-            this.youmapsSymbol = youmapsSymbol;
-            SymbolButton.Content = youmapsSymbol.Name;
-            this.panelObject = panelObject;
-            this.page = page;
-            this.drawingCanvas = drawingCanvas;
-            checkbox = CheckBoxForEverything;
-            
-        }
-        Polyline polyLine;
-        private void ButtonClicked(object sender, RoutedEventArgs e)
-        {
-            
-            (App.Current as App).CurrentSymbol  = youmapsSymbol;
-            
-            foreach(PointCollection p in youmapsSymbol.SymbolPoints)
-            {
-                double thickness = 10;
+            CheckBoxEverything = new CheckBox();
+            SymbolNameText = new TextBlock();
+            EditRadioButton = new RadioButton();
 
-                polyLine = new Polyline { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = thickness };
-                polyLine.Points = p;
-                drawingCanvas.Children.Add(polyLine);
-                
-            }
-            ((ManageSymbols)page).AddSymbol(sender,e);
+            this.InitializeComponent();
+            this.YouMapsSymbol = youmapsSymbol;
+            SymbolNameText.Text = youmapsSymbol.Name;
+            SymbolNameText.FontSize = 30;
+            ControlStackpanel.Children.Add(CheckBoxEverything);
+            ControlStackpanel.Children.Add(SymbolNameText);
+            ControlStackpanel.Children.Add(EditRadioButton);
+
+
+           
+            
+            
         }
+        
+        
     }
 }

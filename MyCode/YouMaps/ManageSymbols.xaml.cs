@@ -191,22 +191,40 @@ namespace YouMaps
             InfoGrid.Visibility = Visibility.Collapsed;
             SymbolGrid.Visibility = Visibility.Collapsed;
             EditYouMapSymbolsStackPanel.Visibility = Visibility.Collapsed;
-            if((App.Current as App).CurrentSymbol != null)
-            {
-                SymbolName.Text = ((App.Current as App).CurrentSymbol).Name;
-            }
+            EditCustomSymbol.Visibility = Visibility.Collapsed;
+
+            
             
         }
 
-        
+        List<SymbolUserControl> sucs;
         private async void EditSymbol(object sender, RoutedEventArgs e)
         {
+            List<YouMapsSymbol> allSymbols = await LoadAllSymbols();
+            foreach(YouMapsSymbol yms in allSymbols)
+            {
+                DrawingCanvas.Children.Clear();
+                SymbolUserControl suc = new SymbolUserControl(yms);
+                suc.CheckBoxEverything.Visibility = Visibility.Collapsed;
+                sucs.Add(suc);
+                suc.CheckBoxEverything.Visibility = Visibility.Collapsed;
+                EditYouMapSymbolsStackPanel.Children.Add(suc);
+               
+            }
+
+
+        }
+
+        private async Task<List<YouMapsSymbol>> LoadAllSymbols()
+        {
+            sucs = new List<SymbolUserControl>();
             EditYouMapSymbolsStackPanel.Visibility = Visibility.Visible;
+            SymbolGrid.Visibility = Visibility.Collapsed;
             EditYouMapSymbolsStackPanel.Children.Clear();
             List<YouMapsSymbol> allSymbols = new List<YouMapsSymbol>();
             StorageFolder folder = await getMyRootfolder();
             IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
-            foreach(StorageFile f in files)
+            foreach (StorageFile f in files)
             {
                 try
                 {
@@ -216,29 +234,32 @@ namespace YouMaps
 
                     YouMapsSymbol fullyLoadedSymbol = (YouMapsSymbol)loadedSymbol;
                     allSymbols.Add(fullyLoadedSymbol);
-                    
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine("A file was the wrong type");
                     Debug.WriteLine(ex.Message);
                 }
             }
-            foreach(YouMapsSymbol yms in allSymbols)
-            {
-                DrawingCanvas.Children.Clear();
-                SymbolUserControl suc = new SymbolUserControl(yms, EditYouMapSymbolsStackPanel,this, DrawingCanvas);
-                suc.checkbox.Visibility = Visibility.Collapsed;
-                EditYouMapSymbolsStackPanel.Children.Add(suc);
-                Debug.WriteLine("Count of children: "+EditYouMapSymbolsStackPanel.Children.Count());
-            }
-
-
+            return allSymbols;
         }
 
-        private void DeleteSymbol(object sender, RoutedEventArgs e)
+        private async void DeleteSymbol(object sender, RoutedEventArgs e)
         {
-
+            List<YouMapsSymbol> allSymbols = await LoadAllSymbols();
+            sucs.Clear();
+            EditYouMapSymbolsStackPanel.Children.Clear();
+            foreach (YouMapsSymbol yms in allSymbols)
+            {
+                
+                SymbolUserControl suc = new SymbolUserControl(yms);
+                suc.EditRadioButton.Visibility = Visibility.Collapsed;
+                sucs.Add(suc);
+                suc.CheckBoxEverything.Visibility = Visibility.Visible;
+                EditYouMapSymbolsStackPanel.Children.Add(suc);
+                
+            }
         }
 
         private void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
@@ -267,7 +288,7 @@ namespace YouMaps
                 serializer.WriteObject(symbolData, currentSymbol);
 
                 StorageFolder folder = await getMyRootfolder();
-                StorageFile file = await folder.CreateFileAsync(SymbolName.Text, CreationCollisionOption.GenerateUniqueName);
+                StorageFile file = await folder.CreateFileAsync(SymbolName.Text, CreationCollisionOption.ReplaceExisting);
 
                 using (Stream fileStream = await file.OpenStreamForWriteAsync())
                 {
@@ -311,6 +332,58 @@ namespace YouMaps
         private void EnteredTextBox(object sender, PointerRoutedEventArgs e)
         {
             SymbolName.Text = " ";
+        }
+
+        private void ModifySymbol(object sender, RoutedEventArgs e)
+        {
+            foreach(SymbolUserControl s in sucs)
+            {
+                bool checker = (bool)s.EditRadioButton.IsChecked;
+                if(checker)
+                {
+                    (App.Current as App).CurrentSymbol = s.YouMapsSymbol;
+
+                    foreach (PointCollection p in s.YouMapsSymbol.SymbolPoints)
+                    {
+                        double thickness = 10;
+
+                        polyLine = new Polyline { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = thickness };
+                        polyLine.Points = p;
+                        SymbolName.Text = s.YouMapsSymbol.Name;
+                        DrawingCanvas.Children.Add(polyLine);
+                        AddSymbol(sender,e);
+
+                    }
+                }
+            }
+        }
+
+        private async void DeleteSymbolButton(object sender, RoutedEventArgs e)
+        {
+            StorageFolder folder = await getMyRootfolder();
+            
+            IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
+            List<string> namesToDelete = new List<string>();
+            
+            foreach(SymbolUserControl s in sucs)
+            {
+              
+                bool checker = (bool)s.CheckBoxEverything.IsChecked;
+                if(checker)
+                {
+                    namesToDelete.Add(s.YouMapsSymbol.Name);
+                }
+            }
+
+            foreach (StorageFile f in files)
+            {
+                if (namesToDelete.Contains(f.DisplayName))
+                {
+                    await f.DeleteAsync();
+                }
+            }
+
+            DeleteSymbol(sender, e);
         }
     }
 }

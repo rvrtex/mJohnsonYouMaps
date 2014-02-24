@@ -62,14 +62,20 @@
         <Grid x:Name="SaveLoadGrid"   Margin="0,488,0,0" Grid.Row="1">
             <Button x:Name="SaveCustomSymbol" Click="SaveSymbol" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Save Symbol</Button>
         </Grid>
+        <Grid x:Name="EditGrid" Margin="0,488,0,0" Grid.Row="1">
+            <Button x:Name="EditCustomSymbol" Click="ModifySymbol" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Edit Symbol</Button>
+        </Grid>
         <Grid x:Name="CanvaseGrid" Grid.Row="1" Height="400" Width="300" Margin="528,88,538,140" >
             <TextBox x:Name="SymbolName" Text="Enter Symbol Name Here" PointerPressed="EnteredTextBox" Margin="0,0,0,350"></TextBox>
             <Canvas x:Name="DrawingCanvas" Width="300" Background="White" Margin="0,50,0,0" />
 
         </Grid>
-        <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,5,0,121" Grid.Row="1" Background="BlueViolet" >
-            
-        </StackPanel>
+        <Grid x:Name="DeleteGrid" Margin="0,488,0,0" Grid.Row="1">
+            <Button x:Name="DeleteCustomSymbol" Click="DeleteSymbolButton" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Delete Symbol</Button>
+        </Grid>
+        <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,5,0,121" Grid.Row="1" Background="BlueViolet" />
+
+
     </Grid>
     
 </Page>
