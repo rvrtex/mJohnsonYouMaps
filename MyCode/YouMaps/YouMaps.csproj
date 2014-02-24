@@ -109,14 +109,15 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingHelper.cs" />
-    <Compile Include="CameraCapture.xaml.cs">
-      <DependentUpon>CameraCapture.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="CreateNewSymbol.cs" />
     <Compile Include="LoadMap.cs" />
+    <Compile Include="ManageSymbols.xaml.cs">
+      <DependentUpon>ManageSymbols.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MyImages\ImageDownloader.cs" />
     <Compile Include="LoadProperties.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -130,6 +131,10 @@
     <Compile Include="Points\YouMapPoint.cs" />
     <Compile Include="Points\DrawingManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Symbols\YouMapsSymbol.cs" />
+    <Compile Include="UserControls\SymbolUserControl.xaml.cs">
+      <DependentUpon>SymbolUserControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -150,15 +155,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CameraCapture.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ManageSymbols.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SymbolUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

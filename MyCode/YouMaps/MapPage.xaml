@@ -47,9 +47,12 @@
             <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Template">
+                
                 <Setter.Value>
+                    
                     <ControlTemplate TargetType="map:MapItem">
                         <Canvas>
+                            
                             <!--<VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal"/>
@@ -105,8 +108,12 @@
                             </Grid>
                         </Canvas>
                     </ControlTemplate>
+
+                   
                 </Setter.Value>
+                
             </Setter>
+            
         </Style>
     </Page.Resources>
 
@@ -193,11 +200,17 @@
                 <Popup x:Name="ManageYouMapsSymbolsPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
                     <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
                         <StackPanel>
-                        <Button x:Name="AddYouMapSymbol" Click="AddSymbol">Add Symbol</Button>
-                        <Button x:Name="EditYouMapSymbol" Click="EditSymbol">Edit symbol</Button>
-                        <Button x:Name="DeleteYouMapSymbol" Click="DeleteSymbol">Delete Symbol</Button>
-                        <Button x:Name="AddYouMapSymbolEasyAccess" Click="AddSymbolEasyAccess">Add Sybmols to Easy Access Panel</Button>
+                       
                     </StackPanel>
+                    </Border>
+                </Popup>
+                <Popup x:Name="CreateSymbolPopup" HorizontalOffset="300" VerticalOffset="20">
+                    <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Background="White" BorderThickness="2"  Width="400" Height="400">
+                    <Canvas x:Name="CreateSymbolCanvase">
+                            <Canvas.Children>
+                                
+                            </Canvas.Children>
+                    </Canvas>
                     </Border>
                 </Popup>
                 <StackPanel Height= "auto" Width="30" Margin="0,33,1336,-33" x:Name="SymbolsStackPanel"  >

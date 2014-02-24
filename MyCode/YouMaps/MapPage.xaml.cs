@@ -69,12 +69,21 @@ namespace YouMaps
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             //currentLocation = new MapControl.Location();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
-            //myMap.
+            myMap.Tapped += tappedPointer;
             myMap.PointerPressed += drawingPointerIsPressed;
             myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
             //myMap.PointerEntered += drawingPointerStartingObject;
             //myMap.PointerExited += drawingPointerExitedObject;
+        }
+
+        private void tappedPointer(object sender, TappedRoutedEventArgs e)
+        {
+           if((App.Current as App).CurrentSymbol != null)
+           {
+               (App.Current as App).CurrentSymbol = null;
+
+           }
         }
 
         private bool drawingPointerIsOn = false;
@@ -269,36 +278,12 @@ namespace YouMaps
         private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)
         {
             AddPointPopup.IsOpen = false;
-            ManageYouMapsSymbolsPopup.IsOpen = true;
+            this.Frame.Navigate(typeof(ManageSymbols));
+            //ManageYouMapsSymbolsPopup.IsOpen = true;
 
         }
 
-        private void AddSymbol(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void EditSymbol(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DeleteSymbol(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-       
-     
-
-       
-
-      
+             
 
         //private MapControl.Location mapCenter;
         //public MapControl.Location MapCenter

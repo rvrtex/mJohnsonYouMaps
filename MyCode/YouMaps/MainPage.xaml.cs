@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
@@ -19,6 +20,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using YouMaps.MyImages;
 
@@ -149,9 +151,16 @@ namespace YouMaps
         {
             //ImageDownloader id = new ImageDownloader();
 
-            
-            customLocation.Latitude = Double.Parse(Latitude.Text);
-            customLocation.Longitude = Double.Parse(Longitude.Text);
+            try
+            {
+                customLocation.Latitude = Double.Parse(Latitude.Text);
+                customLocation.Longitude = Double.Parse(Longitude.Text);
+            }
+            catch
+            {
+                customLocation.Latitude = 0;
+                customLocation.Longitude = 0;
+            }
             (App.Current as App).CurrentLocation = customLocation;
             
 
@@ -164,9 +173,37 @@ namespace YouMaps
             //await id.RequestImage();
         }
 
-        private void TakePicture(object sender, RoutedEventArgs e)
+        private async void TakePicture(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(CameraCapture));
+            
+            CameraCaptureUI cameraUi = new CameraCaptureUI();
+
+            cameraUi.PhotoSettings.AllowCropping = false;
+            cameraUi.PhotoSettings.MaxResolution = CameraCaptureUIMaxPhotoResolution.MediumXga;
+
+            StorageFolder folder = KnownFolders.PicturesLibrary;
+            StorageFile photo = await cameraUi.CaptureFileAsync(CameraCaptureUIMode.Photo);
+
+            if (photo != null)
+            {
+                BitmapImage bitmapCamera = new BitmapImage();
+
+                using (var streamCamera = await photo.OpenAsync(FileAccessMode.Read))
+                {
+                    bitmapCamera.SetSource(streamCamera);
+
+
+                    int width = bitmapCamera.PixelWidth;
+                    int height = bitmapCamera.PixelHeight;
+
+                    WriteableBitmap wBitmap = new WriteableBitmap(width, height);
+                    await photo.CopyAsync(folder, photo.DisplayName, NameCollisionOption.ReplaceExisting);
+                    using (var stream = await photo.OpenAsync(FileAccessMode.Read))
+                    {
+                        wBitmap.SetSource(stream);
+                    }
+                }
+            }
         }
     }
 }

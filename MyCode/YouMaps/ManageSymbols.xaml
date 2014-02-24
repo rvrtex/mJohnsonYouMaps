@@ -1,6 +1,6 @@
 ﻿<Page
     x:Name="pageRoot"
-    x:Class="YouMaps.CameraCapture"
+    x:Class="YouMaps.ManageSymbols"
     DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,8 @@
 
     <Page.Resources>
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <x:String x:Key="AppName">Back to Maps</x:String>
+
     </Page.Resources>
 
     <!--
@@ -45,6 +46,30 @@
                         AutomationProperties.ItemType="Navigation Button"/>
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+
         </Grid>
+        <Grid x:Name="InfoGrid" Margin="0,10,0,478" Grid.Row="1">
+            <TextBlock x:Name="TitleBox" FontSize="55" Margin="422,10,422,64"  VerticalAlignment="Center">Manage Symbols</TextBlock>
+            <TextBlock x:Name="MessageBox" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="300,86,300,-1"/>
+
+        </Grid>
+        <Grid x:Name="SymbolGrid" Margin="0,488,0,0" Grid.Row="1">
+            <Button x:Name="AddYouMapSymbol" Click="AddSymbol" FontSize="25" Height="auto" Width="auto" RenderTransformOrigin="0.476,0.654" Margin="43,39,0,49">Create Symbol</Button>
+            <Button x:Name="EditYouMapSymbol" Click="EditSymbol" FontSize="25" Height="50" Width="auto" Margin="310,41,0,49">Edit symbol</Button>
+            <Button x:Name="DeleteYouMapSymbol" Click="DeleteSymbol" FontSize="25" Height="50" Width="auto" Margin="1104,41,0,49">Delete Symbol</Button>
+            <Button x:Name="AddYouMapSymbolEasyAccess" Click="AddSymbolEasyAccess" Height="50" Width="auto" FontSize="25" Margin="583,39,0,51">Add Sybmols to Easy Access Panel</Button>
+        </Grid>
+        <Grid x:Name="SaveLoadGrid"   Margin="0,488,0,0" Grid.Row="1">
+            <Button x:Name="SaveCustomSymbol" Click="SaveSymbol" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Save Symbol</Button>
+        </Grid>
+        <Grid x:Name="CanvaseGrid" Grid.Row="1" Height="400" Width="300" Margin="528,88,538,140" >
+            <TextBox x:Name="SymbolName" Text="Enter Symbol Name Here" PointerPressed="EnteredTextBox" Margin="0,0,0,350"></TextBox>
+            <Canvas x:Name="DrawingCanvas" Width="300" Background="White" Margin="0,50,0,0" />
+
+        </Grid>
+        <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,5,0,121" Grid.Row="1" Background="BlueViolet" >
+            
+        </StackPanel>
     </Grid>
+    
 </Page>
