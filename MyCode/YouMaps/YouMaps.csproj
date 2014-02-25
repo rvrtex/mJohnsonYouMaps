@@ -132,6 +132,9 @@
     <Compile Include="Points\DrawingManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Symbols\YouMapsSymbol.cs" />
+    <Compile Include="UserControls\StyleUserControl.xaml.cs">
+      <DependentUpon>StyleUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SymbolUserControl.xaml.cs">
       <DependentUpon>SymbolUserControl.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\StyleUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

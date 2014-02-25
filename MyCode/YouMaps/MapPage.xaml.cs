@@ -19,6 +19,9 @@ using Windows.Devices.Geolocation;
 using MapControl;
 using System.ComponentModel;
 using Windows.UI.Input;
+using Windows.UI;
+using System.Diagnostics;
+using YouMaps.UserControls;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -27,6 +30,7 @@ namespace YouMaps
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
+    [TemplatePart(Name = "PolyItemStyle", Type = typeof(MapPolyline))]
     public sealed partial class MapPage : Page
     {
 
@@ -65,6 +69,7 @@ namespace YouMaps
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
+            
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             //currentLocation = new MapControl.Location();
@@ -73,6 +78,12 @@ namespace YouMaps
             myMap.PointerPressed += drawingPointerIsPressed;
             myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
+            ChangeRedColor.ValueChanged += ChangeColorLine;
+            ChangeBlueColor.ValueChanged += ChangeColorLine;
+            ChangeGreenColor.ValueChanged += ChangeColorLine;
+            
+           
+
             //myMap.PointerEntered += drawingPointerStartingObject;
             //myMap.PointerExited += drawingPointerExitedObject;
         }
@@ -104,34 +115,67 @@ namespace YouMaps
 
             if (drawingPointerIsOn && drawingPressedIsOn)
             {
-                //myMap.CancelDirectManipulations();
-
-               // MapBase myBase = myMap;
+                
                 AddPointPopup.IsOpen = false;
                 PointerPoint pp = e.GetCurrentPoint(myMap);
                 MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+                StyleUserControl sty = new StyleUserControl(LineColorBrush);
+              
+                
+                //Points.YouMapPolyline points = new Points.YouMapPolyline { Locations = locationCollection, ColorOfLine = LineColorBrush };
+                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection,ColorOfLine = LineColorBrush });
+                //loadMap.Polylines.Add(points);
                 loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
-
+                //SolidColorBrush brus2 = (SolidColorBrush)LineColorBrush;
+               // Debug.WriteLine(brus2.Color);
+                
             }
+        }
+
+        private void MapStyle()
+        {
+
+
+            //StyleUserControl suc = new StyleUserControl(LineColorBrush);
+            //PTemplate.ItemTemplate = itemTemplate;
+            //PStyle.Style = stylePoly;
+            //MapPolyline polyLine = new MapPolyline();
+           // this.pageRoot.C
+
+            //DataTemplate polyLineItemTemplate = new DataTemplate();
+            //ControlTemplate controlTemplate = new ControlTemplate();
+            //controlTemplate.TargetType = typeof(MapItem);
+            //var mapPolyLineFrameWorkElement = new FrameworkElement(typeof(MapPolyline));
+            //Style style = new Style();
+            //style.TargetType = typeof(MapItem);
+            //Setter setter = new Setter();
+            //setter.Property = MapItem.TemplateProperty;
+            //style.Setters.Add(setter);
+            ////controlTemplate.
+            //setter.Value = controlTemplate;
+            //style.Setters.Add(new Setter(MapPolyline.StrokeThicknessProperty, 3));
+            //Binding Locationbind = new Binding();
+            //Binding ColorBind = new Binding();
+            //Locationbind.ElementName = "Location";
+            //ColorBind.ElementName = "ColorOfLine";
+            //ColorBind.Source = MapPolyline.
+            //BindingOperations.SetBinding(style, Points.YouMapPolyline.Locations, Locationbind);
+            
+            //ItemControlToTest.Style = style;
+
         }
 
         private void drawingPointerReleased(object sender, PointerRoutedEventArgs e)
         {
             if (drawingPointerIsOn && drawingPressedIsOn)
             {
-               // MapGrid.CancelDirectManipulations();
+               
                
                 drawingPressedIsOn = false;
                 locationInLocationsArray++;
-
-                //AddPointPopup.IsOpen = false;
-                //PointerPoint pp = e.GetCurrentPoint(myMap);
-                //var location = myMap.ViewportPointToLocation(pp.Position);
-                //MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-                //locationCollection.Add(location);
-                //loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+                
+                
             }
         }
 
@@ -139,15 +183,11 @@ namespace YouMaps
         {
             if (drawingPointerIsOn && !drawingPressedIsOn)
             {
-                //MapGrid.CancelDirectManipulations();
+               
                 drawingPressedIsOn = true;
                 
 
-                //PointerPoint pp = e.GetCurrentPoint(myMap);
-                //var location = myMap.ViewportPointToLocation(pp.Position);
-                //MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
-                //locationCollection.Add(location);
-                //loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection });
+               
             }
         }
 
@@ -210,13 +250,18 @@ namespace YouMaps
         
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+     
+
+        //protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        //{
+        //    PropertyChangedEventHandler handler = PropertyChanged;
+        //    if (handler != null)
+        //        handler(this, e);
+        //}
+        //protected void OnPropertyChanged(string propertyName)
+        //{
+        //    OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        //}
 
         MapControl.Location pressedLocation = new MapControl.Location();
         void MyMap_Holding(object sender, HoldingRoutedEventArgs e)
@@ -248,17 +293,8 @@ namespace YouMaps
         private void DrawOnMap(object sender, RoutedEventArgs e)
         {
             drawingPointerIsOn = true;
-            //MapGrid.CancelDirectManipulations();
-            //loadMap.Polylines.Add(
-            //new Points.YouMapPolyline
-            // {
-            //        Locations = MapControl.LocationCollection.Parse("53.5150,8.1451 53.5123,8.1506 53.5156,8.1623 53.5276,8.1757 ")
-            //    });
-            //            loadMap.Polylines.Add(
-            //                new Points.YouMapPolyline
-            //                {
-            //                    Locations = MapControl.LocationCollection.Parse("53.5978,8.1212 53.6018,8.1494 53.5859,8.1554 53.5852,8.1531 53.5841,8.1539 53.5802,8.1392 53.5826,8.1309 53.5867,8.1317 53.5978,8.1212")
-            //                });
+            AddPointPopup.IsOpen = false;
+            
                         
         }
 
@@ -267,7 +303,7 @@ namespace YouMaps
         {
             symbolsVisable = !symbolsVisable;
 
-            Visibility visabiltiy = new Visibility();
+           Visibility visabiltiy = new Visibility();
            visabiltiy =  (symbolsVisable) ? Visibility.Visible : Visibility.Collapsed;
            SymbolsStackPanel.Visibility = visabiltiy;
            
@@ -277,11 +313,51 @@ namespace YouMaps
 
         private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)
         {
+            
             AddPointPopup.IsOpen = false;
             this.Frame.Navigate(typeof(ManageSymbols));
             //ManageYouMapsSymbolsPopup.IsOpen = true;
 
         }
+        private Brush lineColorBrush;
+
+        public Brush LineColorBrush
+        {
+            get { return lineColorBrush; }
+            set
+            {
+                if (value != null && !value.Equals(lineColorBrush))
+        {
+            lineColorBrush = value;
+                //OnPropertyChanged("LineColorBrush");
+        }} }
+
+        private void ChangeColorLine(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            
+            
+            int alpha = 200;
+            Color tempColor = new Color();
+
+            tempColor.A = (byte)alpha;
+            tempColor.B = (byte)ChangeBlueColor.Value;
+            tempColor.G = (byte)ChangeGreenColor.Value;
+            tempColor.R = (byte)ChangeRedColor.Value;
+            Brush brush = new SolidColorBrush(tempColor);
+            LineColorBrush = new SolidColorBrush(tempColor);
+            ChangeRedColor.Background = brush;
+            ChangeGreenColor.Background = brush;
+            ChangeBlueColor.Background = brush;
+            
+
+            
+            
+            
+        }
+
+       
+
+        
 
              
 

@@ -30,7 +30,7 @@ namespace YouMaps
         {
 
            // MapCenter = location;
-            MapCenter = new Location(53.5, 8.2);
+            MapCenter = location;
             Points = new ObservableCollection<YouMapPoint>();
             Polylines = new ObservableCollection<YouMapPolyline>();
 
