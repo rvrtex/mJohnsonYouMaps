@@ -34,11 +34,13 @@ namespace YouMaps
     public sealed partial class MainPage : Page
     {
 
-        LoadProperties lp; 
+        LoadProperties lp;
+        
         public MainPage()
         {
             lp = new LoadProperties();
             this.InitializeComponent();
+            
             loadComboBox();
             
             
@@ -68,7 +70,7 @@ namespace YouMaps
 
         private async void ImportImage(object sender, RoutedEventArgs e)
         {
-            StorageFolder myfolder = await getMyRootfolder();
+            StorageFolder myfolder = await IOFile.getMyRootfolder();
             string folderName = DropDownOfFolders.SelectedValue.ToString();
             StorageFolder selectedFolder = await myfolder.GetFolderAsync(folderName);
             FileOpenPicker openfile = new FileOpenPicker();
@@ -101,7 +103,7 @@ namespace YouMaps
             string noFolderEnteredMessage = "You must enter a new folder name";
             if(!NewFolderNameTextBox.Text.Equals(newFoldPromt))
             {
-                StorageFolder myfolder = await getMyRootfolder();
+                StorageFolder myfolder = await IOFile.getMyRootfolder();
                 await myfolder.CreateFolderAsync(NewFolderNameTextBox.Text);
                 Messages.Text = "FolderCreated";
                 NewFolderNameTextBox.Text = newFoldPromt;
@@ -113,12 +115,7 @@ namespace YouMaps
             }
         }
 
-        private static async Task<StorageFolder> getMyRootfolder()
-        {
-            StorageFolder rootFolder = KnownFolders.PicturesLibrary;
-            StorageFolder myfolder = await rootFolder.GetFolderAsync("YouMapsImages");
-            return myfolder;
-        }
+        
        
         private async void GetCurrentLocation(object sender, RoutedEventArgs e)
         {
@@ -181,7 +178,7 @@ namespace YouMaps
             cameraUi.PhotoSettings.AllowCropping = false;
             cameraUi.PhotoSettings.MaxResolution = CameraCaptureUIMaxPhotoResolution.MediumXga;
 
-            StorageFolder folder = KnownFolders.PicturesLibrary;
+            StorageFolder folder = await IOFile.getMyRootfolder();
             StorageFile photo = await cameraUi.CaptureFileAsync(CameraCaptureUIMode.Photo);
 
             if (photo != null)

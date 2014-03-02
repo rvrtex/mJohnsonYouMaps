@@ -1,4 +1,5 @@
 ﻿using MapControl;
+using SharpKml.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,17 @@ namespace YouMaps.Points
             set
             {
                 location = value;
+                locationAsVector.Latitude = location.Latitude;
+                locationAsVector.Longitude = location.Longitude;
                 OnPropertyChanged("Location");
             }
         }
-        
+
+        private Vector locationAsVector = new Vector();
+
+        public Vector getLocationAsVector()
+        {
+            return locationAsVector;
+        }
     }
 }

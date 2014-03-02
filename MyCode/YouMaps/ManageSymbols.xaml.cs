@@ -69,6 +69,8 @@ namespace YouMaps
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             CanvaseGrid.Visibility = Visibility.Collapsed;
             SaveLoadGrid.Visibility = Visibility.Collapsed;
+            EditGrid.Visibility = Visibility.Collapsed;
+            DeleteGrid.Visibility = Visibility.Collapsed;
             DrawingCanvas.PointerPressed += drawingPointerIsPressed;
             DrawingCanvas.PointerReleased += drawingPointerReleased;
             DrawingCanvas.PointerMoved += drawingPointerHasMoved;
@@ -204,6 +206,7 @@ namespace YouMaps
             foreach(YouMapsSymbol yms in allSymbols)
             {
                 DrawingCanvas.Children.Clear();
+                DeleteGrid.Visibility = Visibility.Collapsed;
                 SymbolUserControl suc = new SymbolUserControl(yms);
                 suc.CheckBoxEverything.Visibility = Visibility.Collapsed;
                 sucs.Add(suc);
@@ -222,7 +225,7 @@ namespace YouMaps
             SymbolGrid.Visibility = Visibility.Collapsed;
             EditYouMapSymbolsStackPanel.Children.Clear();
             List<YouMapsSymbol> allSymbols = new List<YouMapsSymbol>();
-            StorageFolder folder = await getMyRootfolder();
+            StorageFolder folder = await IOFile.getMySymbolsfolder();
             IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
             foreach (StorageFile f in files)
             {
@@ -258,6 +261,8 @@ namespace YouMaps
                 sucs.Add(suc);
                 suc.CheckBoxEverything.Visibility = Visibility.Visible;
                 EditYouMapSymbolsStackPanel.Children.Add(suc);
+                EditGrid.Visibility = Visibility.Collapsed;
+                DeleteGrid.Visibility = Visibility.Visible;
                 
             }
         }
@@ -287,7 +292,7 @@ namespace YouMaps
                 DataContractSerializer serializer = new DataContractSerializer(currentSymbol.GetType());
                 serializer.WriteObject(symbolData, currentSymbol);
 
-                StorageFolder folder = await getMyRootfolder();
+                StorageFolder folder = await IOFile.getMySymbolsfolder();
                 StorageFile file = await folder.CreateFileAsync(SymbolName.Text, CreationCollisionOption.ReplaceExisting);
 
                 using (Stream fileStream = await file.OpenStreamForWriteAsync())
@@ -306,28 +311,7 @@ namespace YouMaps
                 MessageBox.Text = "Your symbol has been saved";
             }
         }
-        private static async Task<StorageFolder> getMyRootfolder()
-        {
-            bool folderNotFound = false;
-            StorageFolder rootFolder = KnownFolders.PicturesLibrary;
-            StorageFolder myfolder = await rootFolder.GetFolderAsync("YouMapsImages");
-            try
-            {
-                myfolder = await myfolder.GetFolderAsync("Symbols");
-            }
-            catch(FileNotFoundException e)
-            {
-                folderNotFound = true;
-                
-            }
-            if(folderNotFound)
-            {
-                await myfolder.CreateFolderAsync("Symbols");
-                myfolder = await myfolder.GetFolderAsync("Symbols");
-            }
-            return myfolder;
-        }
-
+        
       
         private void EnteredTextBox(object sender, PointerRoutedEventArgs e)
         {
@@ -360,7 +344,7 @@ namespace YouMaps
 
         private async void DeleteSymbolButton(object sender, RoutedEventArgs e)
         {
-            StorageFolder folder = await getMyRootfolder();
+            StorageFolder folder = await IOFile.getMySymbolsfolder();
             
             IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
             List<string> namesToDelete = new List<string>();

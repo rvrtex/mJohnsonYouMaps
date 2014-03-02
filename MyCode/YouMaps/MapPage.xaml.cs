@@ -22,6 +22,7 @@ using Windows.UI.Input;
 using Windows.UI;
 using System.Diagnostics;
 using YouMaps.UserControls;
+using YouMaps.KML;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -121,14 +122,13 @@ namespace YouMaps
                 MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
                 StyleUserControl sty = new StyleUserControl(LineColorBrush);
-              
-                
-                //Points.YouMapPolyline points = new Points.YouMapPolyline { Locations = locationCollection, ColorOfLine = LineColorBrush };
-                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection,ColorOfLine = LineColorBrush });
-                //loadMap.Polylines.Add(points);
+                SharpKml.Dom.CoordinateCollection coordCollection = new SharpKml.Dom.CoordinateCollection();
+
+                     
+                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection,ColorOfLine = LineColorBrush, LocationAsCords = coordCollection});
                 loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
-                //SolidColorBrush brus2 = (SolidColorBrush)LineColorBrush;
-               // Debug.WriteLine(brus2.Color);
+                loadMap.Polylines.ElementAt(locationInLocationsArray).LocationAsCords.Add(new SharpKml.Base.Vector { Latitude = location.Latitude, Longitude = location.Longitude });
+
                 
             }
         }
@@ -315,6 +315,7 @@ namespace YouMaps
         {
             
             AddPointPopup.IsOpen = false;
+            
             this.Frame.Navigate(typeof(ManageSymbols));
             //ManageYouMapsSymbolsPopup.IsOpen = true;
 
@@ -353,6 +354,19 @@ namespace YouMaps
             
             
             
+        }
+
+        private void SaveF(object sender, RoutedEventArgs e)
+        {
+            ConvertToKml ctk = new ConvertToKml(loadMap);
+
+        }
+
+        private void DoneDrawing(object sender, RoutedEventArgs e)
+        {
+            drawingPointerIsOn = false;
+            ConvertToKml ctk = new ConvertToKml(loadMap);
+
         }
 
        
