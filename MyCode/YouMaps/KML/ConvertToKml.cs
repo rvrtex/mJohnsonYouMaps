@@ -16,16 +16,17 @@ namespace YouMaps.KML
 {
     class ConvertToKml
     {
+        Document doc; 
         Kml kml;
         private LoadMap loadmap;
         public ConvertToKml(LoadMap loadmap)
         {
             this.loadmap = loadmap;
-            kml = new Kml();
-            ConvertPolyLinesToKml();
+            doc = new Document();
+            ConvertFileToKml();
         }
 
-        private async void ConvertPolyLinesToKml()
+        private async void ConvertFileToKml()
         {
             KmlFile kmlF;
             foreach(YouMapPoint yp in loadmap.Points)
@@ -34,7 +35,7 @@ namespace YouMaps.KML
                 Placemark pl = new Placemark();
                 p.Coordinate = yp.getLocationAsVector();
                 pl.Geometry = p;
-                kml.Feature = pl;
+                doc.AddFeature(pl);
                 
 
             }
@@ -44,37 +45,18 @@ namespace YouMaps.KML
                 ln.Coordinates = yp.LocationAsCords;
                 Placemark pl = new Placemark();
                 pl.Geometry = ln;
-                kml.Feature = pl;
+                doc.AddFeature(pl);
+
+               
             }
-            
+            kml = new Kml();
+            kml.Feature = doc;
             kmlF = KmlFile.Create(kml, false);
             StorageFolder root = await IOFile.getMyRootfolder();
             StorageFile newFile = await root.CreateFileAsync("Bobby.kml", CreationCollisionOption.ReplaceExisting);
 
 
-            //Serializer serializer = new Serializer();
-            //serializer.Serialize(kmlF.Root);
             
-
-            // using (IRandomAccessStream fileStream = await newFile.OpenAsync(FileAccessMode.ReadWrite))
-            //{
-
-            //    using (IOutputStream outputStream = fileStream.GetOutputStreamAt(0))
-            //    {
-            //        using (DataWriter dataWriter = new DataWriter(outputStream))
-            //        {
-                        
-            //            //dataWriter.W
-            //           IBuffer buffer =  dataWriter.DetachBuffer();
-            //            await FileIO.WriteBufferAsync(newFile,buffer);
-            //            await dataWriter.StoreAsync();
-            //            dataWriter.DetachStream();
-            //        }
-
-            //        await outputStream.FlushAsync();
-            //    }
-            //}
-
 
 
             using (IRandomAccessStream fileStream = await newFile.OpenAsync(FileAccessMode.ReadWrite))
@@ -84,12 +66,16 @@ namespace YouMaps.KML
                
             }
 
-
-            
-            
          }
 
-          
+          public LoadMap ConvertKmltoMap()
+        {
+
+
+            Parser parser = new Parser();
+             
+            return null;
+        }
 
         }
     }

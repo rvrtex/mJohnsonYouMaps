@@ -120,6 +120,7 @@ namespace YouMaps
                 mousePressed = false;
             }
         }
+
         [DataMember]
         ObservableCollection<PointCollection> pointsForSaveing = new ObservableCollection<PointCollection>();
         private void drawingPointerIsPressed(object sender, PointerRoutedEventArgs e)
@@ -199,18 +200,24 @@ namespace YouMaps
             
         }
 
-        List<SymbolUserControl> sucs;
+        List<SymbolUserControl> sucs = new List<SymbolUserControl>();
         private async void EditSymbol(object sender, RoutedEventArgs e)
         {
-            List<YouMapsSymbol> allSymbols = await LoadAllSymbols();
+            List<YouMapsSymbol> allSymbols = await IOFile.LoadAllSymbols();
+            EditYouMapSymbolsStackPanel.Visibility = Visibility.Visible;
+            SymbolGrid.Visibility = Visibility.Collapsed;
+            EditYouMapSymbolsStackPanel.Children.Clear();
+            sucs.Clear();
             foreach(YouMapsSymbol yms in allSymbols)
             {
                 DrawingCanvas.Children.Clear();
                 DeleteGrid.Visibility = Visibility.Collapsed;
+                EditGrid.Visibility = Visibility.Visible;
                 SymbolUserControl suc = new SymbolUserControl(yms);
                 suc.CheckBoxEverything.Visibility = Visibility.Collapsed;
                 sucs.Add(suc);
                 suc.CheckBoxEverything.Visibility = Visibility.Collapsed;
+                EditCustomSymbol.Visibility = Visibility.Visible;
                 EditYouMapSymbolsStackPanel.Children.Add(suc);
                
             }
@@ -218,58 +225,46 @@ namespace YouMaps
 
         }
 
-        private async Task<List<YouMapsSymbol>> LoadAllSymbols()
-        {
-            sucs = new List<SymbolUserControl>();
-            EditYouMapSymbolsStackPanel.Visibility = Visibility.Visible;
-            SymbolGrid.Visibility = Visibility.Collapsed;
-            EditYouMapSymbolsStackPanel.Children.Clear();
-            List<YouMapsSymbol> allSymbols = new List<YouMapsSymbol>();
-            StorageFolder folder = await IOFile.getMySymbolsfolder();
-            IReadOnlyList<StorageFile> files = await folder.GetFilesAsync();
-            foreach (StorageFile f in files)
-            {
-                try
-                {
-                    IInputStream sessionInputStream = await f.OpenReadAsync();
-                    var sessionSerializer = new DataContractSerializer(typeof(YouMapsSymbol));
-                    var loadedSymbol = sessionSerializer.ReadObject(sessionInputStream.AsStreamForRead());
-
-                    YouMapsSymbol fullyLoadedSymbol = (YouMapsSymbol)loadedSymbol;
-                    allSymbols.Add(fullyLoadedSymbol);
-
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("A file was the wrong type");
-                    Debug.WriteLine(ex.Message);
-                }
-            }
-            return allSymbols;
-        }
+        
 
         private async void DeleteSymbol(object sender, RoutedEventArgs e)
         {
-            List<YouMapsSymbol> allSymbols = await LoadAllSymbols();
+            List<YouMapsSymbol> allSymbols = await IOFile.LoadAllSymbols();
+            EditYouMapSymbolsStackPanel.Visibility = Visibility.Visible;
+            SymbolGrid.Visibility = Visibility.Collapsed;
+            EditYouMapSymbolsStackPanel.Children.Clear();
             sucs.Clear();
             EditYouMapSymbolsStackPanel.Children.Clear();
             foreach (YouMapsSymbol yms in allSymbols)
             {
-                
-                SymbolUserControl suc = new SymbolUserControl(yms);
-                suc.EditRadioButton.Visibility = Visibility.Collapsed;
-                sucs.Add(suc);
-                suc.CheckBoxEverything.Visibility = Visibility.Visible;
-                EditYouMapSymbolsStackPanel.Children.Add(suc);
-                EditGrid.Visibility = Visibility.Collapsed;
+
+                SymbolUserControl suc = AddSymbolsToEditDeleteGrid(yms);
                 DeleteGrid.Visibility = Visibility.Visible;
                 
             }
         }
 
-        private void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
+        private async void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
         {
+            SymbolGrid.Visibility = Visibility.Collapsed;
+            List<YouMapsSymbol> allSymbols = await IOFile.LoadAllSymbols();
+            sucs.Clear();
+            foreach(YouMapsSymbol yms in allSymbols)
+            {
+                SymbolUserControl suc = AddSymbolsToEditDeleteGrid(yms);
+                suc.CheckBoxEverything.IsChecked = yms.OnSymbolList;                
+            }
+        }
 
+        private SymbolUserControl AddSymbolsToEditDeleteGrid(YouMapsSymbol yms)
+        {
+            SymbolUserControl suc = new SymbolUserControl(yms);
+            suc.EditRadioButton.Visibility = Visibility.Collapsed;
+            sucs.Add(suc);
+            suc.CheckBoxEverything.Visibility = Visibility.Visible;
+            EditYouMapSymbolsStackPanel.Children.Add(suc);
+            EditGrid.Visibility = Visibility.Collapsed;
+            return suc;
         }
         string messageOne = "Enter Symbol Name Here";
         string messageTwo = "You Must Enter a Name";
@@ -281,6 +276,7 @@ namespace YouMaps
             currentSymbol.HighX = highX;
             currentSymbol.HighY = highY;
             currentSymbol.Name = SymbolName.Text;
+            
             if(currentSymbol.Name.Equals(messageOne) || currentSymbol.Name.Equals(messageTwo))
             {
                 saveReady = false;
@@ -368,6 +364,58 @@ namespace YouMaps
             }
 
             DeleteSymbol(sender, e);
+        }
+
+
+        
+        private void SaveSymbolPanelButton(object sender, RoutedEventArgs e)
+        {
+
+            List<YouMapsSymbol> listToSave = new List<YouMapsSymbol>();
+            foreach(SymbolUserControl s in sucs)
+            {
+                bool checker = (bool)s.CheckBoxEverything.IsChecked;
+                if (checker)
+                {
+                    s.YouMapsSymbol.OnSymbolList = true;
+
+                }
+                else
+                {
+                    s.YouMapsSymbol.OnSymbolList = false;
+                }
+                listToSave.Add(s.YouMapsSymbol);
+            }
+            UpdateSaveSymbolFiles(listToSave);
+        }
+
+        private async void UpdateSaveSymbolFiles(List<YouMapsSymbol> listOfSymbols)
+        {
+            foreach (YouMapsSymbol s in listOfSymbols)
+            {
+                MemoryStream symbolData = new MemoryStream();
+                DataContractSerializer serializer = new DataContractSerializer(s.GetType());
+                serializer.WriteObject(symbolData, s);
+
+                StorageFolder folder = await IOFile.getMySymbolsfolder();
+                StorageFile file = await folder.CreateFileAsync(s.Name, CreationCollisionOption.ReplaceExisting);
+
+                using (Stream fileStream = await file.OpenStreamForWriteAsync())
+                {
+                    symbolData.Seek(0, SeekOrigin.Begin);
+                    await symbolData.CopyToAsync(fileStream);
+                    await fileStream.FlushAsync();
+                    
+
+                }
+            //    DrawingCanvas.Children.Clear();
+            //    CanvaseGrid.Visibility = Visibility.Collapsed;
+            //    SaveLoadGrid.Visibility = Visibility.Collapsed;
+            //    InfoGrid.Visibility = Visibility.Visible;
+            //    SymbolGrid.Visibility = Visibility.Visible;
+            //    (App.Current as App).CurrentSymbol = null;
+            //    MessageBox.Text = "Your symbol has been saved";
+            }
         }
     }
 }

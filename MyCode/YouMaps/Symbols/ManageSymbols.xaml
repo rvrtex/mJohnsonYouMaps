@@ -73,6 +73,10 @@
         <Grid x:Name="DeleteGrid" Margin="0,488,0,0" Grid.Row="1">
             <Button x:Name="DeleteCustomSymbol" Click="DeleteSymbolButton" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Delete Symbol</Button>
         </Grid>
+        <Grid x:Name="SaveSymbolsToPanel" Margin="0,488,0,0" Grid.Row="1">
+            <Button x:Name="SaveYouSymbolPanel" Click="SaveSymbolPanelButton" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Save</Button>
+
+        </Grid>
         <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,5,0,121" Grid.Row="1" Background="BlueViolet" />
 
 

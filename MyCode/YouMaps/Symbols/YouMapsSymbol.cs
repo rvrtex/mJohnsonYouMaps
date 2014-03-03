@@ -25,5 +25,7 @@ namespace YouMaps.Symbols
         public double HighX { get; set; }
         [DataMember]
         public double HighY { get; set; }
+        [DataMember]
+        public bool OnSymbolList { get; set; }
     }
 }

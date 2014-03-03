@@ -166,24 +166,10 @@
                         </StackPanel>
                     </Border>
                 </Popup>
-                <Popup x:Name="ManageYouMapsSymbolsPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
-                    <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
-                        <StackPanel>
-                       
-                    </StackPanel>
-                    </Border>
-                </Popup>
-                <Popup x:Name="CreateSymbolPopup" HorizontalOffset="300" VerticalOffset="20">
-                    <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Background="White" BorderThickness="2"  Width="400" Height="400">
-                    <Canvas x:Name="CreateSymbolCanvase">
-                            <Canvas.Children>
-                                
-                            </Canvas.Children>
-                    </Canvas>
-                    </Border>
-                </Popup>
-                <StackPanel Height= "auto" Width="30" Margin="0,33,1336,-33" x:Name="SymbolsStackPanel"  >
-                    <TextBlock>Here I am</TextBlock>
+               
+              
+                <StackPanel Width="auto" Height="auto" x:Name="SymbolsStackPanel"  >
+                    
                     <!--DataContext="{Binding Symbols}"-->
 
                 </StackPanel>

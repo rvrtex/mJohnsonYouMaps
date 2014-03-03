@@ -117,7 +117,8 @@
     <Compile Include="IOFile.cs" />
     <Compile Include="KML\ConvertToKml.cs" />
     <Compile Include="LoadMap.cs" />
-    <Compile Include="ManageSymbols.xaml.cs">
+    <Compile Include="Symbols\AddSymbolToMap.cs" />
+    <Compile Include="Symbols\ManageSymbols.xaml.cs">
       <DependentUpon>ManageSymbols.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyImages\ImageDownloader.cs" />
@@ -164,7 +165,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ManageSymbols.xaml">
+    <Page Include="Symbols\ManageSymbols.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,10 +5,6 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouMaps", "YouMaps.csproj", "{1B176622-8FF6-4A31-849A-6248EEB75E74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouMapsWorkArounds", "..\YouMapsWorkArounds\YouMapsWorkArounds.csproj", "{90913602-2D89-4E1C-A5FD-432291930155}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouMapsPortableClassLibrary", "YouMapsPortableClassLibrary\YouMapsPortableClassLibrary.csproj", "{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,26 +41,6 @@ Global
 		{1B176622-8FF6-4A31-849A-6248EEB75E74}.Release|x86.ActiveCfg = Release|x86
 		{1B176622-8FF6-4A31-849A-6248EEB75E74}.Release|x86.Build.0 = Release|x86
 		{1B176622-8FF6-4A31-849A-6248EEB75E74}.Release|x86.Deploy.0 = Release|x86
-		{90913602-2D89-4E1C-A5FD-432291930155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Release|ARM.ActiveCfg = Release|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Release|x64.ActiveCfg = Release|Any CPU
-		{90913602-2D89-4E1C-A5FD-432291930155}.Release|x86.ActiveCfg = Release|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Release|ARM.ActiveCfg = Release|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Release|x64.ActiveCfg = Release|Any CPU
-		{F8C0D459-19F0-4004-83AB-E8A3752FC4F9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

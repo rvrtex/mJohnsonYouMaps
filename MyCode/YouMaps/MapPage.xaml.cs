@@ -23,6 +23,7 @@ using Windows.UI;
 using System.Diagnostics;
 using YouMaps.UserControls;
 using YouMaps.KML;
+using YouMaps.Symbols;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -299,16 +300,33 @@ namespace YouMaps
         }
 
         bool symbolsVisable = false;
-        private void Symbols(object sender, RoutedEventArgs e)
+        private async void Symbols(object sender, RoutedEventArgs e)
         {
             symbolsVisable = !symbolsVisable;
 
            Visibility visabiltiy = new Visibility();
            visabiltiy =  (symbolsVisable) ? Visibility.Visible : Visibility.Collapsed;
            SymbolsStackPanel.Visibility = visabiltiy;
-           
+           Brush brush = new SolidColorBrush(Colors.Gray);
+           List<YouMapsSymbol> symbolsOnList = await IOFile.getSucOnList();
+           SymbolsStackPanel.Children.Clear();
+            foreach(YouMapsSymbol yms in symbolsOnList)
+            {
+                Button button = new Button();
+                button.Content = yms.Name;
+                button.Click += symbolButtonclicked;
+                button.DataContext = yms;
+                button.Background = brush;
+                button.Width = 100;
+                SymbolsStackPanel.Children.Add(button);
+            }
             
             
+        }
+
+        private void symbolButtonclicked(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)
