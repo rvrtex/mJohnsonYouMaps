@@ -24,6 +24,7 @@ using System.Diagnostics;
 using YouMaps.UserControls;
 using YouMaps.KML;
 using YouMaps.Symbols;
+using System.Threading.Tasks;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -90,14 +91,23 @@ namespace YouMaps
             //myMap.PointerExited += drawingPointerExitedObject;
         }
 
-        private void tappedPointer(object sender, TappedRoutedEventArgs e)
+        private async void tappedPointer(object sender, TappedRoutedEventArgs e)
         {
-           if((App.Current as App).CurrentSymbol != null)
+            if ((App.Current as App).CurrentSymbolToBePlaced != null && (App.Current as App).PlaceSymbolOnTap)
            {
-               (App.Current as App).CurrentSymbol = null;
+                  (App.Current as App).PlaceSymbolOnTap = false;
+                   
+                   YouMapsSymbol symbol = (App.Current as App).CurrentSymbolToBePlaced;
 
+                  await DrawSymbolOnMap(symbol, e);
+                   (App.Current as App).CurrentSymbolToBePlaced = null;
+            }
+            else if((App.Current as App).CurrentSymbolToBePlaced != null)
+            {
+               (App.Current as App).PlaceSymbolOnTap = true;
+            }
            }
-        }
+        
 
         private bool drawingPointerIsOn = false;
         private bool drawingPressedIsOn = false;
@@ -132,6 +142,35 @@ namespace YouMaps
 
                 
             }
+        }
+
+        private async Task DrawSymbolOnMap(YouMapsSymbol symbol, TappedRoutedEventArgs e)
+        {
+            Point pp = e.GetPosition(myMap);
+            
+
+            AddSymbolToMap astm = new AddSymbolToMap(pp);
+
+            List<PointCollection> pCollect = await astm.ChangePointToPlaceSymbol();
+            foreach(PointCollection pc in pCollect)
+            {
+                SharpKml.Dom.CoordinateCollection coordCollection = new SharpKml.Dom.CoordinateCollection();
+                MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
+                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection, ColorOfLine = LineColorBrush, LocationAsCords = coordCollection });
+
+                foreach(Point p in pc)
+                {
+                    
+                    MapControl.Location location = myMap.ViewportPointToLocation(p);
+                    StyleUserControl sty = new StyleUserControl(LineColorBrush);
+
+                    loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
+                    loadMap.Polylines.ElementAt(locationInLocationsArray).LocationAsCords.Add(new SharpKml.Base.Vector { Latitude = location.Latitude, Longitude = location.Longitude });
+
+                }
+                locationInLocationsArray++;
+            }
+
         }
 
         private void MapStyle()
@@ -171,12 +210,10 @@ namespace YouMaps
         {
             if (drawingPointerIsOn && drawingPressedIsOn)
             {
-               
-               
+         
                 drawingPressedIsOn = false;
                 locationInLocationsArray++;
-                
-                
+         
             }
         }
 
@@ -186,9 +223,7 @@ namespace YouMaps
             {
                
                 drawingPressedIsOn = true;
-                
 
-               
             }
         }
 
@@ -325,8 +360,12 @@ namespace YouMaps
         }
 
         private void symbolButtonclicked(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
+        {            
+            var dataContext = ((Button)sender).DataContext;
+            (App.Current as App).CurrentSymbolToBePlaced = (YouMapsSymbol)dataContext;
+            (App.Current as App).PlaceSymbolOnTap = false;
+
+
         }
 
         private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)

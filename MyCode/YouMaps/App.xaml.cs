@@ -29,6 +29,10 @@ namespace YouMaps
     {
         public YouMapsSymbol CurrentSymbol { get; set; }
         public Location CurrentLocation { get; set; }
+
+        public bool PlaceSymbolOnTap { get; set; }
+
+        public YouMapsSymbol CurrentSymbolToBePlaced { get; set; }
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -36,6 +40,7 @@ namespace YouMaps
         public App()
         {
             this.InitializeComponent();
+            PlaceSymbolOnTap = false;
             this.Suspending += OnSuspending;
         }
 

@@ -368,7 +368,7 @@ namespace YouMaps
 
 
         
-        private void SaveSymbolPanelButton(object sender, RoutedEventArgs e)
+        private async void SaveSymbolPanelButton(object sender, RoutedEventArgs e)
         {
 
             List<YouMapsSymbol> listToSave = new List<YouMapsSymbol>();
@@ -386,10 +386,10 @@ namespace YouMaps
                 }
                 listToSave.Add(s.YouMapsSymbol);
             }
-            UpdateSaveSymbolFiles(listToSave);
+            await UpdateSaveSymbolFiles(listToSave);
         }
 
-        private async void UpdateSaveSymbolFiles(List<YouMapsSymbol> listOfSymbols)
+        private async Task UpdateSaveSymbolFiles(List<YouMapsSymbol> listOfSymbols)
         {
             foreach (YouMapsSymbol s in listOfSymbols)
             {
