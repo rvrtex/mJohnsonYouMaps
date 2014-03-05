@@ -202,5 +202,26 @@ namespace YouMaps
                 }
             }
         }
+
+        private void Convert(object sender, RoutedEventArgs e)
+        {
+            
+            
+
+            
+            double latitude = Double.Parse(Latitude.Text);
+            double longitude = Double.Parse(Longitude.Text);
+
+            double[] firstParts = new double[3];
+
+            firstParts[0] = Math.Truncate(latitude);
+            double tempNum = latitude-Math.Truncate(latitude);
+            firstParts[1] = Math.Truncate(tempNum * 60);
+            tempNum = (tempNum * 60) - firstParts[1];
+            firstParts[2] = tempNum * 60;
+            firstParts[2] = Math.Round(firstParts[2], 5);
+
+            Converted.Text = ""+firstParts[0]+" degrees "+firstParts[1]+"\' "+firstParts[2]+"\"";
+       }
     }
 }

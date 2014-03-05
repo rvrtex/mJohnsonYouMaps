@@ -33,7 +33,8 @@
             <Button Click="GetImputedLocation" HorizontalAlignment="Left" FontSize="25">Find Location By Imput</Button>
                 <TextBox x:Name="Longitude" Text="Longitude" FontSize="25" Width="150" Height="auto" Margin="294,0,922,0"></TextBox>
                 <TextBox x:Name="Latitude" Text="Latitude" FontSize="25" Width="150" Height="auto" Margin="449,0,767,3" ></TextBox>
-                
+                <Button Click="Convert" x:Name="Converter" Margin="628,7,0,7" FontSize="25">Convert Long and Lat</Button>  
+                <TextBlock x:Name="Converted" FontSize="25" Margin="181,71,820,-71"></TextBlock>
             </Grid>
             <Button x:Name="Camera" FontSize="25" HorizontalAlignment="Left" Click="TakePicture">Take Picture</Button>
         </StackPanel>
