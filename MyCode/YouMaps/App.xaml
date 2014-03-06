@@ -6,7 +6,7 @@
 
     <Application.Resources>
 
-        <LinearGradientBrush x:Key="BackgroundBrush" 
+        <!--<LinearGradientBrush x:Key="BackgroundBrush" 
                              EndPoint="2,2" 
                              StartPoint="6,6" 
                              SpreadMethod="Repeat" 
@@ -32,17 +32,17 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="Standard250x250ItemTemplate">
-            <Grid HorizontalAlignment="Left" Width="250" Height="250">
+        <DataTemplate x:Key="Standard250x250ItemTemplate" >
+            <Grid HorizontalAlignment="Left" Width="250" Height="250" Tapped="Grid_Tapped">
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}" />
                 </Border>
                 <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                     <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextBlockStyle}" Height="60" Margin="15,0,15,0"/>
                     <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Margin="15,0,15,10"/>
                 </StackPanel>
             </Grid>
-        </DataTemplate>
+        </DataTemplate>-->
 
     </Application.Resources>
 </Application>

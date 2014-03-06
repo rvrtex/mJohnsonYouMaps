@@ -117,6 +117,12 @@
     <Compile Include="IOFile.cs" />
     <Compile Include="KML\ConvertToKml.cs" />
     <Compile Include="LoadMap.cs" />
+    <Compile Include="MainPafeTiles\ConvertLongLatTile.cs" />
+    <Compile Include="MainPafeTiles\CurrentLocationTile.cs" />
+    <Compile Include="MainPafeTiles\CustomLocationTile.cs" />
+    <Compile Include="MainPafeTiles\IFrontPageTile.cs" />
+    <Compile Include="MainPafeTiles\ImportFilesTile.cs" />
+    <Compile Include="MainPafeTiles\ManageSymbolTile.cs" />
     <Compile Include="Symbols\AddSymbolToMap.cs" />
     <Compile Include="Symbols\ManageSymbols.xaml.cs">
       <DependentUpon>ManageSymbols.xaml</DependentUpon>
@@ -153,11 +159,17 @@
     <None Include="YouMaps_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ConvertLongLatImage.jpg" />
+    <Content Include="Assets\currentLocationPin.jpg" />
+    <Content Include="Assets\currentLocationRed.jpg" />
+    <Content Include="Assets\customLocationWatch.jpg" />
+    <Content Include="Assets\importFile.jpg" />
     <Content Include="Assets\IWantyou.jpg" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\Symbols.jpg" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

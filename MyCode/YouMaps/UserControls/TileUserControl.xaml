@@ -10,7 +10,7 @@
     d:DesignWidth="400">
     
     <Grid>
-        <SemanticZoom x:Name="Zoom">
+        <!--<SemanticZoom x:Name="Zoom">
             <SemanticZoom.ZoomedInView>
                 <Hub x:Name="Hub" Header="YouMaps" Background="{StaticResource BackgroundBrush}" SectionHeaderClick="Hub_SectionHeaderClick">
 
@@ -72,7 +72,7 @@
 
             </SemanticZoom.ZoomedOutView>
 
-        </SemanticZoom>
+        </SemanticZoom>-->
     </Grid>
    
    

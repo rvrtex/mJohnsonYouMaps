@@ -4,6 +4,7 @@ using MapControl;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -14,6 +15,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +24,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using YouMaps.MainPafeTiles;
 using YouMaps.MyImages;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -35,6 +38,16 @@ namespace YouMaps
     {
 
         LoadProperties lp;
+        private ObservableCollection<IFrontPageTile> CurrentLocationTiles = new ObservableCollection<IFrontPageTile>();
+        private ObservableCollection<IFrontPageTile> CustomLocationTiles = new ObservableCollection<IFrontPageTile>();
+        private ObservableCollection<IFrontPageTile> ManageSymbolsTiles = new ObservableCollection<IFrontPageTile>();
+        private ObservableCollection<IFrontPageTile> ConvertLongLatTiles = new ObservableCollection<IFrontPageTile>();
+        private ObservableCollection<IFrontPageTile> ImportFileTiles = new ObservableCollection<IFrontPageTile>();
+
+
+
+
+
         
         public MainPage()
         {
@@ -61,7 +74,7 @@ namespace YouMaps
                 {
                     folderName.Add(s.Name);
                 }
-                DropDownOfFolders.ItemsSource = folderName;
+               // DropDownOfFolders.ItemsSource = folderName;
                 
                 
             }
@@ -71,8 +84,8 @@ namespace YouMaps
         private async void ImportImage(object sender, RoutedEventArgs e)
         {
             StorageFolder myfolder = await IOFile.getMyRootfolder();
-            string folderName = DropDownOfFolders.SelectedValue.ToString();
-            StorageFolder selectedFolder = await myfolder.GetFolderAsync(folderName);
+            //string folderName = DropDownOfFolders.SelectedValue.ToString();
+            //StorageFolder selectedFolder = await myfolder.GetFolderAsync(folderName);
             FileOpenPicker openfile = new FileOpenPicker();
             openfile.ViewMode = PickerViewMode.List;
             openfile.SuggestedStartLocation = PickerLocationId.Downloads;
@@ -84,8 +97,8 @@ namespace YouMaps
             StorageFile originalFile = await openfile.PickSingleFileAsync();
             if(originalFile != null)
             {
-                StorageFile filePathToCopy = await originalFile.CopyAsync(selectedFolder, originalFile.Name, NameCollisionOption.GenerateUniqueName);
-                Messages.Text = "File Import Done";
+                //StorageFile filePathToCopy = await originalFile.CopyAsync(selectedFolder, originalFile.Name, NameCollisionOption.GenerateUniqueName);
+               // Messages.Text = "File Import Done";
             }
                 
 
@@ -101,18 +114,18 @@ namespace YouMaps
         {
             string newFoldPromt = "New folder name here.";
             string noFolderEnteredMessage = "You must enter a new folder name";
-            if(!NewFolderNameTextBox.Text.Equals(newFoldPromt))
-            {
-                StorageFolder myfolder = await IOFile.getMyRootfolder();
-                await myfolder.CreateFolderAsync(NewFolderNameTextBox.Text);
-                Messages.Text = "FolderCreated";
-                NewFolderNameTextBox.Text = newFoldPromt;
-                loadComboBox();
-            }
-            else
-            {
-                Messages.Text = noFolderEnteredMessage;
-            }
+            //if(!NewFolderNameTextBox.Text.Equals(newFoldPromt))
+            //{
+            //    StorageFolder myfolder = await IOFile.getMyRootfolder();
+            //    await myfolder.CreateFolderAsync(NewFolderNameTextBox.Text);
+            //    Messages.Text = "FolderCreated";
+            //    NewFolderNameTextBox.Text = newFoldPromt;
+            //    loadComboBox();
+            //}
+            //else
+            //{
+            //    Messages.Text = noFolderEnteredMessage;
+            //}
         }
 
         
@@ -134,7 +147,7 @@ namespace YouMaps
 
             }
             
-            //geo.DesiredAccuracy
+           
             Geoposition currentLocation = await geo.GetGeopositionAsync();
             customLocation.Longitude = currentLocation.Coordinate.Longitude;
             customLocation.Latitude = currentLocation.Coordinate.Latitude;
@@ -146,12 +159,12 @@ namespace YouMaps
         Location customLocation = new Location();
         private void GetImputedLocation(object sender, RoutedEventArgs e)
         {
-            //ImageDownloader id = new ImageDownloader();
+            
 
             try
             {
-                customLocation.Latitude = Double.Parse(Latitude.Text);
-                customLocation.Longitude = Double.Parse(Longitude.Text);
+                //customLocation.Latitude = Double.Parse(Latitude.Text);
+                //customLocation.Longitude = Double.Parse(Longitude.Text);
             }
             catch
             {
@@ -209,19 +222,124 @@ namespace YouMaps
             
 
             
-            double latitude = Double.Parse(Latitude.Text);
-            double longitude = Double.Parse(Longitude.Text);
+            //double latitude = Double.Parse(Latitude.Text);
+            //double longitude = Double.Parse(Longitude.Text);
 
-            double[] firstParts = new double[3];
+            //double[] firstParts = new double[3];
 
-            firstParts[0] = Math.Truncate(latitude);
-            double tempNum = latitude-Math.Truncate(latitude);
-            firstParts[1] = Math.Truncate(tempNum * 60);
-            tempNum = (tempNum * 60) - firstParts[1];
-            firstParts[2] = tempNum * 60;
-            firstParts[2] = Math.Round(firstParts[2], 5);
+            //firstParts[0] = Math.Truncate(latitude);
+            //double tempNum = latitude-Math.Truncate(latitude);
+            //firstParts[1] = Math.Truncate(tempNum * 60);
+            //tempNum = (tempNum * 60) - firstParts[1];
+            //firstParts[2] = tempNum * 60;
+            //firstParts[2] = Math.Round(firstParts[2], 5);
 
-            Converted.Text = ""+firstParts[0]+" degrees "+firstParts[1]+"\' "+firstParts[2]+"\"";
+            //Converted.Text = ""+firstParts[0]+" degrees "+firstParts[1]+"\' "+firstParts[2]+"\"";
        }
+
+        private async void LoadBoxes(object sender, RoutedEventArgs e)
+        {
+            
+           
+           
+            
+            
+        }
+
+
+        private async void LoadCurrentLocation(object sender, RoutedEventArgs e)
+        {
+            Geolocator geo = null;
+            if (geo == null)
+            {
+                geo = new Geolocator();
+
+            }
+            
+            Geoposition currentLocation = await geo.GetGeopositionAsync();
+            customLocation.Longitude = currentLocation.Coordinate.Longitude;
+            customLocation.Latitude = currentLocation.Coordinate.Latitude;
+            var gridView = (GridView)sender;
+            string currentLocationLongLat = "" + Math.Round(customLocation.Latitude, 3) + " " + Math.Round(customLocation.Longitude, 3);
+            IFrontPageTile currentLocationTile = new CurrentLocationTile { Image = "/Assets/currentLocationPin.jpg", Title = "Current Location", Subtitle = currentLocationLongLat };
+            CurrentLocationTiles.Add(currentLocationTile);
+            gridView.ItemsSource = CurrentLocationTiles;
+        }
+
+        private void CurrentLocationClicked(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadCustomLocation(object sender, RoutedEventArgs e)
+        {
+            IFrontPageTile customLocationTile = new CustomLocationTile { Image = "/Assets/customLocationWatch.jpg", Title = "Custom Location", Subtitle = "Click to enter a location of your choice" };
+            CustomLocationTiles.Add(customLocationTile);
+            var gridView = (GridView)sender;
+            gridView.ItemsSource = CustomLocationTiles;
+            
+        }
+
+        private void CustomLocationClicked(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+        private void LoadManageSymbol(object sender, RoutedEventArgs e)
+        {
+
+            IFrontPageTile manageSymbols = new ManageSymbolTile { Image = "/Assets/symbols.jpg", Title = "Manage Symbols", Subtitle = "Create, Edit, Delete, and all to sidebar" };
+            ManageSymbolsTiles.Add(manageSymbols);
+            var gridView = (GridView)sender;
+            gridView.ItemsSource = ManageSymbolsTiles;
+        }
+       
+
+        private void ManageSymbolsClicked(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+        private void ConverLongLatLoaded(object sender, RoutedEventArgs e)
+        {
+            IFrontPageTile convertLongLat = new ManageSymbolTile { Image = "/Assets/ConvertLongLatImage.jpg", Title = "Convert Longitude and Latitude", Subtitle = "Convert to degrees or to decimal" };
+            ConvertLongLatTiles.Add(convertLongLat);
+            var gridView = (GridView)sender;
+            gridView.ItemsSource = ConvertLongLatTiles;
+        }
+        
+        private void ConvertLongLatClicked(object sender, TappedRoutedEventArgs e)
+        {
+
+
+        }
+
+        private void ImportFiles(object sender, RoutedEventArgs e)
+        {
+            IFrontPageTile importFileTile = new ManageSymbolTile { Image = "/Assets/importFile.jpg", Title = "Import Files", Subtitle = "Import jpg, JPEG, or KML files" };
+            ImportFileTiles.Add(importFileTile);
+            var gridView = (GridView)sender;
+            gridView.ItemsSource = ImportFileTiles;
+        }
+        private void ImportFileClicked(object sender, TappedRoutedEventArgs e)
+        {
+            
+        }
+
+        
+
+       
+
+        
+
+   
+      
+
+      
+
+        
+
+       
+
     }
+
 }
+

@@ -7,10 +7,105 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+    <Page.Resources>
+        <LinearGradientBrush x:Key="BackgroundBrush" 
+                             EndPoint="2,2" 
+                             StartPoint="6,6" 
+                             SpreadMethod="Repeat" 
+                             MappingMode="Absolute" Opacity="0.26">
+            <GradientStop Color="Blue" Offset="0"/>
+            <GradientStop Color="#50C4FE" Offset="0.1"/>
+        </LinearGradientBrush>
+
+        <DataTemplate x:Key="Standard130ItemTemplate">
+            <Grid Height="110" Margin="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
+                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                </Border>
+                <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                    <TextBlock Text="{Binding Subtitle}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
+                    <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextBlockStyle}" MaxHeight="60" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Standard250x250ItemTemplate">
+            <Grid HorizontalAlignment="Left" Width="250" Height="250" >
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}" />
+                </Border>
+                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextBlockStyle}" Height="60" Margin="15,0,15,0"/>
+                    <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Margin="15,0,15,10"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Hub Header="YouMaps" Background="{StaticResource BackButtonBackgroundThemeBrush}" Grid.Column="0">
+            <HubSection Width="300">
+                <HubSection.Background>
+                    <ImageBrush ImageSource="/Assets/IWantYou.jpg"></ImageBrush>
+                </HubSection.Background>
+            </HubSection>
+        </Hub>
+        <Grid Grid.Column="1" Margin="5,0,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+
+
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
             
-            <TextBlock Height="36" FontSize="25"  HorizontalAlignment="Center">
+                <HubSection Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" >
+                <DataTemplate >
+                     <GridView  Loaded="LoadCurrentLocation" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="CurrentLocationClicked" />
+                </DataTemplate>
+            </HubSection>
+            
+                  <HubSection Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
+                    <DataTemplate >
+                        <GridView Loaded="LoadCustomLocation" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="CustomLocationClicked" />
+                    </DataTemplate>
+                </HubSection>
+                       
+            <HubSection Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left">
+            <DataTemplate >
+                    <GridView Loaded="LoadManageSymbol" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ManageSymbolsClicked" />
+            </DataTemplate>
+        </HubSection>
+            <HubSection Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left">
+            <DataTemplate >
+                <GridView Loaded="ConverLongLatLoaded" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ConvertLongLatClicked" />
+            </DataTemplate>
+        </HubSection>
+            <HubSection Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+            <DataTemplate >
+                <GridView Loaded="ImportFiles" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ImportFileClicked" />
+            </DataTemplate>
+        </HubSection>
+        </Grid>
+
+        
+        
+            <!--<TextBlock Height="36" FontSize="25"  HorizontalAlignment="Center">
         		<Run Text="Welcome to YouMaps, the custom map making software of your dreams!!"/>
                 
             </TextBlock>
@@ -36,7 +131,8 @@
                 <Button Click="Convert" x:Name="Converter" Margin="628,7,0,7" FontSize="25">Convert Long and Lat</Button>  
                 <TextBlock x:Name="Converted" FontSize="25" Margin="181,71,820,-71"></TextBlock>
             </Grid>
-            <Button x:Name="Camera" FontSize="25" HorizontalAlignment="Left" Click="TakePicture">Take Picture</Button>
-        </StackPanel>
+            <Button x:Name="Camera" FontSize="25" HorizontalAlignment="Left" Click="TakePicture">Take Picture</Button>-->
+       
     </Grid>
+     
 </Page>
