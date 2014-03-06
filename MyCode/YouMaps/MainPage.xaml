@@ -53,13 +53,18 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Hub Header="YouMaps" Background="{StaticResource BackButtonBackgroundThemeBrush}" Grid.Column="0">
+
             <HubSection Width="300">
+
                 <HubSection.Background>
+
                     <ImageBrush ImageSource="/Assets/IWantYou.jpg"></ImageBrush>
+
                 </HubSection.Background>
             </HubSection>
         </Hub>
-        <Grid Grid.Column="1" Margin="5,0,0,0" >
+        <TextBlock Width="auto" Height="auto" TextAlignment="Center" Margin="0,10,0,663" x:Name="MessageBox" FontSize="30" Grid.Column="0" Foreground ="Black"/>
+        <Grid Grid.Column="1" Margin="10,0,-5,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
@@ -74,38 +79,83 @@
 
             </Grid.RowDefinitions>
             
-                <HubSection Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" >
+            <HubSection Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" >
                 <DataTemplate >
-                     <GridView  Loaded="LoadCurrentLocation" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="CurrentLocationClicked" />
+                    <GridView  Loaded="LoadCurrentLocation" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="CurrentLocationClicked" />
                 </DataTemplate>
             </HubSection>
-            
-                  <HubSection Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
-                    <DataTemplate >
-                        <GridView Loaded="LoadCustomLocation" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="CustomLocationClicked" />
-                    </DataTemplate>
-                </HubSection>
-                       
+
+            <HubSection x:Name="LoadCustom" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
+
+                <DataTemplate >
+                    <GridView Loaded="LoadCustomLocation" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="CustomLocationClicked">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout x:Name="LoadCustomFlyout" Placement="Top" >
+                                <Grid Height="200" Background="Gray">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+
+                                    </Grid.RowDefinitions>
+                                    <TextBox Grid.Column="0" Grid.Row="0" Margin="5,10,5,0" x:Name="LongInputFeild" PlaceholderText="Input Longitude" FontSize="25" VerticalAlignment="Center"/>
+                                    <TextBox Grid.Row="1" x:Name="LatInputFeild" Margin="5,10,5,0" PlaceholderText="Input Latitude" FontSize="25"  VerticalAlignment="Center"/>
+                                    <Button Grid.Row="2" Click="GoToCustomLocation" Margin="5,20,5,0" Grid.RowSpan="2" FontSize="25"  VerticalAlignment="Center">Go to location</Button>
+
+                                </Grid>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </GridView>
+                </DataTemplate>
+            </HubSection>
+
             <HubSection Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left">
-            <DataTemplate >
+                <DataTemplate >
                     <GridView Loaded="LoadManageSymbol" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ManageSymbolsClicked" />
-            </DataTemplate>
-        </HubSection>
+                </DataTemplate>
+            </HubSection>
             <HubSection Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left">
-            <DataTemplate >
-                <GridView Loaded="ConverLongLatLoaded" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ConvertLongLatClicked" />
-            </DataTemplate>
-        </HubSection>
+
+                <DataTemplate >
+
+                    <GridView Loaded="ConverLongLatLoaded" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ConvertLongLatClicked">
+
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout x:Name="ConvertFlyout" Placement="Top" >
+                                <Grid Height="200" Background="Gray">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+
+                                    </Grid.RowDefinitions>
+                                    <TextBox Grid.Column="0" Grid.Row="0" Margin="5,10,5,0" x:Name="LongInputFeild" PlaceholderText="Input Longitude" FontSize="25" VerticalAlignment="Center"/>
+                                    <TextBox Grid.Row="1" x:Name="LatInputFeild" Margin="5,10,5,0" PlaceholderText="Input Latitude" FontSize="25"  VerticalAlignment="Center"/>
+                                    <Button Grid.Row="2" Click="ConvertLongLat" Margin="5,20,5,0" Grid.RowSpan="2" FontSize="25"  VerticalAlignment="Center">Convert</Button>
+
+                                </Grid>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+
+                    </GridView>
+                </DataTemplate>
+            </HubSection>
             <HubSection Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
-            <DataTemplate >
-                <GridView Loaded="ImportFiles" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ImportFileClicked" />
-            </DataTemplate>
-        </HubSection>
+                <DataTemplate >
+                    <GridView Loaded="ImportFiles" SelectionMode="None" ItemTemplate="{StaticResource Standard250x250ItemTemplate}" IsTapEnabled="True" Tapped="ImportFileClicked" />
+                </DataTemplate>
+            </HubSection>
         </Grid>
 
-        
-        
-            <!--<TextBlock Height="36" FontSize="25"  HorizontalAlignment="Center">
+
+
+        <!--<TextBlock Height="36" FontSize="25"  HorizontalAlignment="Center">
         		<Run Text="Welcome to YouMaps, the custom map making software of your dreams!!"/>
                 
             </TextBlock>
@@ -132,7 +182,7 @@
                 <TextBlock x:Name="Converted" FontSize="25" Margin="181,71,820,-71"></TextBlock>
             </Grid>
             <Button x:Name="Camera" FontSize="25" HorizontalAlignment="Left" Click="TakePicture">Take Picture</Button>-->
-       
+
     </Grid>
-     
+
 </Page>
