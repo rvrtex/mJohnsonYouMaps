@@ -62,12 +62,21 @@ namespace YouMaps
         Geolocator geo = null;
         public async void Navigate()
         {
-            currentLocation = (App.Current as App).CurrentLocation;
-            loadMap = new LoadMap(currentLocation);
-           // loadMap.MapCenter = currentLocation;
+            if ((App.Current as App).SavedMapLoading != null)
+            {
+                loadMap = (App.Current as App).SavedMapLoading;
+            }
+            else
+            {
+                currentLocation = (App.Current as App).CurrentLocation;
+                loadMap = new LoadMap(currentLocation);
+                // loadMap.MapCenter = currentLocation;
+            }
             MapGrid.DataContext = loadMap;
+
         }
 
+       
         public MapPage()
         {
             this.InitializeComponent();

@@ -1,4 +1,5 @@
-﻿using SharpKml.Base;
+﻿using MapControl;
+using SharpKml.Base;
 using SharpKml.Dom;
 using SharpKml.Engine;
 using System;
@@ -69,30 +70,54 @@ namespace YouMaps.KML
 
          }
 
-          public async Task<LoadMap> ConvertKmltoMap(StorageFile file)
+          public LoadMap ConvertKmltoMap(Kml kml)
         {
-            KmlFile kmlFile; 
-            using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
-            {
-                Stream myStream = fileStream.AsStreamForWrite();
-                kmlFile = KmlFile.Load(myStream);
 
-                Kml kml = kmlFile.Root as Kml;
-                if(kml != null)
-                {
-                    foreach(var placemark in kml.Flatten().OfType<LineString>())
-                    {
-                        CoordinateCollection cord = placemark.Coordinates;
-                        Debug.WriteLine(placemark.Coordinates);
-                        
-                    }
-                }
-            }
-
-            Parser parser = new Parser();
+            LoadPolylinesToMap(kml);
              
-            return null;
+            return loadmap;
         }
+
+          public void LoadPolylinesToMap(Kml tempKml)
+          {
+              int locationInLocationsArray = 0;
+              bool incrament = false;
+              foreach (var placemark in tempKml.Flatten().ToArray())
+              {
+                 
+                  if (placemark is LineString)
+                  {
+                      
+                      LineString placeMark2 = placemark as LineString;
+                      CoordinateCollection cord = placeMark2.Coordinates;
+                      YouMapPolyline poly = new YouMapPolyline();
+                      LocationCollection locationCollection = new LocationCollection();
+
+                      foreach (Vector p in cord.ToList())
+                      {
+                          if (loadmap == null)
+                          {
+                              loadmap = new LoadMap(new MapControl.Location { Latitude = p.Latitude, Longitude = p.Longitude });
+                              loadmap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection, LocationAsCords = cord });
+
+                          }
+                          
+                          MapControl.Location location = new MapControl.Location { Latitude = p.Latitude, Longitude = p.Longitude };
+                          loadmap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
+
+                      }
+                      locationInLocationsArray++;
+                      locationCollection = new LocationCollection();
+                      loadmap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection, LocationAsCords = cord });
+
+                      
+                      Debug.WriteLine(placeMark2.Coordinates);
+                  }
+                 
+
+
+              }
+          }
 
         }
     }

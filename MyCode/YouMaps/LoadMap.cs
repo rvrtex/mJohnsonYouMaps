@@ -10,7 +10,7 @@ using YouMaps.Points;
 
 namespace YouMaps
 {
-    class LoadMap : BasePoint
+    public class LoadMap : BasePoint
     {
         private Location mapCenter;
         public ObservableCollection<YouMapPoint> Points { get; set; }

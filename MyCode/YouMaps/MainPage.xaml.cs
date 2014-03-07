@@ -17,6 +17,7 @@ using Windows.Foundation.Collections;
 using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -103,7 +104,27 @@ namespace YouMaps
             string extension = Path.GetExtension(file.Path);
             if(extension.Equals(".kml"))
             {
-               LoadMap newMap = await cKml.ConvertKmltoMap(file);
+                KmlFile kmlFile;
+                LoadMap newMap = new LoadMap(null);
+                
+                using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+                {
+                    Stream myStream = fileStream.AsStreamForWrite();
+                    kmlFile = KmlFile.Load(myStream);
+                    
+                    Kml kml = kmlFile.Root as Kml;
+                    if (kml != null)
+                    {
+                      newMap = cKml.ConvertKmltoMap(kml);
+                    }
+                }
+
+
+                
+               (App.Current as App).SavedMapLoading = newMap;
+               this.Frame.Navigate(typeof(MapPage));
+
+
             }
             //string folderName = DropDownOfFolders.SelectedValue.ToString();
             //StorageFolder selectedFolder = await myfolder.GetFolderAsync(folderName);

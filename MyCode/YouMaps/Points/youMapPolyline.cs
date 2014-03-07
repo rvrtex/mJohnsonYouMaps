@@ -10,7 +10,7 @@ using SharpKml.Dom;
 
 namespace YouMaps.Points
 {
-    class YouMapPolyline
+    public class YouMapPolyline
     {
         public LocationCollection Locations { get; set; }
         public Brush ColorOfLine { get; set; }

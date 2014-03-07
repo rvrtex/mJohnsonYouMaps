@@ -30,6 +30,7 @@ namespace YouMaps
         public YouMapsSymbol CurrentSymbol { get; set; }
         public Location CurrentLocation { get; set; }
 
+        public LoadMap SavedMapLoading { get; set; }
         public bool PlaceSymbolOnTap { get; set; }
 
         public YouMapsSymbol CurrentSymbolToBePlaced { get; set; }
