@@ -1,6 +1,8 @@
 ﻿
 
 using MapControl;
+using SharpKml.Dom;
+using SharpKml.Engine;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +26,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using YouMaps.KML;
 using YouMaps.MainPafeTiles;
 using YouMaps.MyImages;
 
@@ -82,7 +85,8 @@ namespace YouMaps
         }
 
         private async void ImportImage()
-        {
+        { 
+            ConvertToKml cKml = new ConvertToKml(null);
             StorageFolder myfolder = await IOFile.getMyRootfolder();
             var filePicker = new FileOpenPicker();
             filePicker.FileTypeFilter.Add(".jpg");
@@ -95,7 +99,12 @@ namespace YouMaps
             filePicker.SettingsIdentifier = "picker1";
             filePicker.CommitButtonText = "Open File to Process";
 
-            var files = await filePicker.PickSingleFileAsync();
+            var file = await filePicker.PickSingleFileAsync();
+            string extension = Path.GetExtension(file.Path);
+            if(extension.Equals(".kml"))
+            {
+               LoadMap newMap = await cKml.ConvertKmltoMap(file);
+            }
             //string folderName = DropDownOfFolders.SelectedValue.ToString();
             //StorageFolder selectedFolder = await myfolder.GetFolderAsync(folderName);
             //FileOpenPicker openfile = new FileOpenPicker();
@@ -158,7 +167,7 @@ namespace YouMaps
 
 
         }
-        Location customLocation = new Location();
+        MapControl.Location customLocation = new MapControl.Location();
        
 
         private async void TakePicture(object sender, RoutedEventArgs e)

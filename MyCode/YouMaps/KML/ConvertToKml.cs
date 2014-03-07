@@ -3,6 +3,7 @@ using SharpKml.Dom;
 using SharpKml.Engine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace YouMaps.KML
         {
             this.loadmap = loadmap;
             doc = new Document();
-            ConvertFileToKml();
+            //ConvertFileToKml();
         }
 
         private async void ConvertFileToKml()
@@ -68,9 +69,25 @@ namespace YouMaps.KML
 
          }
 
-          public LoadMap ConvertKmltoMap()
+          public async Task<LoadMap> ConvertKmltoMap(StorageFile file)
         {
+            KmlFile kmlFile; 
+            using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+            {
+                Stream myStream = fileStream.AsStreamForWrite();
+                kmlFile = KmlFile.Load(myStream);
 
+                Kml kml = kmlFile.Root as Kml;
+                if(kml != null)
+                {
+                    foreach(var placemark in kml.Flatten().OfType<LineString>())
+                    {
+                        CoordinateCollection cord = placemark.Coordinates;
+                        Debug.WriteLine(placemark.Coordinates);
+                        
+                    }
+                }
+            }
 
             Parser parser = new Parser();
              
