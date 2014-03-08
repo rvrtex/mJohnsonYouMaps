@@ -15,6 +15,8 @@ namespace YouMaps
         private Location mapCenter;
         public ObservableCollection<YouMapPoint> Points { get; set; }
         public ObservableCollection<YouMapPolyline> Polylines { get; set; }
+
+        public ObservableCollection<ImagePoint> Images { get; set; }
         public Location MapCenter
         {
             get { return mapCenter; }

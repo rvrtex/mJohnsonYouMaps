@@ -123,6 +123,7 @@
     <Compile Include="MainPafeTiles\IFrontPageTile.cs" />
     <Compile Include="MainPafeTiles\ImportFilesTile.cs" />
     <Compile Include="MainPafeTiles\ManageSymbolTile.cs" />
+    <Compile Include="Points\ImagePoint.cs" />
     <Compile Include="Symbols\AddSymbolToMap.cs" />
     <Compile Include="Symbols\ManageSymbols.xaml.cs">
       <DependentUpon>ManageSymbols.xaml</DependentUpon>

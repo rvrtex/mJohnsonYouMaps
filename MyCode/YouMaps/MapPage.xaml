@@ -152,6 +152,8 @@
                 <map:MapItemsControl ItemsSource="{Binding Points}"    
                                      ItemContainerStyle="{StaticResource PointItemStyle}"
                                      SelectionMode="Extended"/>
+                
+                <map:MapItemsControl ItemsSource="{Binding Images}"/>
 
                 <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
                     <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">

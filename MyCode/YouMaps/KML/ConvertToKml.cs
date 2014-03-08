@@ -51,6 +51,10 @@ namespace YouMaps.KML
 
                
             }
+            if(true)
+            {
+                
+            }
             kml = new Kml();
             kml.Feature = doc;
             kmlF = KmlFile.Create(kml, false);
