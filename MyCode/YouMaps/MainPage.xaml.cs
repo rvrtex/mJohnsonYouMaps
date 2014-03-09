@@ -101,30 +101,33 @@ namespace YouMaps
             filePicker.CommitButtonText = "Open File to Process";
 
             var file = await filePicker.PickSingleFileAsync();
-            string extension = Path.GetExtension(file.Path);
-            if(extension.Equals(".kml"))
+            if (file != null)
             {
-                KmlFile kmlFile;
-                LoadMap newMap = new LoadMap(null);
-                
-                using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+                string extension = Path.GetExtension(file.Path);
+                if (extension.Equals(".kml"))
                 {
-                    Stream myStream = fileStream.AsStreamForWrite();
-                    kmlFile = KmlFile.Load(myStream);
-                    
-                    Kml kml = kmlFile.Root as Kml;
-                    if (kml != null)
+                    KmlFile kmlFile;
+                    LoadMap newMap = new LoadMap(null);
+
+                    using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
                     {
-                      newMap = cKml.ConvertKmltoMap(kml);
+                        Stream myStream = fileStream.AsStreamForWrite();
+                        kmlFile = KmlFile.Load(myStream);
+
+                        Kml kml = kmlFile.Root as Kml;
+                        if (kml != null)
+                        {
+                            newMap = cKml.ConvertKmltoMap(kml);
+                        }
                     }
+
+
+
+                    (App.Current as App).SavedMapLoading = newMap;
+                    this.Frame.Navigate(typeof(MapPage));
+
+
                 }
-
-
-                
-               (App.Current as App).SavedMapLoading = newMap;
-               this.Frame.Navigate(typeof(MapPage));
-
-
             }
             //string folderName = DropDownOfFolders.SelectedValue.ToString();
             //StorageFolder selectedFolder = await myfolder.GetFolderAsync(folderName);

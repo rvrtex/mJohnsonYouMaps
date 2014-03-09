@@ -1,18 +1,16 @@
-﻿using System;
+﻿using MapControl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MapControl;
 
 namespace YouMaps.Points
 {
-    public class ImagePoint
+    public class NotePoint : BasePoint
     {
+        public string Content { get; set; }
+        public Location Location { get; set; }
         public string Name { get; set; }
-        public string LocationOfImage { get; set; }
-        public  string WebURL { get; set; }
-
-       
     }
 }

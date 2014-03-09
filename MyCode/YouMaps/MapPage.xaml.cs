@@ -137,7 +137,7 @@ namespace YouMaps
             if (drawingPointerIsOn && drawingPressedIsOn)
             {
                 
-                AddPointPopup.IsOpen = false;
+                
                 PointerPoint pp = e.GetCurrentPoint(myMap);
                 MapControl.Location location = myMap.ViewportPointToLocation(pp.Position);
                 MapControl.LocationCollection locationCollection = new MapControl.LocationCollection();
@@ -311,8 +311,9 @@ namespace YouMaps
         MapControl.Location pressedLocation = new MapControl.Location();
         void MyMap_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            if (!AddPointPopup.IsOpen && !drawingPointerIsOn) { AddPointPopup.IsOpen = true; 
-            pressedLocation = myMap.ViewportPointToLocation(e.GetPosition(myMap));
+            if (!drawingPointerIsOn) 
+            {  
+                 pressedLocation = myMap.ViewportPointToLocation(e.GetPosition(myMap));
             }
             else
             {
@@ -324,21 +325,21 @@ namespace YouMaps
         private void AddPointer(object sender, RoutedEventArgs e)
         {
             loadMap.Points.Add(new Points.YouMapPoint { Name = pressedLocation.Longitude+" "+pressedLocation.Latitude, Location = pressedLocation });
-            AddPointPopup.IsOpen = false;
+            
 
 
         }
 
         private void AddNote(object sender, RoutedEventArgs e)
         {
-            AddPointPopup.IsOpen = false;
+           
 
         }
 
         private void DrawOnMap(object sender, RoutedEventArgs e)
         {
             drawingPointerIsOn = true;
-            AddPointPopup.IsOpen = false;
+           
             
                         
         }
@@ -380,7 +381,7 @@ namespace YouMaps
         private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)
         {
             
-            AddPointPopup.IsOpen = false;
+            
             
             this.Frame.Navigate(typeof(ManageSymbols));
             //ManageYouMapsSymbolsPopup.IsOpen = true;
@@ -425,6 +426,7 @@ namespace YouMaps
         private void SaveF(object sender, RoutedEventArgs e)
         {
             ConvertToKml ctk = new ConvertToKml(loadMap);
+            ctk.ConvertFileToKml();
 
         }
 
@@ -432,6 +434,11 @@ namespace YouMaps
         {
             drawingPointerIsOn = false;
             ConvertToKml ctk = new ConvertToKml(loadMap);
+
+        }
+
+        private void EditPointsAndNotes(object sender, RoutedEventArgs e)
+        {
 
         }
 

@@ -28,7 +28,7 @@ namespace YouMaps.KML
             //ConvertFileToKml();
         }
 
-        private async void ConvertFileToKml()
+        public async void ConvertFileToKml()
         {
             KmlFile kmlF;
             foreach(YouMapPoint yp in loadmap.Points)

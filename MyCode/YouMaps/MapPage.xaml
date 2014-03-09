@@ -41,7 +41,17 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+        <Style x:Key="PushPinItemStyle" TargetType="map:Pushpin">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate  TargetType="map:Pushpin">
+                        <map:Pushpin x:Name="PinItemStyle"  Background="Yellow" Foreground="Blue" Content="{Binding Content}" map:MapPanel.Location="{Binding Location}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="PointItemStyle" TargetType="map:MapItem">
             <Setter Property="local:BindingHelper.LocationPath" Value="Location"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -137,6 +147,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <map:MapBase x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
                 <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
@@ -153,32 +164,33 @@
                                      ItemContainerStyle="{StaticResource PointItemStyle}"
                                      SelectionMode="Extended"/>
                 
-                <map:MapItemsControl ItemsSource="{Binding Images}"/>
+                <map:MapItemsControl ItemsSource="{Binding Notes}"
+                                     ItemContainerStyle="{StaticResource PushPinItemStyle}">
+                    
+                    
+                </map:MapItemsControl>                                    
 
-                <Popup x:Name="AddPointPopup" HorizontalOffset="200" VerticalOffset="10" IsLightDismissEnabled="True">
-                    <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Width="200" Height="200">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Button x:Name="AddAPointer" Click="AddPointer">Add Pointer</Button>
-                            <Button x:Name="AddANote" Click="AddNote">Add Note</Button>
-                            <Button x:Name="Draw" Click="DrawOnMap">Draw On Map</Button>
-                            <Button x:Name="ManageCustomSymbols" Click="ManageYouMapsSymbols">Manage Symbols</Button>
-                            <Button x:Name="SaveFile" Click="SaveF">Save File</Button>
-                            
-
-                        </StackPanel>
-                    </Border>
-                </Popup>
+                
                
               
                 <StackPanel Width="auto" Height="auto" x:Name="SymbolsStackPanel"  >
                     
-                    <!--DataContext="{Binding Symbols}"-->
+                   
 
                 </StackPanel>
                 <!--<Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>-->
             </map:MapBase>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
+                <Button x:Name="AddAPointer" Click="AddPointer" FontSize="25">Add Pointer</Button>
+                <Button x:Name="AddANote" Click="AddNote" FontSize="25">Add Note</Button>
+                <Button x:Name="Draw" Click="DrawOnMap" FontSize="25">Draw On Map</Button>
+                <Button x:Name="ManageCustomSymbols" Click="ManageYouMapsSymbols" FontSize="25">Manage Symbols</Button>
+                <Button x:Name="SaveFile" Click="SaveF" FontSize="25">Save File</Button>
+                <Button x:Name="EditNAndP" Click="EditPointsAndNotes" FontSize="25">Edit Notes and Points</Button>
+
+            </StackPanel>
         </Grid>
 
 

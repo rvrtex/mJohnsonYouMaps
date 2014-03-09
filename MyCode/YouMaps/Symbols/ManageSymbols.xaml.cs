@@ -71,6 +71,7 @@ namespace YouMaps
             SaveLoadGrid.Visibility = Visibility.Collapsed;
             EditGrid.Visibility = Visibility.Collapsed;
             DeleteGrid.Visibility = Visibility.Collapsed;
+            SaveSymbolsToPanel.Visibility = Visibility.Collapsed;
             DrawingCanvas.PointerPressed += drawingPointerIsPressed;
             DrawingCanvas.PointerReleased += drawingPointerReleased;
             DrawingCanvas.PointerMoved += drawingPointerHasMoved;
@@ -205,6 +206,7 @@ namespace YouMaps
         {
             List<YouMapsSymbol> allSymbols = await IOFile.LoadAllSymbols();
             EditYouMapSymbolsStackPanel.Visibility = Visibility.Visible;
+            SaveSymbolsToPanel.Visibility = Visibility.Collapsed;
             SymbolGrid.Visibility = Visibility.Collapsed;
             EditYouMapSymbolsStackPanel.Children.Clear();
             sucs.Clear();
@@ -219,6 +221,7 @@ namespace YouMaps
                 suc.CheckBoxEverything.Visibility = Visibility.Collapsed;
                 EditCustomSymbol.Visibility = Visibility.Visible;
                 EditYouMapSymbolsStackPanel.Children.Add(suc);
+
                
             }
 
