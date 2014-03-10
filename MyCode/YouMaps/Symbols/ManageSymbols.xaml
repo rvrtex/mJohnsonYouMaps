@@ -60,22 +60,46 @@
             <Button x:Name="AddYouMapSymbolEasyAccess" Click="AddSymbolEasyAccess" Height="50" Width="auto" FontSize="25" Margin="583,39,0,51">Add Sybmols to Easy Access Panel</Button>
         </Grid>
         <Grid x:Name="SaveLoadGrid"   Margin="0,488,0,0" Grid.Row="1">
-            <Button x:Name="SaveCustomSymbol" Click="SaveSymbol" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Save Symbol</Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SaveCustomSymbol" Click="SaveSymbol" Height="50" Width="auto" FontSize="25" Grid.Column="1" Margin="30,0,30,0">Save Symbol</Button>
+            <Button Click="BackToSymbols" FontSize="25" Grid.Column="0" Margin="150,0,150,0">Back to Manage Symbols (Your Changes will not be saved)</Button>
+
         </Grid>
         <Grid x:Name="EditGrid" Margin="0,488,0,0" Grid.Row="1">
-            <Button x:Name="EditCustomSymbol" Click="ModifySymbol" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Edit Symbol</Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="EditCustomSymbol" Click="ModifySymbol" Height="50" Width="auto" FontSize="25" Margin="30,0,30,0" Grid.Column="1">Edit Symbol</Button>
+            <Button Click="BackToSymbols" FontSize="25" Grid.Column="0" Margin="150,0,150,0">Back to Manage Symbols (Your Changes will not be saved)</Button>
+
         </Grid>
         <Grid x:Name="CanvaseGrid" Grid.Row="1" Height="400" Width="300" Margin="528,88,538,140" >
-            <TextBox x:Name="SymbolName" Text="Enter Symbol Name Here" PointerPressed="EnteredTextBox" Margin="0,0,0,350"></TextBox>
+            
+            <TextBox x:Name="SymbolName" Text="Enter Symbol Name Here" PointerPressed="EnteredTextBox" Margin="0,0,0,350"/>
             <Canvas x:Name="DrawingCanvas" Width="300" Background="White" Margin="0,50,0,0" />
+
 
         </Grid>
         <Grid x:Name="DeleteGrid" Margin="0,488,0,0" Grid.Row="1">
-            <Button x:Name="DeleteCustomSymbol" Click="DeleteSymbolButton" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Delete Symbol</Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="DeleteCustomSymbol" Click="DeleteSymbolButton" Height="50" Width="auto" FontSize="25" Grid.Column="1" Margin="30,0,30,0">Delete Symbol</Button>
+            <Button Click="BackToSymbols" FontSize="25" Grid.Column="0" Margin="150,0,150,0">Back to Manage Symbols (Your Changes will not be saved)</Button>
+
         </Grid>
         <Grid x:Name="SaveSymbolsToPanel" Margin="0,488,0,0" Grid.Row="1">
-            <Button x:Name="SaveYouSymbolPanel" Click="SaveSymbolPanelButton" Height="50" Width="auto" FontSize="25" Margin="583,41,0,49">Save</Button>
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SaveYouSymbolPanel" Click="SaveSymbolPanelButton" Height="50" Width="auto" FontSize="25"  Grid.Column="1" Margin="30,0,30,0">Save</Button>
+            <Button Click="BackToSymbols" FontSize="25" Grid.Column="0" Margin="150,0,150,0">Back to Manage Symbols (Your Changes will not be saved)</Button>
         </Grid>
         <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,5,0,121" Grid.Row="1" Background="BlueViolet" />
 

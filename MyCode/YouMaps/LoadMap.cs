@@ -37,6 +37,8 @@ namespace YouMaps
             MapCenter = location;
             Points = new ObservableCollection<YouMapPoint>();
             Polylines = new ObservableCollection<YouMapPolyline>();
+            Notes = new ObservableCollection<NotePoint>();
+            Images = new ObservableCollection<ImagePoint>();
 
         }
 

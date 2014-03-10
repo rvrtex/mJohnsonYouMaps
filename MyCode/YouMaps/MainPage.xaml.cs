@@ -47,6 +47,7 @@ namespace YouMaps
         private ObservableCollection<IFrontPageTile> ManageSymbolsTiles = new ObservableCollection<IFrontPageTile>();
         private ObservableCollection<IFrontPageTile> ConvertLongLatTiles = new ObservableCollection<IFrontPageTile>();
         private ObservableCollection<IFrontPageTile> ImportFileTiles = new ObservableCollection<IFrontPageTile>();
+        bool internet = true;
 
 
 
@@ -57,11 +58,32 @@ namespace YouMaps
         {
             lp = new LoadProperties();
             this.InitializeComponent();
+            ShowConnectionStatus(InternetConnectionChange.IsConnected);
+
             
-            loadComboBox();
+            InternetConnectionChange.InternetConnectionChanged += (sender, args) => ShowConnectionStatus(args.IsConnected);
+            MainGrid.Tapped += MainGrid_Tapped;
             
             
 
+        }
+
+        void MainGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            MessageBox.Text = "";
+        }
+
+        private void ShowConnectionStatus(bool connectionstatus)
+        {
+            if (connectionstatus)
+            {
+                internet = true;
+                
+            }
+            else
+            {
+                internet = false;
+            }
         }
 
         private async void loadComboBox()
@@ -247,23 +269,46 @@ namespace YouMaps
             {
                 geo = new Geolocator();
 
+
             }
-            
-            Geoposition currentLocation = await geo.GetGeopositionAsync();
-            customLocation.Longitude = currentLocation.Coordinate.Longitude;
-            customLocation.Latitude = currentLocation.Coordinate.Latitude;
             var gridView = (GridView)sender;
-            string currentLocationLongLat = "" + Math.Round(customLocation.Latitude, 3) + " " + Math.Round(customLocation.Longitude, 3);
-            IFrontPageTile currentLocationTile = new CurrentLocationTile { Image = "/Assets/currentLocationPin.jpg", Title = "Current Location", Subtitle = currentLocationLongLat };
-            CurrentLocationTiles.Add(currentLocationTile);
-            gridView.ItemsSource = CurrentLocationTiles;
+            if (internet)
+            {
+                Geoposition currentLocation = await geo.GetGeopositionAsync();
+                customLocation.Longitude = currentLocation.Coordinate.Longitude;
+                customLocation.Latitude = currentLocation.Coordinate.Latitude;
+                
+                string currentLocationLongLat = "" + Math.Round(customLocation.Latitude, 3) + " " + Math.Round(customLocation.Longitude, 3);
+                IFrontPageTile currentLocationTile = new CurrentLocationTile { Image = "/Assets/currentLocationPin.jpg", Title = "Current Location", Subtitle = currentLocationLongLat };
+
+                CurrentLocationTiles.Add(currentLocationTile);
+                gridView.ItemsSource = CurrentLocationTiles;
+            }
+            else                
+            {
+                string currentLocationLongLat = "No Internet Connection Detected";
+                IFrontPageTile currentLocationTile = new CurrentLocationTile { Image = "/Assets/currentLocationPin.jpg", Title = "Current Location", Subtitle = currentLocationLongLat };
+
+                CurrentLocationTiles.Add(currentLocationTile);
+                gridView.ItemsSource = CurrentLocationTiles;
+            }
         }
 
         private async void CurrentLocationClicked(object sender, TappedRoutedEventArgs e)
         {
-            await GetCurrentGPSLocation();
+            if (internet)
+            {
+                try
+                {
+                    await GetCurrentGPSLocation();
 
-            this.Frame.Navigate(typeof(MapPage));
+                    this.Frame.Navigate(typeof(MapPage));
+                }
+                catch(Exception ex)
+                {
+                    this.Frame.Navigate(typeof(MainPage));
+                }
+            }
         }
 
         private void LoadCustomLocation(object sender, RoutedEventArgs e)
@@ -345,11 +390,8 @@ namespace YouMaps
                 
                 tempGrid.Children.Add(conversionBox);
                 
-                Button thanksButton = new Button();
-                thanksButton.Click += ThanksClick;
-                thanksButton.Content = "Thanks!";
-                tempGrid.Children.Add(thanksButton);
-
+                
+               
                  
             }
             catch

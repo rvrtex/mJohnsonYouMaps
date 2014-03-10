@@ -114,6 +114,7 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="CreateNewSymbol.cs" />
+    <Compile Include="InternetConnectionChange.cs" />
     <Compile Include="IOFile.cs" />
     <Compile Include="KML\ConvertToKml.cs" />
     <Compile Include="LoadMap.cs" />
@@ -143,6 +144,9 @@
     <Compile Include="Points\DrawingManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Symbols\YouMapsSymbol.cs" />
+    <Compile Include="TappedStates\BaseTappedState.cs" />
+    <Compile Include="TappedStates\ImagePlacementState.cs" />
+    <Compile Include="TappedStates\NormalState.cs" />
     <Compile Include="UserControls\StyleUserControl.xaml.cs">
       <DependentUpon>StyleUserControl.xaml</DependentUpon>
     </Compile>

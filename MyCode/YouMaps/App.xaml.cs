@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using YouMaps.Symbols;
+using YouMaps.TappedStates;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -32,6 +33,7 @@ namespace YouMaps
 
         public LoadMap SavedMapLoading { get; set; }
         public bool PlaceSymbolOnTap { get; set; }
+        public BaseTappedState CurrentTappedState { get; set; }
 
         public YouMapsSymbol CurrentSymbolToBePlaced { get; set; }
         /// <summary>

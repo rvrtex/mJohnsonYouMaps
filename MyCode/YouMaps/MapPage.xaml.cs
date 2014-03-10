@@ -25,6 +25,8 @@ using YouMaps.UserControls;
 using YouMaps.KML;
 using YouMaps.Symbols;
 using System.Threading.Tasks;
+using YouMaps.Points;
+using YouMaps.TappedStates;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -41,6 +43,8 @@ namespace YouMaps
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
         private MapControl.Location currentLocation;
         private LoadMap loadMap;
+        private Object tappedObject;
+        private Point? startingPosition;
         
         /// <summary>
         /// This can be changed to a strongly typed view model.
@@ -84,52 +88,53 @@ namespace YouMaps
             
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
-            //currentLocation = new MapControl.Location();
+            (App.Current as App).CurrentTappedState = new NormalState();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
             myMap.Tapped += tappedPointer;
             myMap.PointerPressed += drawingPointerIsPressed;
             myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
+       
+           
             ChangeRedColor.ValueChanged += ChangeColorLine;
             ChangeBlueColor.ValueChanged += ChangeColorLine;
             ChangeGreenColor.ValueChanged += ChangeColorLine;
             
            
 
-            //myMap.PointerEntered += drawingPointerStartingObject;
-            //myMap.PointerExited += drawingPointerExitedObject;
+          
+            
         }
+
+       
 
         private async void tappedPointer(object sender, TappedRoutedEventArgs e)
         {
-            if ((App.Current as App).CurrentSymbolToBePlaced != null && (App.Current as App).PlaceSymbolOnTap)
-           {
-                  (App.Current as App).PlaceSymbolOnTap = false;
-                   
-                   YouMapsSymbol symbol = (App.Current as App).CurrentSymbolToBePlaced;
+            Point pp = e.GetPosition(myMap);
+            MapControl.Location location = myMap.ViewportPointToLocation(pp);
 
-                  await DrawSymbolOnMap(symbol, e);
-                   (App.Current as App).CurrentSymbolToBePlaced = null;
-            }
-            else if((App.Current as App).CurrentSymbolToBePlaced != null)
-            {
-               (App.Current as App).PlaceSymbolOnTap = true;
-            }
+            (App.Current as App).CurrentTappedState.Exacute(tappedObject,loadMap,location);
+
+           // if ((App.Current as App).CurrentSymbolToBePlaced != null && (App.Current as App).PlaceSymbolOnTap)
+           //{
+           //       (App.Current as App).PlaceSymbolOnTap = false;
+                   
+           //        YouMapsSymbol symbol = (App.Current as App).CurrentSymbolToBePlaced;
+
+           //       await DrawSymbolOnMap(symbol, e);
+           //        (App.Current as App).CurrentSymbolToBePlaced = null;
+           // }
+           // else if((App.Current as App).CurrentSymbolToBePlaced != null)
+           // {
+           //    (App.Current as App).PlaceSymbolOnTap = true;
+           // }
            }
         
 
         private bool drawingPointerIsOn = false;
         private bool drawingPressedIsOn = false;
         private int locationInLocationsArray = 0;
-        private void drawingPointerExitedObject(object sender, PointerRoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void drawingPointerStartingObject(object sender, PointerRoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         private void drawingPointerHasMoved(object sender, PointerRoutedEventArgs e)
         {
@@ -150,6 +155,16 @@ namespace YouMaps
                 loadMap.Polylines.ElementAt(locationInLocationsArray).LocationAsCords.Add(new SharpKml.Base.Vector { Latitude = location.Latitude, Longitude = location.Longitude });
 
                 
+            }
+            else
+            {
+                if (startingPosition.HasValue)
+                {
+                    var postion = e.GetCurrentPoint(myMap).Position;
+                    
+                    myMap.TranslateMap(new Point(postion.X - startingPosition.Value.X, postion.Y - startingPosition.Value.Y));
+                    startingPosition = postion;
+                }
             }
         }
 
@@ -224,6 +239,10 @@ namespace YouMaps
                 locationInLocationsArray++;
          
             }
+            else
+            {
+                startingPosition = null;
+            }
         }
 
         private void drawingPointerIsPressed(object sender, PointerRoutedEventArgs e)
@@ -233,6 +252,10 @@ namespace YouMaps
                
                 drawingPressedIsOn = true;
 
+            }
+            else
+            {
+                startingPosition = e.GetCurrentPoint(myMap).Position;
             }
         }
 
@@ -267,6 +290,7 @@ namespace YouMaps
         /// serializable state.</param>
         private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
+
         }
 
         #region NavigationHelper registration
@@ -332,7 +356,8 @@ namespace YouMaps
 
         private void AddNote(object sender, RoutedEventArgs e)
         {
-           
+            Location location = new Location { Latitude = pressedLocation.Latitude, Longitude = pressedLocation.Longitude };
+            loadMap.Images.Add(new Points.ImagePoint { Name = "This Image", WebURL = "A URL", Location = location  });
 
         }
 
@@ -380,9 +405,9 @@ namespace YouMaps
 
         private void ManageYouMapsSymbols(object sender, RoutedEventArgs e)
         {
-            
-            
-            
+
+
+            (App.Current as App).SavedMapLoading = loadMap;
             this.Frame.Navigate(typeof(ManageSymbols));
             //ManageYouMapsSymbolsPopup.IsOpen = true;
 
@@ -440,6 +465,41 @@ namespace YouMaps
         private void EditPointsAndNotes(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void AddImage(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement tempFrame = sender as FrameworkElement;
+            StackPanel stackParent = (StackPanel)tempFrame.Parent;
+            Grid tempParent = (Grid)stackParent.Parent;
+            FlyoutBase.ShowAttachedFlyout(tempParent);
+
+        }
+
+        private void PlacePicture(object sender, RoutedEventArgs e)
+        {
+            Button tempButton = sender as Button;
+            Grid tempGrid = tempButton.Parent as Grid;
+            FlyoutPresenter flyout = tempGrid.Parent as FlyoutPresenter;
+            Popup temp = flyout.Parent as Popup;
+            temp.IsOpen = false;
+            
+            TextBox nameTextBox;
+            TextBox URLTextBox;
+            try
+            {
+                nameTextBox = VisualTreeHelper.GetChild(tempGrid, 0) as TextBox;
+                URLTextBox = VisualTreeHelper.GetChild(tempGrid, 1) as TextBox;
+                string name = nameTextBox.Text;
+                string URL = URLTextBox.Text;
+                tappedObject = new ImagePoint { Name = name, WebURL = URL, Location = null };
+                (App.Current as App).CurrentTappedState = new ImagePlacementState();
+
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
        

@@ -109,7 +109,7 @@ namespace YouMaps
                 
             }
             
-            Debug.WriteLine(DrawingCanvas.Children.Count);
+            
             
         }
 
@@ -124,16 +124,21 @@ namespace YouMaps
 
         [DataMember]
         ObservableCollection<PointCollection> pointsForSaveing = new ObservableCollection<PointCollection>();
+        int count = 0;
         private void drawingPointerIsPressed(object sender, PointerRoutedEventArgs e)
         {
             double thickness = 10;
-             
+            count++;
             polyLine = new Polyline { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = thickness };
             PointCollection pointCollection = new PointCollection();
             polyLine.Points = pointCollection;
             pointsForSaveing.Add(pointCollection);
             DrawingCanvas.Children.Add(polyLine);
             mousePressed = true;
+            if(count == 5)
+            {
+                Debug.WriteLine("");
+            }
            
         }
 
@@ -250,6 +255,7 @@ namespace YouMaps
         private async void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
         {
             SymbolGrid.Visibility = Visibility.Collapsed;
+            SaveSymbolsToPanel.Visibility = Visibility.Visible;
             List<YouMapsSymbol> allSymbols = await IOFile.LoadAllSymbols();
             sucs.Clear();
             foreach(YouMapsSymbol yms in allSymbols)
@@ -419,6 +425,11 @@ namespace YouMaps
             //    (App.Current as App).CurrentSymbol = null;
             //    MessageBox.Text = "Your symbol has been saved";
             }
+        }
+
+        private void BackToSymbols(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ManageSymbols));
         }
     }
 }
