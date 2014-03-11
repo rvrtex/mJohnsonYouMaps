@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
    
-    <StackPanel x:Name="ControlStackpanel" Orientation="Horizontal" Background="Blue" >
+    <StackPanel x:Name="ControlStackpanel" Orientation="Horizontal" Background="Black" >
         
         </StackPanel>
     

@@ -101,7 +101,7 @@
             <Button x:Name="SaveYouSymbolPanel" Click="SaveSymbolPanelButton" Height="50" Width="auto" FontSize="25"  Grid.Column="1" Margin="30,0,30,0">Save</Button>
             <Button Click="BackToSymbols" FontSize="25" Grid.Column="0" Margin="150,0,150,0">Back to Manage Symbols (Your Changes will not be saved)</Button>
         </Grid>
-        <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,9,0,117" Grid.Row="1" Background="BlueViolet" />
+        <StackPanel x:Name="EditYouMapSymbolsStackPanel" Margin="0,9,0,117" Grid.Row="1" Background="Black" />
 
 
     </Grid>
