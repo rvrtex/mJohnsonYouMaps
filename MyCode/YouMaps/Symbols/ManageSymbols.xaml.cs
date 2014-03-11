@@ -72,6 +72,8 @@ namespace YouMaps
             EditGrid.Visibility = Visibility.Collapsed;
             DeleteGrid.Visibility = Visibility.Collapsed;
             SaveSymbolsToPanel.Visibility = Visibility.Collapsed;
+            InfoGrid.Visibility = Visibility.Visible;
+            EditYouMapSymbolsStackPanel.Visibility = Visibility.Collapsed;
             DrawingCanvas.PointerPressed += drawingPointerIsPressed;
             DrawingCanvas.PointerReleased += drawingPointerReleased;
             DrawingCanvas.PointerMoved += drawingPointerHasMoved;
@@ -201,7 +203,10 @@ namespace YouMaps
             SymbolGrid.Visibility = Visibility.Collapsed;
             EditYouMapSymbolsStackPanel.Visibility = Visibility.Collapsed;
             EditCustomSymbol.Visibility = Visibility.Collapsed;
-
+            SymbolName.Text = "";
+            SymbolName.PlaceholderText = messageOne;
+            DrawingCanvas.Children.Clear();
+           
             
             
         }
@@ -254,15 +259,19 @@ namespace YouMaps
 
         private async void AddSymbolEasyAccess(object sender, RoutedEventArgs e)
         {
+            sucs.Clear();
             SymbolGrid.Visibility = Visibility.Collapsed;
             SaveSymbolsToPanel.Visibility = Visibility.Visible;
+            EditYouMapSymbolsStackPanel.Visibility = Visibility.Visible;
+            EditYouMapSymbolsStackPanel.Children.Clear();
             List<YouMapsSymbol> allSymbols = await IOFile.LoadAllSymbols();
-            sucs.Clear();
+            
             foreach(YouMapsSymbol yms in allSymbols)
             {
                 SymbolUserControl suc = AddSymbolsToEditDeleteGrid(yms);
                 suc.CheckBoxEverything.IsChecked = yms.OnSymbolList;                
             }
+
         }
 
         private SymbolUserControl AddSymbolsToEditDeleteGrid(YouMapsSymbol yms)
@@ -289,7 +298,7 @@ namespace YouMaps
             if(currentSymbol.Name.Equals(messageOne) || currentSymbol.Name.Equals(messageTwo))
             {
                 saveReady = false;
-                SymbolName.Text = (SymbolName.Text.Equals(messageOne)) ? messageTwo : messageOne;
+                SymbolName.PlaceholderText = (SymbolName.PlaceholderText.Equals(messageOne)) ? messageTwo : messageOne;
             }
             if (saveReady)
             {
@@ -314,7 +323,24 @@ namespace YouMaps
                 SymbolGrid.Visibility = Visibility.Visible;
                 (App.Current as App).CurrentSymbol = null;
                 MessageBox.Text = "Your symbol has been saved";
+                ResetCurrentSymbol();
+                
             }
+        }
+
+        private void ResetCurrentSymbol()
+        {
+            currentSymbol.Name = messageOne;
+            if (currentSymbol.SymbolPoints != null)
+            {
+                currentSymbol.SymbolPoints.Clear();
+            }
+            currentSymbol.HighX = 300;
+            currentSymbol.HighY = 300;
+            currentSymbol.LowX = 0;
+            currentSymbol.LowY = 0;
+            currentSymbol.OnSymbolList = false;
+            SymbolName.PlaceholderText = messageOne;
         }
         
       
@@ -395,7 +421,12 @@ namespace YouMaps
                 }
                 listToSave.Add(s.YouMapsSymbol);
             }
+            MessageBox.Text = "Symbols added to Easy Acess List";
+            BackToSymbols(sender,e);
+
+
             await UpdateSaveSymbolFiles(listToSave);
+
         }
 
         private async Task UpdateSaveSymbolFiles(List<YouMapsSymbol> listOfSymbols)
@@ -429,7 +460,15 @@ namespace YouMaps
 
         private void BackToSymbols(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ManageSymbols));
+            EditYouMapSymbolsStackPanel.Visibility = Visibility.Collapsed;
+            CanvaseGrid.Visibility = Visibility.Collapsed;
+            SaveLoadGrid.Visibility = Visibility.Collapsed;
+            EditGrid.Visibility = Visibility.Collapsed;
+            DeleteGrid.Visibility = Visibility.Collapsed;
+            InfoGrid.Visibility = Visibility.Visible;
+            SaveSymbolsToPanel.Visibility = Visibility.Collapsed;
+            SymbolGrid.Visibility = Visibility.Visible;
+            
         }
     }
 }

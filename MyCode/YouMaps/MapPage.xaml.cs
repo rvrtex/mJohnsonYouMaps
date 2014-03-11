@@ -108,32 +108,37 @@ namespace YouMaps
 
        
 
-        private async void tappedPointer(object sender, TappedRoutedEventArgs e)
+        private void tappedPointer(object sender, TappedRoutedEventArgs e)
         {
             Point pp = e.GetPosition(myMap);
-            MapControl.Location location = myMap.ViewportPointToLocation(pp);
+                MapControl.Location location = myMap.ViewportPointToLocation(pp);
+                if ((App.Current as App).CurrentSymbolToBePlaced == null)
+                {
+                    (App.Current as App).CurrentTappedState.Exacute(tappedObject, loadMap, location);
+                }
+                else
+                {
 
-            (App.Current as App).CurrentTappedState.Exacute(tappedObject,loadMap,location);
-
-           // if ((App.Current as App).CurrentSymbolToBePlaced != null && (App.Current as App).PlaceSymbolOnTap)
-           //{
-           //       (App.Current as App).PlaceSymbolOnTap = false;
-                   
-           //        YouMapsSymbol symbol = (App.Current as App).CurrentSymbolToBePlaced;
-
-           //       await DrawSymbolOnMap(symbol, e);
-           //        (App.Current as App).CurrentSymbolToBePlaced = null;
-           // }
-           // else if((App.Current as App).CurrentSymbolToBePlaced != null)
-           // {
-           //    (App.Current as App).PlaceSymbolOnTap = true;
-           // }
+                    if ((App.Current as App).CurrentSymbolToBePlaced != null && (App.Current as App).PlaceSymbolOnTap)
+                    {
+                        (App.Current as App).PlaceSymbolOnTap = false;
+                        YouMapsSymbol symb = (App.Current as App).CurrentSymbolToBePlaced;
+                        DrawSymbolOnMap(symb,e);
+                        
+                        (App.Current as App).CurrentSymbolToBePlaced = null;
+                    }
+                    else if ((App.Current as App).CurrentSymbolToBePlaced != null)
+                    {
+                        (App.Current as App).PlaceSymbolOnTap = true;
+                    }
+                }
            }
         
 
         private bool drawingPointerIsOn = false;
         private bool drawingPressedIsOn = false;
-        private int locationInLocationsArray = 0;
+
+        public static int locationInLocationsArray = 0;
        
 
         private void drawingPointerHasMoved(object sender, PointerRoutedEventArgs e)
@@ -150,7 +155,7 @@ namespace YouMaps
                 SharpKml.Dom.CoordinateCollection coordCollection = new SharpKml.Dom.CoordinateCollection();
 
                      
-                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection,ColorOfLine = LineColorBrush, LocationAsCords = coordCollection});
+                loadMap.Polylines.Add(new Points.YouMapPolyline { Locations = locationCollection, ColorOfLine = LineColorBrush, LocationAsCords = coordCollection});
                 loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
                 loadMap.Polylines.ElementAt(locationInLocationsArray).LocationAsCords.Add(new SharpKml.Base.Vector { Latitude = location.Latitude, Longitude = location.Longitude });
 
@@ -168,10 +173,12 @@ namespace YouMaps
             }
         }
 
-        private async Task DrawSymbolOnMap(YouMapsSymbol symbol, TappedRoutedEventArgs e)
+        private async void DrawSymbolOnMap(YouMapsSymbol symbol, TappedRoutedEventArgs e)
         {
             Point pp = e.GetPosition(myMap);
+
             
+
 
             AddSymbolToMap astm = new AddSymbolToMap(pp);
 
@@ -186,7 +193,7 @@ namespace YouMaps
                 {
                     
                     MapControl.Location location = myMap.ViewportPointToLocation(p);
-                    StyleUserControl sty = new StyleUserControl(LineColorBrush);
+                   // StyleUserControl sty = new StyleUserControl(LineColorBrush);
 
                     loadMap.Polylines.ElementAt(locationInLocationsArray).Locations.Add(location);
                     loadMap.Polylines.ElementAt(locationInLocationsArray).LocationAsCords.Add(new SharpKml.Base.Vector { Latitude = location.Latitude, Longitude = location.Longitude });
@@ -348,7 +355,7 @@ namespace YouMaps
         }
         private void AddPointer(object sender, RoutedEventArgs e)
         {
-            loadMap.Points.Add(new Points.YouMapPoint { Name = pressedLocation.Longitude+" "+pressedLocation.Latitude, Location = pressedLocation });
+            MapPopup.IsOpen = true;
             
 
 
@@ -380,6 +387,7 @@ namespace YouMaps
            Brush brush = new SolidColorBrush(Colors.Gray);
            List<YouMapsSymbol> symbolsOnList = await IOFile.getSucOnList();
            SymbolsStackPanel.Children.Clear();
+            
             foreach(YouMapsSymbol yms in symbolsOnList)
             {
                 Button button = new Button();
@@ -412,16 +420,16 @@ namespace YouMaps
             //ManageYouMapsSymbolsPopup.IsOpen = true;
 
         }
-        private Brush lineColorBrush;
+        private Brush lineColorBrush = new SolidColorBrush(Colors.Black);
 
         public Brush LineColorBrush
         {
             get { return lineColorBrush; }
             set
             {
-                if (value != null && !value.Equals(lineColorBrush))
+                //if (value != null && !value.Equals(lineColorBrush))
         {
-            lineColorBrush = value;
+            //lineColorBrush = value;
                 //OnPropertyChanged("LineColorBrush");
         }} }
 
@@ -464,35 +472,199 @@ namespace YouMaps
 
         private void EditPointsAndNotes(object sender, RoutedEventArgs e)
         {
+            ScrollViewer scrollview = new ScrollViewer();
+            scrollview.Width = 200;
+            scrollview.Background = new SolidColorBrush(Colors.Salmon);
+            StackPanel stackPanel = new StackPanel();
+            scrollview.Content = stackPanel;
+            stackPanel.Height = stackPanel.ActualHeight;
+            stackPanel.MaxHeight = 200; 
+            stackPanel.MinHeight = 100;
 
+            List<Button> listOfItemsOnMap = new List<Button>();
+            foreach(YouMapPoint ymp in loadMap.Points)
+            {
+                Button button = new Button();
+                button.Background = new SolidColorBrush(Colors.Black);
+                //button.Width = button.ActualWidth;
+                button.FontSize = 40;
+                button.Width = 50;
+
+                button.DataContext = ymp;
+                button.Name = ymp.Name;
+                button.Click += button_Click;
+                listOfItemsOnMap.Add(button);
+
+            }
+            foreach(NotePoint np in loadMap.Notes)
+            {
+                Button button = new Button();
+                button.DataContext = np;
+                button.Background = new SolidColorBrush(Colors.Black);
+                button.FontSize = 40;
+                button.Width = 50;
+                //button.Width = button.ActualWidth;
+                button.Name = np.Name;
+                button.Click += button_Click;
+                listOfItemsOnMap.Add(button);
+
+            }
+            foreach(ImagePoint ip in loadMap.Images)
+            {
+                Button button = new Button();
+                button.DataContext = ip;
+                button.Background = new SolidColorBrush(Colors.Red);
+                button.FontSize = 40;
+
+               // button.Width = button.ActualWidth;
+                button.Name = ip.Name;
+                button.Click += button_Click;
+                listOfItemsOnMap.Add(button);
+
+            }
+            foreach(Button b in listOfItemsOnMap)
+            {
+                stackPanel.Children.Add(b);
+            }
+            stackPanel.Width = 50;
+            MapPopup.Child = scrollview;
+            MapPopup.IsOpen = true;
+        }
+
+        void button_Click(object sender, RoutedEventArgs e)
+        {
+            var type = ((Button)sender).DataContext;
+            Grid grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            TextBox name = new TextBox();
+            name.SetValue(Grid.RowProperty, 0);
+            TextBox other = new TextBox();
+            Button button = new Button();
+            button.Content = "Save Changes";
+            button.SetValue(Grid.RowProperty, 2);
+            other.SetValue(Grid.RowProperty, 1);
+            grid.Children.Add(name);
+            grid.Children.Add(other);
+            grid.Children.Add(button);
+            button.Click += saveChangesToPointObj;
+
+
+
+            if(type is YouMapPoint)
+            {
+                YouMapPoint ymp = type as YouMapPoint;
+                
+                name.Text = ymp.Name;
+                button.DataContext = ymp;
+                MapPopup.Child = grid;
+            }
+            else if(type is NotePoint)
+            {
+                NotePoint np = type as NotePoint;
+                name.Text = np.Name;
+                other.Text = np.Content;
+                button.DataContext = np;
+                MapPopup.Child = grid;
+            }
+            else
+            {
+                ImagePoint ip = type as ImagePoint;
+                name.Text = ip.Name;
+                other.Text = ip.WebURL;
+                button.DataContext = ip;
+                MapPopup.Child = grid;
+            }
+        }
+
+        private void saveChangesToPointObj(object sender, RoutedEventArgs e)
+        {
+            Button asButton = (Button)sender;
+            var type = ((Button)sender).DataContext;
+            Grid parent = (Grid)asButton.Parent;
+            var nameBox = parent.Children.ElementAt(0);
+            var otherBox = parent.Children.ElementAt(1);
+            if (type is YouMapPoint)
+            {
+                YouMapPoint ymp = type as YouMapPoint;
+                YouMapPoint tempYouP = loadMap.Points.First(x => x.Equals(ymp));
+                tempYouP.Name = ((TextBox)nameBox).Text;
+                
+                
+            }
+            else if (type is NotePoint)
+            {
+                NotePoint np = type as NotePoint;
+                NotePoint tempP = loadMap.Notes.First(x => x.Equals(np));
+                tempP.Name = ((TextBox)nameBox).Text;
+                tempP.Content = ((TextBox)otherBox).Text;
+                
+            }
+            else
+            {
+                ImagePoint ip = type as ImagePoint;
+                ImagePoint tempP = loadMap.Images.First(x => x.Equals(ip));
+                tempP.Name = ((TextBox)nameBox).Text;
+                tempP.WebURL = ((TextBox)otherBox).Text;
+               
+            }
+            MapPopup.IsOpen = false;
+          
         }
 
         private void AddImage(object sender, RoutedEventArgs e)
         {
-            FrameworkElement tempFrame = sender as FrameworkElement;
-            StackPanel stackParent = (StackPanel)tempFrame.Parent;
-            Grid tempParent = (Grid)stackParent.Parent;
-            FlyoutBase.ShowAttachedFlyout(tempParent);
+            Grid grid = new Grid();
+            Brush brush = new SolidColorBrush(Colors.Gray);
+            Button placePic = new Button();
+            TextBox name = new TextBox();
+            TextBox URL = new TextBox();
+            placePic.Content = "Ready To Place Picture";
+            placePic.Click += PlacePicture;
+            placePic.Background = brush;
+            name.PlaceholderText = "Name of Picture";
+            URL.PlaceholderText = "Write URL here";
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            name.SetValue(Grid.RowProperty, 0);
+            URL.SetValue(Grid.RowProperty, 1);
+            placePic.SetValue(Grid.RowProperty, 2);
+
+            grid.Children.Add(placePic);
+            grid.Children.Add(name);
+            grid.Children.Add(URL);
+
+            MapPopup.Child = grid;
+            MapPopup.IsOpen = true;
+
+
+            
+            //FrameworkElement tempFrame = sender as FrameworkElement;
+            //StackPanel stackParent = (StackPanel)tempFrame.Parent;
+            //Grid tempParent = (Grid)stackParent.Parent;
+            //FlyoutBase.ShowAttachedFlyout(tempParent);
 
         }
 
         private void PlacePicture(object sender, RoutedEventArgs e)
         {
             Button tempButton = sender as Button;
-            Grid tempGrid = tempButton.Parent as Grid;
-            FlyoutPresenter flyout = tempGrid.Parent as FlyoutPresenter;
-            Popup temp = flyout.Parent as Popup;
+            Grid tempGrid = tempButton.Parent as Grid;           
+            Popup temp = tempGrid.Parent as Popup;
             temp.IsOpen = false;
             
             TextBox nameTextBox;
-            TextBox URLTextBox;
+            //TextBox URLTextBox;
+
             try
             {
-                nameTextBox = VisualTreeHelper.GetChild(tempGrid, 0) as TextBox;
-                URLTextBox = VisualTreeHelper.GetChild(tempGrid, 1) as TextBox;
+                nameTextBox = tempGrid.Children.ElementAt(1) as TextBox;              
+                TextBox otherBox = tempGrid.Children.ElementAt(2) as TextBox;
                 string name = nameTextBox.Text;
-                string URL = URLTextBox.Text;
-                tappedObject = new ImagePoint { Name = name, WebURL = URL, Location = null };
+                string URL = otherBox.Text;
+                tappedObject = new ImagePoint { Name = name,WebURL = URL,Location = null };
                 (App.Current as App).CurrentTappedState = new ImagePlacementState();
 
             }
@@ -500,6 +672,20 @@ namespace YouMaps
             {
 
             }
+        }
+
+        private void PlacePoint(object sender, RoutedEventArgs e)
+        {
+            YouMapPoint ymp = new YouMapPoint();
+            Grid parentGrid = (Grid)((Button)sender).Parent;
+            ymp.Name = ((TextBox)parentGrid.Children.ElementAt(0)).Text;
+            (App.Current as App).CurrentTappedState = new PointTappedState();
+            tappedObject = ymp;
+            MapPopup.IsOpen = false;
+
+            
+
+
         }
 
        

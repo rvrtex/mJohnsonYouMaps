@@ -118,12 +118,12 @@
     <Compile Include="IOFile.cs" />
     <Compile Include="KML\ConvertToKml.cs" />
     <Compile Include="LoadMap.cs" />
-    <Compile Include="MainPafeTiles\ConvertLongLatTile.cs" />
-    <Compile Include="MainPafeTiles\CurrentLocationTile.cs" />
-    <Compile Include="MainPafeTiles\CustomLocationTile.cs" />
-    <Compile Include="MainPafeTiles\IFrontPageTile.cs" />
-    <Compile Include="MainPafeTiles\ImportFilesTile.cs" />
-    <Compile Include="MainPafeTiles\ManageSymbolTile.cs" />
+    <Compile Include="MainPageTiles\ConvertLongLatTile.cs" />
+    <Compile Include="MainPageTiles\CurrentLocationTile.cs" />
+    <Compile Include="MainPageTiles\CustomLocationTile.cs" />
+    <Compile Include="MainPageTiles\IFrontPageTile.cs" />
+    <Compile Include="MainPageTiles\ImportFilesTile.cs" />
+    <Compile Include="MainPageTiles\ManageSymbolTile.cs" />
     <Compile Include="Points\ImagePoint.cs" />
     <Compile Include="Points\NotePoint.cs" />
     <Compile Include="Symbols\AddSymbolToMap.cs" />
@@ -147,6 +147,7 @@
     <Compile Include="TappedStates\BaseTappedState.cs" />
     <Compile Include="TappedStates\ImagePlacementState.cs" />
     <Compile Include="TappedStates\NormalState.cs" />
+    <Compile Include="TappedStates\PointTappedState.cs" />
     <Compile Include="UserControls\StyleUserControl.xaml.cs">
       <DependentUpon>StyleUserControl.xaml</DependentUpon>
     </Compile>
@@ -171,11 +172,14 @@
     <Content Include="Assets\customLocationWatch.jpg" />
     <Content Include="Assets\importFile.jpg" />
     <Content Include="Assets\IWantyou.jpg" />
+    <Content Include="Assets\IWantyouSmaller.jpg" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\Symbols.jpg" />
+    <Content Include="Assets\youMapsIcon.png" />
+    <Content Include="Assets\youMapsIconBig.png" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

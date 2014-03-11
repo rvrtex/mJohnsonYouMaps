@@ -11,6 +11,7 @@ namespace YouMaps.Points
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

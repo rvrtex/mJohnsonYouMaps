@@ -58,7 +58,7 @@
 
                 <HubSection.Background>
 
-                    <ImageBrush ImageSource="/Assets/IWantYou.jpg"></ImageBrush>
+                    <ImageBrush ImageSource="/Assets/youMapsIconBig.png"></ImageBrush>
 
                 </HubSection.Background>
             </HubSection>

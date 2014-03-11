@@ -183,17 +183,30 @@
             </Grid>
 
         </Grid>
-       
+        
         <Grid x:Name="MapGrid">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-                         
-            
 
-            <FlyoutBase.AttachedFlyout>
+
+            <Popup Width="auto" Height="auto" x:Name="MapPopup" Margin="538,237,445,248">
+                <Grid Width="auto" Height="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>                        
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="PointName" PlaceholderText="Enter name, leave blank for GPS cords" FontSize="25" Grid.Row="0" ></TextBox>
+                    <Button x:Name="PlacePointButton" Click="PlacePoint" FontSize="25" Grid.Row="1" Background="Gray">Ready To Place Point</Button>
+                </Grid>
+            </Popup>
+
+            <!--<FlyoutBase.AttachedFlyout>
                 <Flyout x:Name="AddImageFlyout" Placement="Top" >
                     <Grid Height="200" Background="Gray">
                         <Grid.ColumnDefinitions>
@@ -211,7 +224,7 @@
 
                     </Grid>
                 </Flyout>
-            </FlyoutBase.AttachedFlyout>
+            </FlyoutBase.AttachedFlyout>-->
 
             
                          
@@ -237,7 +250,7 @@
                 <map:MapItemsControl
                                      ItemsSource="{Binding Images}"    
                                      ItemContainerStyle="{StaticResource ImageItemStyle}"
-                                     SelectionMode="Extended"/>
+                                     SelectionMode="Extended" Margin="-1,-6,1,6"/>
 
 
 
@@ -254,7 +267,8 @@
            
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
-                <Button x:Name="AddAPointer" Click="AddPointer" FontSize="25">Add Pointer</Button>
+                
+                <Button x:Name="AddAPointer" Click="AddPointer" FontSize="25">Add Point</Button>
                 <Button x:Name="AddANote" Click="AddNote" FontSize="25">Add Note</Button>
                 <Button x:Name="AddImagePoint" Click="AddImage" FontSize="25">Add Image Link</Button>
                 <Button x:Name="Draw" Click="DrawOnMap" FontSize="25">Draw On Map</Button>

@@ -7,7 +7,7 @@ using MapControl;
 
 namespace YouMaps.Points
 {
-    public class ImagePoint
+    public class ImagePoint : BasePoint
     {
         public string Name { get; set; }
         public Location Location { get; set; }
