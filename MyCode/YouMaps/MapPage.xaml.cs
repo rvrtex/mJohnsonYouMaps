@@ -355,6 +355,26 @@ namespace YouMaps
         }
         private void AddPointer(object sender, RoutedEventArgs e)
         {
+            Grid grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            Button button = new Button();
+            button.Click += PlacePoint;
+            button.FontSize = 25;
+            button.Content = "Ready To Place Point";
+            button.SetValue(Grid.RowProperty, 1);
+            button.Background = new SolidColorBrush(Colors.Gray);
+
+            TextBox textBox = new TextBox();
+            textBox.PlaceholderText = "Enter name, leave blank for GPS cords";
+            textBox.FontSize = 25;
+            textBox.SetValue(Grid.RowProperty, 0);
+            grid.Children.Add(button);
+            grid.Children.Add(textBox);
+            MapPopup.Child = grid;
             MapPopup.IsOpen = true;
             
 
@@ -472,63 +492,59 @@ namespace YouMaps
 
         private void EditPointsAndNotes(object sender, RoutedEventArgs e)
         {
-            ScrollViewer scrollview = new ScrollViewer();
-            scrollview.Width = 200;
-            scrollview.Background = new SolidColorBrush(Colors.Salmon);
-            StackPanel stackPanel = new StackPanel();
-            scrollview.Content = stackPanel;
-            stackPanel.Height = stackPanel.ActualHeight;
-            stackPanel.MaxHeight = 200; 
-            stackPanel.MinHeight = 100;
+            ScrollViewer scrollview = new ScrollViewer();            
+            scrollview.Background = new SolidColorBrush(Colors.AntiqueWhite);
+            Grid grid = new Grid();
+            scrollview.MaxHeight = 300;
+            
 
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            scrollview.Content = grid;
+            int count = 0;
             List<Button> listOfItemsOnMap = new List<Button>();
             foreach(YouMapPoint ymp in loadMap.Points)
             {
                 Button button = new Button();
-                button.Background = new SolidColorBrush(Colors.Black);
-                //button.Width = button.ActualWidth;
-                button.FontSize = 40;
-                button.Width = 50;
-
+                
+                grid.RowDefinitions.Add(new RowDefinition());
+                button.SetValue(Grid.ColumnProperty, 0);
+                button.SetValue(Grid.RowProperty, count);
+                button.Background = new SolidColorBrush(Colors.Gray);
+                
+                button.FontSize = 25;  
                 button.DataContext = ymp;
-                button.Name = ymp.Name;
+                button.Content = ymp.Name;
                 button.Click += button_Click;
                 listOfItemsOnMap.Add(button);
+                count++;
+                grid.Children.Add(button);
+
 
             }
-            foreach(NotePoint np in loadMap.Notes)
-            {
-                Button button = new Button();
-                button.DataContext = np;
-                button.Background = new SolidColorBrush(Colors.Black);
-                button.FontSize = 40;
-                button.Width = 50;
-                //button.Width = button.ActualWidth;
-                button.Name = np.Name;
-                button.Click += button_Click;
-                listOfItemsOnMap.Add(button);
-
-            }
+           
             foreach(ImagePoint ip in loadMap.Images)
             {
                 Button button = new Button();
+                grid.RowDefinitions.Add(new RowDefinition());
+                button.SetValue(Grid.ColumnProperty, 0);
+                button.SetValue(Grid.RowProperty, count); ;
                 button.DataContext = ip;
-                button.Background = new SolidColorBrush(Colors.Red);
-                button.FontSize = 40;
-
-               // button.Width = button.ActualWidth;
-                button.Name = ip.Name;
+                button.Background = new SolidColorBrush(Colors.Gray);
+                button.FontSize = 25;
+                button.Content = ip.Name;
                 button.Click += button_Click;
                 listOfItemsOnMap.Add(button);
+                count++;
+                grid.Children.Add(button);
 
             }
-            foreach(Button b in listOfItemsOnMap)
-            {
-                stackPanel.Children.Add(b);
-            }
-            stackPanel.Width = 50;
+           
+            
             MapPopup.Child = scrollview;
-            MapPopup.IsOpen = true;
+            if (grid.Children.Count > 0)
+            {
+                MapPopup.IsOpen = true;
+            }
         }
 
         void button_Click(object sender, RoutedEventArgs e)
@@ -542,6 +558,7 @@ namespace YouMaps
             name.SetValue(Grid.RowProperty, 0);
             TextBox other = new TextBox();
             Button button = new Button();
+            button.Background = new SolidColorBrush(Colors.Gray);
             button.Content = "Save Changes";
             button.SetValue(Grid.RowProperty, 2);
             other.SetValue(Grid.RowProperty, 1);
@@ -591,14 +608,6 @@ namespace YouMaps
                 YouMapPoint tempYouP = loadMap.Points.First(x => x.Equals(ymp));
                 tempYouP.Name = ((TextBox)nameBox).Text;
                 
-                
-            }
-            else if (type is NotePoint)
-            {
-                NotePoint np = type as NotePoint;
-                NotePoint tempP = loadMap.Notes.First(x => x.Equals(np));
-                tempP.Name = ((TextBox)nameBox).Text;
-                tempP.Content = ((TextBox)otherBox).Text;
                 
             }
             else
@@ -677,8 +686,10 @@ namespace YouMaps
         private void PlacePoint(object sender, RoutedEventArgs e)
         {
             YouMapPoint ymp = new YouMapPoint();
+            
             Grid parentGrid = (Grid)((Button)sender).Parent;
-            ymp.Name = ((TextBox)parentGrid.Children.ElementAt(0)).Text;
+           
+            ymp.Name = ((TextBox)parentGrid.Children.ElementAt(1)).Text;
             (App.Current as App).CurrentTappedState = new PointTappedState();
             tappedObject = ymp;
             MapPopup.IsOpen = false;
@@ -686,6 +697,13 @@ namespace YouMaps
             
 
 
+        }
+
+        private void ClearMap(object sender, RoutedEventArgs e)
+        {
+            (App.Current as App).SavedMapLoading = null;
+            (App.Current as App).SavedMapLoading = new LoadMap((App.Current as App).CurrentLocation);
+            Navigate();
         }
 
        

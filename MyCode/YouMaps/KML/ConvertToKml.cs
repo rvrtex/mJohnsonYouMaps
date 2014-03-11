@@ -37,6 +37,7 @@ namespace YouMaps.KML
                 Placemark pl = new Placemark();
                 p.Coordinate = yp.getLocationAsVector();
                 pl.Geometry = p;
+                pl.Name = yp.Name;
                 doc.AddFeature(pl);
                 
 
@@ -50,6 +51,16 @@ namespace YouMaps.KML
                 doc.AddFeature(pl);
 
                
+            }
+            foreach(ImagePoint ip in loadmap.Images)
+            {
+                Point p = new Point();
+                Placemark pl = new Placemark();
+                Description ds = new Description { Text = ip.WebURL };
+                p.Coordinate = ip.getLocationAsVector();
+                pl.Geometry = p;
+                pl.Description = ds;
+                pl.Name = ip.Name;
             }
             if(true)
             {

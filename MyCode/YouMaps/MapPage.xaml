@@ -151,7 +151,7 @@
                 
                 <TextBlock Text="Zoom Level" HorizontalAlignment="Center" Foreground="Gray" FontSize="14" Margin="419,5,865,102"/>
                 <Button FontSize="25" Width="auto" Height="auto" Click="Symbols" Content="Symbols" Margin="206,7,0,71"/>
-                <Button x:Name="FinishDraw" Click="DoneDrawing" Margin="39,18,0,74" FontSize="25">Save Drawing</Button>
+                <!--<Button x:Name="FinishDraw" Click="DoneDrawing" Margin="39,18,0,74" FontSize="25">Save Drawing</Button>-->
 
                 <Slider x:Name="ChangeRedColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="799,11,357,70" />
                 <Slider x:Name="ChangeGreenColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="1027,7,129,74" />
@@ -193,7 +193,7 @@
 
 
             <Popup Width="auto" Height="auto" x:Name="MapPopup" Margin="538,237,445,248">
-                <Grid Width="auto" Height="auto">
+                <!--<Grid Width="auto" Height="auto">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>                        
                     </Grid.ColumnDefinitions>
@@ -201,9 +201,9 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBox x:Name="PointName" PlaceholderText="Enter name, leave blank for GPS cords" FontSize="25" Grid.Row="0" ></TextBox>
-                    <Button x:Name="PlacePointButton" Click="PlacePoint" FontSize="25" Grid.Row="1" Background="Gray">Ready To Place Point</Button>
-                </Grid>
+                    --><!--<TextBox x:Name="PointName" PlaceholderText="Enter name, leave blank for GPS cords" FontSize="25" Grid.Row="0" ></TextBox>
+                    <Button x:Name="PlacePointButton" Click="PlacePoint" FontSize="25" Grid.Row="1" Background="Gray">Ready To Place Point</Button>--><!--
+                </Grid>-->
             </Popup>
 
             <!--<FlyoutBase.AttachedFlyout>
@@ -268,13 +268,16 @@
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
                 
+                <!--<Button x:Name="AddANote" Click="AddNote" FontSize="25">Add Note</Button>-->
+
+
                 <Button x:Name="AddAPointer" Click="AddPointer" FontSize="25">Add Point</Button>
-                <Button x:Name="AddANote" Click="AddNote" FontSize="25">Add Note</Button>
                 <Button x:Name="AddImagePoint" Click="AddImage" FontSize="25">Add Image Link</Button>
-                <Button x:Name="Draw" Click="DrawOnMap" FontSize="25">Draw On Map</Button>
+                <Button x:Name="Draw" Click="DrawOnMap" FontSize="25">Draw</Button>
+                <Button x:Name="Clear" Click="ClearMap" FontSize="25">Clear Map (No Save)</Button>
                 <Button x:Name="ManageCustomSymbols" Click="ManageYouMapsSymbols" FontSize="25">Manage Symbols</Button>
-                <Button x:Name="SaveFile" Click="SaveF" FontSize="25">Save File</Button>
-                <Button x:Name="EditNAndP" Click="EditPointsAndNotes" FontSize="25">Edit Notes and Points</Button>
+                <Button x:Name="SaveFile" Click="SaveF" FontSize="25">Save</Button>
+                <Button x:Name="EditNAndP" Click="EditPointsAndNotes" FontSize="25">Edit Map Object</Button>
 
             </StackPanel>
             

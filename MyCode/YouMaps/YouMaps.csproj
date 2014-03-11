@@ -148,6 +148,9 @@
     <Compile Include="TappedStates\ImagePlacementState.cs" />
     <Compile Include="TappedStates\NormalState.cs" />
     <Compile Include="TappedStates\PointTappedState.cs" />
+    <Compile Include="UserControls\EditSymbolandImagesUserControl.xaml.cs">
+      <DependentUpon>EditSymbolandImagesUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\StyleUserControl.xaml.cs">
       <DependentUpon>StyleUserControl.xaml</DependentUpon>
     </Compile>
@@ -196,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EditSymbolandImagesUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
