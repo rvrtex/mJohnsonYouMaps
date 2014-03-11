@@ -74,7 +74,7 @@ namespace YouMaps
             {
                 currentLocation = (App.Current as App).CurrentLocation;
                 loadMap = new LoadMap(currentLocation);
-                // loadMap.MapCenter = currentLocation;
+                (App.Current as App).SavedMapLoading = loadMap;
             }
             MapGrid.DataContext = loadMap;
 
@@ -85,20 +85,21 @@ namespace YouMaps
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
-            
+            TurnDrawButtonOff.Visibility = Visibility.Collapsed;            
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             (App.Current as App).CurrentTappedState = new NormalState();
             myMap.Holding += new HoldingEventHandler(MyMap_Holding);
             myMap.Tapped += tappedPointer;
+            myMap.DoubleTapped += myMap_DoubleTapped;
             myMap.PointerPressed += drawingPointerIsPressed;
             myMap.PointerReleased += drawingPointerReleased;
             myMap.PointerMoved += drawingPointerHasMoved;
        
            
-            ChangeRedColor.ValueChanged += ChangeColorLine;
-            ChangeBlueColor.ValueChanged += ChangeColorLine;
-            ChangeGreenColor.ValueChanged += ChangeColorLine;
+            //ChangeRedColor.ValueChanged += ChangeColorLine;
+            //ChangeBlueColor.ValueChanged += ChangeColorLine;
+            //ChangeGreenColor.ValueChanged += ChangeColorLine;
             
            
 
@@ -106,11 +107,19 @@ namespace YouMaps
             
         }
 
+        void myMap_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if(MapPopup.IsOpen)
+            {
+                MapPopup.IsOpen = false;
+            }
+        }
+
        
 
         private void tappedPointer(object sender, TappedRoutedEventArgs e)
-        {
-            Point pp = e.GetPosition(myMap);
+        {   
+                Point pp = e.GetPosition(myMap);
                 MapControl.Location location = myMap.ViewportPointToLocation(pp);
                 if ((App.Current as App).CurrentSymbolToBePlaced == null)
                 {
@@ -165,8 +174,7 @@ namespace YouMaps
             {
                 if (startingPosition.HasValue)
                 {
-                    var postion = e.GetCurrentPoint(myMap).Position;
-                    
+                    var postion = e.GetCurrentPoint(myMap).Position;                    
                     myMap.TranslateMap(new Point(postion.X - startingPosition.Value.X, postion.Y - startingPosition.Value.Y));
                     startingPosition = postion;
                 }
@@ -204,39 +212,7 @@ namespace YouMaps
 
         }
 
-        private void MapStyle()
-        {
-
-
-            //StyleUserControl suc = new StyleUserControl(LineColorBrush);
-            //PTemplate.ItemTemplate = itemTemplate;
-            //PStyle.Style = stylePoly;
-            //MapPolyline polyLine = new MapPolyline();
-           // this.pageRoot.C
-
-            //DataTemplate polyLineItemTemplate = new DataTemplate();
-            //ControlTemplate controlTemplate = new ControlTemplate();
-            //controlTemplate.TargetType = typeof(MapItem);
-            //var mapPolyLineFrameWorkElement = new FrameworkElement(typeof(MapPolyline));
-            //Style style = new Style();
-            //style.TargetType = typeof(MapItem);
-            //Setter setter = new Setter();
-            //setter.Property = MapItem.TemplateProperty;
-            //style.Setters.Add(setter);
-            ////controlTemplate.
-            //setter.Value = controlTemplate;
-            //style.Setters.Add(new Setter(MapPolyline.StrokeThicknessProperty, 3));
-            //Binding Locationbind = new Binding();
-            //Binding ColorBind = new Binding();
-            //Locationbind.ElementName = "Location";
-            //ColorBind.ElementName = "ColorOfLine";
-            //ColorBind.Source = MapPolyline.
-            //BindingOperations.SetBinding(style, Points.YouMapPolyline.Locations, Locationbind);
-            
-            //ItemControlToTest.Style = style;
-
-        }
-
+        
         private void drawingPointerReleased(object sender, PointerRoutedEventArgs e)
         {
             if (drawingPointerIsOn && drawingPressedIsOn)
@@ -391,6 +367,7 @@ namespace YouMaps
         private void DrawOnMap(object sender, RoutedEventArgs e)
         {
             drawingPointerIsOn = true;
+            TurnDrawButtonOff.Visibility = Visibility.Visible;
            
             
                         
@@ -457,18 +434,18 @@ namespace YouMaps
         {
             
             
-            int alpha = 200;
-            Color tempColor = new Color();
+            //int alpha = 200;
+            //Color tempColor = new Color();
 
-            tempColor.A = (byte)alpha;
-            tempColor.B = (byte)ChangeBlueColor.Value;
-            tempColor.G = (byte)ChangeGreenColor.Value;
-            tempColor.R = (byte)ChangeRedColor.Value;
-            Brush brush = new SolidColorBrush(tempColor);
-            LineColorBrush = new SolidColorBrush(tempColor);
-            ChangeRedColor.Background = brush;
-            ChangeGreenColor.Background = brush;
-            ChangeBlueColor.Background = brush;
+            //tempColor.A = (byte)alpha;
+            //tempColor.B = (byte)ChangeBlueColor.Value;
+            //tempColor.G = (byte)ChangeGreenColor.Value;
+            //tempColor.R = (byte)ChangeRedColor.Value;
+            //Brush brush = new SolidColorBrush(tempColor);
+            LineColorBrush = new SolidColorBrush(Colors.Black);
+            //ChangeRedColor.Background = brush;
+            //ChangeGreenColor.Background = brush;
+            //ChangeBlueColor.Background = brush;
             
 
             
@@ -478,17 +455,41 @@ namespace YouMaps
 
         private void SaveF(object sender, RoutedEventArgs e)
         {
-            ConvertToKml ctk = new ConvertToKml(loadMap);
-            ctk.ConvertFileToKml();
+            Grid grid = new Grid();
+            Button button = new Button();
+            button.FontSize = 25;
+            button.Background = new SolidColorBrush(Colors.Gray);
+            button.Content = "Save file";
+            button.Click += SaveMapFile;
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            TextBox name = new TextBox();
+            name.FontSize = 25;
+            
+            name.SetValue(Grid.RowProperty, 0);
+            name.PlaceholderText = "Enter Name Of File Here";
+            button.SetValue(Grid.RowProperty, 1);
+            grid.Children.Add(name);
+            grid.Children.Add(button);
+            MapPopup.Child = grid;
+            MapPopup.IsOpen = true;
+
+           
 
         }
 
-        private void DoneDrawing(object sender, RoutedEventArgs e)
+        private void SaveMapFile(object sender, RoutedEventArgs e)
         {
+            MapPopup.IsOpen = false;
+            Grid parentGrid = (Grid)MapPopup.Child;
+            string name = ((TextBox)parentGrid.Children.ElementAt(0)).Text;
             drawingPointerIsOn = false;
             ConvertToKml ctk = new ConvertToKml(loadMap);
-
+            ctk.ConvertFileToKml(name);
         }
+
+     
 
         private void EditPointsAndNotes(object sender, RoutedEventArgs e)
         {
@@ -633,7 +634,10 @@ namespace YouMaps
             placePic.Click += PlacePicture;
             placePic.Background = brush;
             name.PlaceholderText = "Name of Picture";
+            name.FontSize = 25;
+            placePic.FontSize = 25;
             URL.PlaceholderText = "Write URL here";
+            URL.FontSize = 25;
             grid.RowDefinitions.Add(new RowDefinition());
             grid.RowDefinitions.Add(new RowDefinition());
             grid.RowDefinitions.Add(new RowDefinition());
@@ -669,12 +673,15 @@ namespace YouMaps
 
             try
             {
+                ImagePoint ip = new ImagePoint();
                 nameTextBox = tempGrid.Children.ElementAt(1) as TextBox;              
                 TextBox otherBox = tempGrid.Children.ElementAt(2) as TextBox;
                 string name = nameTextBox.Text;
                 string URL = otherBox.Text;
-                tappedObject = new ImagePoint { Name = name,WebURL = URL,Location = null };
+                ip.Name = name;
+                ip.WebURL = URL;
                 (App.Current as App).CurrentTappedState = new ImagePlacementState();
+                tappedObject = ip;
 
             }
             catch(Exception ex)
@@ -704,6 +711,12 @@ namespace YouMaps
             (App.Current as App).SavedMapLoading = null;
             (App.Current as App).SavedMapLoading = new LoadMap((App.Current as App).CurrentLocation);
             Navigate();
+        }
+
+        private void TurnDrawOff(object sender, RoutedEventArgs e)
+        {
+            drawingPointerIsOn = false;
+            TurnDrawButtonOff.Visibility = Visibility.Collapsed;
         }
 
        

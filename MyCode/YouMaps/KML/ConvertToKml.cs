@@ -21,14 +21,16 @@ namespace YouMaps.KML
         Document doc; 
         Kml kml;
         private LoadMap loadmap;
+        
         public ConvertToKml(LoadMap loadmap)
         {
             this.loadmap = loadmap;
             doc = new Document();
+           
             //ConvertFileToKml();
         }
 
-        public async void ConvertFileToKml()
+        public async void ConvertFileToKml(string nameOfFile)
         {
             KmlFile kmlF;
             foreach(YouMapPoint yp in loadmap.Points)
@@ -70,11 +72,7 @@ namespace YouMaps.KML
             kml.Feature = doc;
             kmlF = KmlFile.Create(kml, false);
             StorageFolder root = await IOFile.getMyRootfolder();
-            StorageFile newFile = await root.CreateFileAsync("Bobby.kml", CreationCollisionOption.ReplaceExisting);
-
-
-            
-
+            StorageFile newFile = await root.CreateFileAsync(nameOfFile+".kml", CreationCollisionOption.ReplaceExisting);
 
             using (IRandomAccessStream fileStream = await newFile.OpenAsync(FileAccessMode.ReadWrite))
             {

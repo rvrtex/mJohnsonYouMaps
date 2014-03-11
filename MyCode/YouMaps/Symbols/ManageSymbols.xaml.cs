@@ -210,7 +210,17 @@ namespace YouMaps
             
             
         }
+        public void AddEditSymbol(object sender, RoutedEventArgs e)
+        {
+            CanvaseGrid.Visibility = Visibility.Visible;
+            SaveLoadGrid.Visibility = Visibility.Visible;
+            InfoGrid.Visibility = Visibility.Collapsed;
+            SymbolGrid.Visibility = Visibility.Collapsed;
+            EditYouMapSymbolsStackPanel.Visibility = Visibility.Collapsed;
+            EditCustomSymbol.Visibility = Visibility.Collapsed;
+            SymbolName.PlaceholderText = messageOne;
 
+        }
         List<SymbolUserControl> sucs = new List<SymbolUserControl>();
         private async void EditSymbol(object sender, RoutedEventArgs e)
         {
@@ -294,8 +304,9 @@ namespace YouMaps
             currentSymbol.HighX = highX;
             currentSymbol.HighY = highY;
             currentSymbol.Name = SymbolName.Text;
-            
-            if(currentSymbol.Name.Equals(messageOne) || currentSymbol.Name.Equals(messageTwo))
+            string placeHolderText = SymbolName.Text;
+
+            if (string.IsNullOrEmpty(placeHolderText))
             {
                 saveReady = false;
                 SymbolName.PlaceholderText = (SymbolName.PlaceholderText.Equals(messageOne)) ? messageTwo : messageOne;
@@ -324,6 +335,7 @@ namespace YouMaps
                 (App.Current as App).CurrentSymbol = null;
                 MessageBox.Text = "Your symbol has been saved";
                 ResetCurrentSymbol();
+                BackToSymbols(sender,e);
                 
             }
         }
@@ -360,14 +372,15 @@ namespace YouMaps
 
                     foreach (PointCollection p in s.YouMapsSymbol.SymbolPoints)
                     {
-                        double thickness = 10;
+                       
+                            double thickness = 10;
 
-                        polyLine = new Polyline { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = thickness };
-                        polyLine.Points = p;
-                        SymbolName.Text = s.YouMapsSymbol.Name;
-                        DrawingCanvas.Children.Add(polyLine);
-                        AddSymbol(sender,e);
-
+                            polyLine = new Polyline { Stroke = new SolidColorBrush { Color = Colors.Black }, StrokeThickness = thickness  };
+                            polyLine.Points = p;
+                            SymbolName.Text = s.YouMapsSymbol.Name;
+                            DrawingCanvas.Children.Add(polyLine);
+                            AddEditSymbol(sender, e);
+                        
                     }
                 }
             }
@@ -464,6 +477,7 @@ namespace YouMaps
             CanvaseGrid.Visibility = Visibility.Collapsed;
             SaveLoadGrid.Visibility = Visibility.Collapsed;
             EditGrid.Visibility = Visibility.Collapsed;
+            
             DeleteGrid.Visibility = Visibility.Collapsed;
             InfoGrid.Visibility = Visibility.Visible;
             SaveSymbolsToPanel.Visibility = Visibility.Collapsed;

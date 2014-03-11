@@ -12,16 +12,14 @@ namespace YouMaps.Points
     {
         public string Name { get; set; }
 
-        private Location location;
+        private Location location = new Location();
         public Location Location
         {
             get { return location; }
             set
             {
                 location = value;
-                locationAsVector.Latitude = location.Latitude;
-                locationAsVector.Longitude = location.Longitude;
-                OnPropertyChanged("Location");
+             
             }
         }
 
@@ -29,6 +27,8 @@ namespace YouMaps.Points
 
         public Vector getLocationAsVector()
         {
+            locationAsVector.Latitude = location.Latitude;
+            locationAsVector.Longitude = location.Longitude;
             return locationAsVector;
         }
         public  string WebURL { get; set; }

@@ -11,7 +11,7 @@
     xmlns:map ="using:MapControl"
     xmlns:lm ="using:YouMaps"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <map:TileLayerCollection x:Key="TileLayers">
             <map:TileLayer SourceName="OpenStreetMap" Description="© {y} OpenStreetMap Contributors, CC-BY-SA"
@@ -28,7 +28,7 @@
                            TileSourceUriFormat="http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png" MinZoomLevel="10" MaxZoomLevel="18"/>
         </map:TileLayerCollection>
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">You Maps</x:String>
+        <x:String x:Key="AppName">Back</x:String>
         <DataTemplate x:Key="PolylineItemTemplate">
             <map:MapPolyline x:Name="PolyItemTemp" Locations="{Binding Locations}" Stroke="Black" StrokeThickness="3"/>
         </DataTemplate>
@@ -58,9 +58,9 @@
             <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Template">
-                
+
                 <Setter.Value>
-                    
+
                     <ControlTemplate TargetType="map:MapItem">
                         <Canvas>
                             <Path x:Name="selectedPath" Fill="White" Opacity="0">
@@ -80,11 +80,11 @@
                         </Canvas>
                     </ControlTemplate>
 
-                   
+
                 </Setter.Value>
-                
+
             </Setter>
-            
+
         </Style>
         <Style x:Key="ImageItemStyle" TargetType="map:MapItem">
             <Setter Property="local:BindingHelper.LocationPath" Value="Location"/>
@@ -133,9 +133,9 @@
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    
-                     
-        <Grid x:Name="WholeMapWindow">
+
+
+    <Grid x:Name="WholeMapWindow">
 
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid.ChildrenTransitions>
@@ -147,16 +147,17 @@
                 <RowDefinition Height="140"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Margin="5">
-                
-                <TextBlock Text="Zoom Level" HorizontalAlignment="Center" Foreground="Gray" FontSize="14" Margin="419,5,865,102"/>
-                <Button FontSize="25" Width="auto" Height="auto" Click="Symbols" Content="Symbols" Margin="206,7,0,71"/>
+            <Grid Margin="7,4,3,6">
+
+                <TextBlock Text="Zoom Level" HorizontalAlignment="Center" Foreground="Gray" FontSize="20" Margin="677,5,568,102" Width="111"/>
+                <Button FontSize="25" Width="auto" Height="auto" Click="Symbols" Content="Symbols" Margin="400,6,0,72"/>
+                <Button FontSize="25" Width="auto" Height="auto" Click="TurnDrawOff" x:Name="TurnDrawButtonOff" Margin="889,8,0,70">Turn Off Draw</Button>
                 <!--<Button x:Name="FinishDraw" Click="DoneDrawing" Margin="39,18,0,74" FontSize="25">Save Drawing</Button>-->
 
-                <Slider x:Name="ChangeRedColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="799,11,357,70" />
+                <!--<Slider x:Name="ChangeRedColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="799,11,357,70" />
                 <Slider x:Name="ChangeGreenColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="1027,7,129,74" />
-                <Slider x:Name="ChangeBlueColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="571,11,585,70" />
-                <Slider Margin="353,11,803,53" Width="200" SmallChange="0.1"
+                <Slider x:Name="ChangeBlueColor" Width="200" SmallChange="1" Minimum="0" Maximum="256" Margin="571,11,585,70" />-->
+                <Slider Margin="633,16,523,48" Width="200" SmallChange="0.1"
                             Minimum="{Binding MinZoomLevel, ElementName=myMap}"
                             Maximum="{Binding MaxZoomLevel, ElementName=myMap}"
                             Value="{Binding TargetZoomLevel, ElementName=myMap, Mode=TwoWay}"/>
@@ -183,7 +184,7 @@
             </Grid>
 
         </Grid>
-        
+
         <Grid x:Name="MapGrid">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -201,8 +202,10 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    --><!--<TextBox x:Name="PointName" PlaceholderText="Enter name, leave blank for GPS cords" FontSize="25" Grid.Row="0" ></TextBox>
-                    <Button x:Name="PlacePointButton" Click="PlacePoint" FontSize="25" Grid.Row="1" Background="Gray">Ready To Place Point</Button>--><!--
+                    -->
+                <!--<TextBox x:Name="PointName" PlaceholderText="Enter name, leave blank for GPS cords" FontSize="25" Grid.Row="0" ></TextBox>
+                    <Button x:Name="PlacePointButton" Click="PlacePoint" FontSize="25" Grid.Row="1" Background="Gray">Ready To Place Point</Button>-->
+                <!--
                 </Grid>-->
             </Popup>
 
@@ -226,8 +229,8 @@
                 </Flyout>
             </FlyoutBase.AttachedFlyout>-->
 
-            
-                         
+
+
             <map:MapBase x:Name="myMap" MinZoomLevel="2" Center="{Binding MapCenter}" MaxZoomLevel="18" ZoomLevel="8" Foreground="Black" Margin="0,151,0,70">
                 <map:MapImage x:Name="mapImage" South="53.54031" North="53.74871" West="8.08594" East="8.43750" 
                                Opacity="0.5"/>
@@ -242,11 +245,11 @@
                 <map:MapItemsControl ItemsSource="{Binding Points}"    
                                      ItemContainerStyle="{StaticResource PointItemStyle}"
                                      SelectionMode="Extended"/>
-                
+
                 <map:MapItemsControl ItemsSource="{Binding Notes}"
                                      ItemContainerStyle="{StaticResource PushPinItemStyle}">
-                </map:MapItemsControl>                           
-                
+                </map:MapItemsControl>
+
                 <map:MapItemsControl
                                      ItemsSource="{Binding Images}"    
                                      ItemContainerStyle="{StaticResource ImageItemStyle}"
@@ -254,20 +257,20 @@
 
 
 
-           
-            <StackPanel Width="auto" Height="auto" x:Name="SymbolsStackPanel"  >
-                    
-                   
+
+                <StackPanel Width="auto" Height="auto" x:Name="SymbolsStackPanel"  >
+
+
 
                 </StackPanel>
                 <!--<Grid.DataContext>
             <lm:LoadMap></lm:LoadMap>
         </Grid.DataContext>-->
             </map:MapBase>
-           
+
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="2">
-                
+
                 <!--<Button x:Name="AddANote" Click="AddNote" FontSize="25">Add Note</Button>-->
 
 
@@ -280,10 +283,10 @@
                 <Button x:Name="EditNAndP" Click="EditPointsAndNotes" FontSize="25">Edit Map Object</Button>
 
             </StackPanel>
-            
+
         </Grid>
-        
+
     </Grid>
-    
+
 
 </Page>
